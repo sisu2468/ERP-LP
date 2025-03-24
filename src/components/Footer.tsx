@@ -17,17 +17,8 @@ import { FaTwitter, FaFacebook, FaLinkedin, FaInstagram, FaMapMarkerAlt, FaPhone
 
 export default function Footer() {
     return (
-        <Box bg="gray.50" color="gray.600" py={10}>
+        <Box bg="white" py={10} borderTop="1px solid #E0E0E0">
             <Container maxW="7xl">
-                {/* <Box mb={8} textAlign="center">
-                    <Image
-                        src="/logos/sainta-hakuchou.png"
-                        alt="サインタ株式会社"
-                        width="200px"
-                        height="auto"
-                        display="inline-block"
-                    />
-                </Box> */}
                 <SimpleGrid columns={{ base: 1, md: 4 }} spacing={8}>
                     <Stack spacing={4}>
                         <Text fontSize="lg" fontWeight="bold" color="gray.900">
