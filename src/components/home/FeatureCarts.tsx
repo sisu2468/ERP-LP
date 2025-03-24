@@ -17,7 +17,7 @@ export default function FeatureCard({ title, icon, features }: FeatureCardProps)
         >
             <CardHeader>
                 <VStack spacing={4}>
-                    <Icon as={icon} w={10} h={10} color="orange.500" />
+                    <Icon as={icon} w={10} h={10} color="blue.500" />
                     <Heading size="md" textAlign="center">
                         {title}
                     </Heading>
