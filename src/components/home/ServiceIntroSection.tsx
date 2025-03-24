@@ -26,7 +26,7 @@ export default function ServiceIntroSection() {
       ]
     },
     finance: {
-      title: '資金繰り・財務分析',
+      title: '財務分析・財務分析',
       icon: FaChartLine,
       features: [
         'キャッシュフロー予測',
