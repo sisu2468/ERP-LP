@@ -12,10 +12,10 @@ import {
 import {
     FaClock
 } from 'react-icons/fa';
-import { ctaCards } from '../../constant/CTACards';
-import Button_Blue from '../buttons/Button_Blue';
 import Button_Orange from '../buttons/Button_Orange';
-import { CTACard } from './CTACart';
+import Button_Blue from '../buttons/Button_Blue';
+import { CTACard } from './CTACard';
+import { ctaCards } from '../../constant/CTACards';
 
 export default function CTASection() {
     return (
