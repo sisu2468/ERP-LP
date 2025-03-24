@@ -157,10 +157,10 @@ export default function Header() {
                   fontWeight="medium"
                   color={pathname === item.path ? 'gray.900' : 'gray.500'}
                   borderBottom="2px"
-                  borderColor={pathname === item.path ? 'blue.500' : 'transparent'}
+                  borderColor={pathname === item.path ? 'orange.500' : 'transparent'}
                   _hover={{
                     color: 'gray.900',
-                    borderColor: 'blue.500',
+                    borderColor: 'orange.500',
                   }}
                 >
                   {item.title}
