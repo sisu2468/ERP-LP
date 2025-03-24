@@ -15,22 +15,11 @@ import {
 export default function Hero() {
     return (
         <Box position="relative" overflow="hidden">
-            <Box
-                position="absolute"
-                top={0}
-                left={0}
-                right={0}
-                bottom={0}
-                bg="linear-gradient(135deg, rgba(66, 153, 225, 0.1) 0%, rgba(49, 130, 206, 0.05) 100%)"
-                zIndex={0}
-            />
-
             <Container maxW={{ base: "xl", sm: "2xl", md: "2xl", lg: "4xl", xl: "8xl", '2xl': '8xl' }} position="relative" zIndex={1}>
                 <Flex
                     align="center"
                     justify="space-between"
-                    pt={32}
-                    pb={{ base: 8, md: 16 }}
+                    py={8}
                     gap={{ base: 8, md: 16 }}
                 >
                     <Stack
@@ -102,20 +91,38 @@ export default function Hero() {
                         </Stack>
                     </Stack>
 
-                    <Box
+                    <Flex
                         w={{ base: "100%", md: "45%" }}
-                        maxW="550px"
                         display={{ base: "none", md: "block" }}
+                        maxW="550px"
+                        position="relative"
+                        justifyContent="center"
+                        alignItems="center"
                     >
-                        <Image
-                            src="/hero/woman_half.png"
-                            alt="ビジネスシーンの女性"
-                            w="full"
-                            h="auto"
-                            objectFit="contain"
-                            loading="eager"
-                        />
-                    </Box>
+                        <Box position="relative" w="full">
+                            <Image
+                                src="/hero/woman_half.png"
+                                alt="ビジネスシーンの女性"
+                                w="full"
+                                maxW="550px"
+                                h="auto"
+                                objectFit="cover"
+                                borderRadius="12px"
+                                display="block"
+                                loading="eager"
+                            />
+                            <Box
+                                position="absolute"
+                                bottom="0"
+                                left="0"
+                                w="full"
+                                h="25%"
+                                bgGradient="linear(to-t, white 0%, rgba(255, 255, 255, 0) 100%)"
+                                pointerEvents="none"
+                                borderBottomRadius="12px"
+                            />
+                        </Box>
+                    </Flex>
                 </Flex>
             </Container>
         </Box>
