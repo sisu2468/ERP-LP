@@ -10,7 +10,7 @@ export const ctaCards: CTACard[] = [
         buttonLink: '/trial',
         features: [
             '全機能が利用可能',
-            '30日間無料',
+            '14日間無料',
             'クレジットカード不要',
             '専任サポート付き',
         ],
