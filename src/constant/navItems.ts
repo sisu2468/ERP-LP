@@ -1,3 +1,5 @@
+import { NavItem } from "./interface";
+
 export const navItems: NavItem[] = [
     {
         title: 'トップ',
