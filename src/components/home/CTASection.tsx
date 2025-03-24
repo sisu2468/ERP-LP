@@ -22,6 +22,10 @@ import {
     FaFileAlt,
     FaPlayCircle,
 } from 'react-icons/fa';
+import Button_Orange from '../buttons/Button_Orange';
+import Button_Blue from '../buttons/Button_Blue';
+import { CTACard } from './CTACard';
+import { ctaCards } from '../../constant/CTACards';
 
 interface CTACard {
     title: string;
@@ -138,7 +142,7 @@ const CTACard = ({ card }: { card: CTACard }) => {
     );
 };
 
-export default function CTASection() {
+  export default function CTASection() {
     return (
         <Box py={16}>
             <Container maxW="7xl">
