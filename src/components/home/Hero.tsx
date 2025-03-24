@@ -93,6 +93,7 @@ export default function Hero() {
 
                     <Flex
                         w={{ base: "100%", md: "45%" }}
+                        display={{ base: "none", md: "block" }}
                         maxW="550px"
                         position="relative"
                         justifyContent="center"

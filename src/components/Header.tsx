@@ -1,24 +1,25 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
+  Button,
+  Container,
   Flex,
   HStack,
+  Icon,
+  IconButton,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
+  MenuList,
   Text,
-  Container,
-  Button,
-  Icon,
 } from '@chakra-ui/react';
 import gsap from 'gsap';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 interface NavItem {
   title: string;
@@ -66,26 +67,61 @@ const navItems: NavItem[] = [
 
 export default function Header() {
   const navRef = useRef<HTMLElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.nav-item', {
-        y: -2,
-        duration: 0.5,
-        stagger: 0.5,
+  const handleMenuClick = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+
+    if (hamburgerRef.current) {
+      gsap.to(hamburgerRef.current, {
+        rotate: isMobileMenuOpen ? 0 : 180,
+        scale: 1.2,
+        duration: 0.3,
         ease: 'power2.out',
+        onComplete: () => {
+          gsap.to(hamburgerRef.current, {
+            scale: 1,
+            duration: 0.2,
+          });
+        }
       });
-    }, navRef);
+    }
 
-    return () => ctx.revert();
-  }, []);
+    if (mobileMenuRef.current) {
+      if (!isMobileMenuOpen) {
+        gsap.set(mobileMenuRef.current, { display: 'block', height: 'auto' });
+        const height = mobileMenuRef.current.offsetHeight;
+        gsap.fromTo(mobileMenuRef.current,
+          { height: 0, opacity: 0 },
+          {
+            height: height,
+            opacity: 1,
+            duration: 0.5,
+            ease: 'power2.out'
+          }
+        );
+      } else {
+        gsap.to(mobileMenuRef.current, {
+          height: 0,
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power2.in',
+          onComplete: () => {
+            gsap.set(mobileMenuRef.current, { display: 'none' });
+          }
+        });
+      }
+    }
+  };
 
   return (
     <Box
       as="nav"
       ref={navRef}
-      position="fixed"
+      position="sticky"
       top="0"
       left="0"
       right="0"
@@ -95,12 +131,20 @@ export default function Header() {
       borderColor="gray.100"
       zIndex="sticky"
     >
-      <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }}>
-        <Flex h="16" alignItems="center" justifyContent="space-between">
-          <HStack spacing="8">
-            <Link href="/home">
-              <Image src="/logos/sainta-gyoumu.png" alt="サインタロゴ" width={100} height={100} />
+      <Box w="100%">
+        <Flex h="16" alignItems="center" justifyContent={{ base: 'space-between', lg: 'space-between', xl: 'flex-start'}}  gap={10} borderBottom="1px solid #cccccc" px={{ base: 4, sm: 6, xl: 8 }} >
+          <Box w="120px" h="35px">
+            <Link href="/">
+              <Image 
+                src="/logos/sainta.jpg" 
+                alt="サインタロゴ" 
+                width={120} 
+                height={35} 
+              />
             </Link>
+          </Box>
+
+          <HStack spacing="8" display={{ base: 'none', md: 'none', lg: 'none', xl: 'flex' }}>
             {navItems.map((item) => (
               <Menu key={item.path}>
                 <MenuButton
@@ -142,8 +186,55 @@ export default function Header() {
               </Menu>
             ))}
           </HStack>
+
+          <IconButton
+            ref={hamburgerRef}
+            display={{ lg: 'flex', xl: 'none' }}
+            aria-label="Open menu"
+            colorScheme="orange"
+            bg='orange.500'
+            color='white'
+            _hover={{ bg: 'gray.400' }}
+            borderRadius="xl"
+            icon={<HamburgerIcon />}
+            variant="ghost"
+            size="lg"
+            onClick={handleMenuClick}
+          />
         </Flex>
-      </Container>
+
+        <Box
+          ref={mobileMenuRef}
+          display="none"
+          height={0}
+          overflow="hidden"
+          position="absolute"
+          top="100%"
+          left="0"
+          right="0"
+          bg="white"
+          py="4"
+          boxShadow="lg"
+        >
+          {navItems.map((item) => (
+            <Link key={item.path} href={item.path}>
+              <Box
+                px="4"
+                py="3"
+                _hover={{ bg: 'gray.50' }}
+                color={pathname === item.path ? 'gray.900' : 'gray.500'}
+              >
+                <Text fontSize="sm" fontWeight="medium">
+                  {item.title}
+                </Text>
+                <Text fontSize="xs" color="gray.500">
+                  {item.description}
+                </Text>
+              </Box>
+            </Link>
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 } 
