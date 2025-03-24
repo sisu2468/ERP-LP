@@ -7,6 +7,7 @@ import {
     Flex,
     Heading,
     Image,
+    Link,
     Stack,
     Text
 } from '@chakra-ui/react';
@@ -24,11 +25,10 @@ export default function Hero() {
                 zIndex={0}
             />
 
-            <Container maxW="7xl" position="relative" zIndex={1}>
+            <Container maxW={{ base: "xl", sm: "2xl", md: "2xl", lg: "4xl", xl: "8xl", '2xl': '8xl' }} position="relative" zIndex={1}>
                 <Flex
                     align="center"
                     justify="space-between"
-                    wrap="wrap"
                     pt={32}
                     pb={{ base: 8, md: 16 }}
                     gap={{ base: 8, md: 16 }}
@@ -40,21 +40,12 @@ export default function Hero() {
                     >
                         <Heading
                             as="h1"
-                            fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+                            fontSize={{ base: "2xl", md: "2xl", lg: "3xl", xl: "4xl" }}
                             fontWeight="bold"
                             lineHeight="1.2"
                             color="gray.800"
                         >
-                            人が輝けば、企業はもっと強くなる。
-                            <Text
-                                as="span"
-                                display="block"
-                                color="blue.600"
-                                fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-                                mt={4}
-                            >
-                                サインタERPで新たなステージへ。
-                            </Text>
+                            人が輝けば、企業はもっと強くなる。サインタERPで新たなステージへ。
                         </Heading>
 
                         <Text
@@ -71,49 +62,60 @@ export default function Hero() {
                             spacing={4}
                             justify={{ base: "center", md: "flex-start" }}
                         >
-                            <Button
-                                size="lg"
-                                colorScheme="orange"
-                                px={8}
-                                fontSize="md"
-                                fontWeight="bold"
-                                _hover={{
-                                    transform: "translateY(-2px)",
-                                    boxShadow: "lg",
-                                }}
-                            >
-                                無料で試す
-                            </Button>
-                            <Button
-                                size="lg"
-                                colorScheme="blue"
-                                variant="outline"
-                                px={8}
-                                fontSize="md"
-                                fontWeight="bold"
-                                _hover={{
-                                    transform: "translateY(-2px)",
-                                    boxShadow: "lg",
-                                }}
-                            >
-                                資料請求
-                            </Button>
+                            <Box width="100%">
+                                <Link href="/contact">
+                                    <Button
+                                        size="lg"
+                                        colorScheme="orange"
+                                        px={8}
+                                        fontSize="md"
+                                        w="100%"
+                                        fontWeight="bold"
+                                        _hover={{
+                                            transform: "translateY(-2px)",
+                                            boxShadow: "lg",
+                                        }}
+                                    >
+                                        無料で試す
+                                    </Button>
+                                </Link>
+                            </Box>
+                            <Box width="100%">
+                                <Link href="/newsletter">
+                                    <Button
+                                        w="100%"
+                                        size="lg"
+                                        colorScheme="blue"
+                                        variant="outline"
+                                        px={8}
+                                        fontSize="md"
+                                        fontWeight="bold"
+                                        _hover={{
+                                            transform: "translateY(-2px)",
+                                            boxShadow: "lg",
+                                        }}
+                                    >
+                                        資料請求
+                                    </Button>
+                                </Link>
+                            </Box>
                         </Stack>
                     </Stack>
 
-                    {/* <Box
+                    <Box
                         w={{ base: "100%", md: "45%" }}
+                        maxW="550px"
                         display={{ base: "none", md: "block" }}
                     >
                         <Image
-                            src="/images/hero-illustration.png" // You'll need to add your own image
-                            alt="Business Growth Illustration"
+                            src="/hero/woman_half.png"
+                            alt="ビジネスシーンの女性"
                             w="full"
                             h="auto"
                             objectFit="contain"
                             loading="eager"
                         />
-                    </Box> */}
+                    </Box>
                 </Flex>
             </Container>
         </Box>
