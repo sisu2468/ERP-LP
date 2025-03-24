@@ -22,7 +22,7 @@ export default function Footer() {
                 <SimpleGrid columns={{ base: 1, md: 4 }} spacing={8}>
                     <Stack spacing={4}>
                         <Text fontSize="lg" fontWeight="bold" color="gray.900">
-                            サインタ株式会社
+                            株式会社サインタ
                         </Text>
                         <HStack align="flex-start">
                             <Icon as={FaMapMarkerAlt} mt={1} />
@@ -88,11 +88,11 @@ export default function Footer() {
                 <Divider my={8} />
                 <Flex justifyContent="center" alignItems="center" textAlign="center" gap={4}>
                     <Text fontSize="sm">
-                        © {new Date().getFullYear()} サインタ株式会社. All rights reserved.
+                        © {new Date().getFullYear()} 株式会社サインタ. All rights reserved.
                     </Text>
                     <Image
                         src="/logos/sainta-hakuchou.png"
-                        alt="サインタ株式会社"
+                        alt="株式会社サインタ"
                         width="30px"
                         height="auto"
                         alignItems="center"
