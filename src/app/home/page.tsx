@@ -1,12 +1,13 @@
 'use client'
 
-import Hero from "@/components/home/Hero";
-import ServiceIntroSection from "@/components/home/ServiceIntroSection";
+import CTASection from "@/components/home/CTASection";
 import FeatureDetailsSection from "@/components/home/FeatureDetailsSection";
+import Hero from "@/components/home/Hero";
+import ResourcesSection from "@/components/home/ResourcesSection";
+import ServiceIntroSection from "@/components/home/ServiceIntroSection";
 import { Box } from "@chakra-ui/react";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
-import ResourcesSection from "@/components/home/ResourcesSection";
 export default function Home() {
   const sectionsRef = useRef([]);
 
@@ -36,6 +37,7 @@ export default function Home() {
       <ServiceIntroSection />
       <FeatureDetailsSection />
       <ResourcesSection />
+      <CTASection />
     </Box>
   )
 }
