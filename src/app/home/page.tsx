@@ -2,6 +2,7 @@
 
 import Hero from "@/components/home/Hero";
 import ServiceIntroSection from "@/components/home/ServiceIntroSection";
+import FeatureDetailsSection from "@/components/home/FeatureDetailsSection";
 import { Box } from "@chakra-ui/react";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
@@ -33,6 +34,7 @@ export default function Home() {
     <Box>
       <Hero />
       <ServiceIntroSection />
+      <FeatureDetailsSection />
     </Box>
   )
 }
