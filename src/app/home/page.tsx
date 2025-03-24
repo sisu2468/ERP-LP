@@ -1,6 +1,7 @@
 'use client'
 
 import Hero from "@/components/home/Hero";
+import ServiceIntroSection from "@/components/home/ServiceIntroSection";
 import { Box } from "@chakra-ui/react";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
@@ -31,6 +32,7 @@ export default function Home() {
   return (
     <Box>
       <Hero />
+      <ServiceIntroSection />
     </Box>
   )
 }
