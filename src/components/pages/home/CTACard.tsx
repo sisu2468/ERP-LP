@@ -1,7 +1,7 @@
 import { useColorModeValue } from "@chakra-ui/react";
 
 import { Card, CardBody, VStack, Heading, Text, Icon, HStack, Button, Link } from "@chakra-ui/react";
-import { CTACard as CTACardType } from "../../constant/interface";
+import { CTACard as CTACardType } from "../../../constant/interface";
 import { FaCheck, FaArrowRight } from "react-icons/fa";
 
 export const CTACard = ({ card }: { card: CTACardType }) => {

@@ -2,6 +2,11 @@ import { NavItem } from "./interface";
 
 export const navItems: NavItem[] = [
     {
+        title: '会社概要',
+        path: '/about',
+        description: '会社概要やミッションを紹介',
+    },
+    {
         title: 'トップ',
         path: '/',
         description: 'サービス概要や導入メリットを紹介',
@@ -20,6 +25,13 @@ export const navItems: NavItem[] = [
         title: 'サインタ・コネクト',
         path: '/signta-connect',
         description: '専門家マッチングプラットフォーム',
+        subMenu: [
+            {
+                title: 'サインタ・コネクト',
+                path: '/signta-connect',
+                description: '専門家マッチングプラットフォーム',
+            },
+        ],
     },
     {
         title: 'プラン・料金',
