@@ -96,7 +96,7 @@ export default function ImplementationFlow() {
                                 <VStack spacing={1} minW="80px">
                                     <Circle
                                         size="104px"
-                                        bgGradient={`linear(to-br, orange.${300 + (index * 100)}, orange.${400 + (index * 100)})`}
+                                        bgGradient={`linear(to-br, orange.${200 + (index * 100)}, orange.${300 + (index * 100)})`}
                                         color="white"
                                         fontWeight="bold"
                                         boxShadow="lg"

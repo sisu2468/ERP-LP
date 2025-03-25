@@ -71,7 +71,7 @@ export default function PricingFeatures() {
                             bg="orange.400"
                             bgClip="text"
                         >
-                            選ぶなら【ERPサービス名】
+                            選ぶならサインタ・コア
                         </Heading>
                         <Text 
                             fontSize={{ base: "lg", md: "xl" }}
