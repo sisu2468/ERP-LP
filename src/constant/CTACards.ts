@@ -4,7 +4,7 @@ import { CTACard } from "./interface";
 export const ctaCards: CTACard[] = [
     {
         title: '無料体験を始める',
-        description: '30日間無料でサービスのすべての機能をお試しいただけます',
+        description: '14日間無料でサービスのすべての機能をお試しいただけます',
         icon: FaPlayCircle,
         buttonText: '今すぐ無料体験',
         buttonLink: '/trial',
