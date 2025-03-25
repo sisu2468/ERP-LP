@@ -20,24 +20,28 @@ export default function Footer() {
         <Box bg="white" py={10} borderTop="1px solid #E0E0E0">
             <Container maxW="7xl">
                 <SimpleGrid columns={{ base: 1, md: 4 }} spacing={8}>
-                    <Stack spacing={4} textAlign={{base: 'center', md: 'left'}}>
+                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
                         <Text fontSize="lg" fontWeight="bold" color="gray.900">
                             株式会社サインタ
                         </Text>
-                        <HStack align="flex-start" textAlign={{base: 'center', md: 'left'}}>
+                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
                             <Icon as={FaMapMarkerAlt} mt={1} />
-                            <Text fontSize="sm">
-                                〒108-0073<br />
-                                東京都港区三田1丁目3-40 606号室<br />
-                            </Text>
+                            <Flex flexDirection='column' alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
+                                <Text fontSize="sm">
+                                    〒108-0073
+                                </Text>
+                                <Text fontSize="sm">
+                                    東京都港区三田1丁目3-40 606号室
+                                </Text>
+                            </Flex>
                         </HStack>
-                        <HStack align="flex-start" textAlign={{base: 'center', md: 'left'}}>
+                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
                             <Icon as={FaPhone} />
                             <Text fontSize="sm">
                                 <Link href="tel:+8109029138411">+81 090-2913-8411</Link>
                             </Text>
                         </HStack>
-                        <HStack align="flex-start" textAlign={{base: 'center', md: 'left'}}>
+                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
                             <Icon as={FaEnvelope} />
                             <Text fontSize="sm">
                                 <Link href="mailto:support@sainta.co.jp">support@sainta.co.jp</Link>
@@ -45,30 +49,30 @@ export default function Footer() {
                         </HStack>
                     </Stack>
 
-                    <Stack spacing={4} textAlign={{base: 'center', md: 'left'}}>
+                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
                         <Text fontSize="lg" fontWeight="bold" color="gray.900">
                             会社情報
                         </Text>
-                        <Link href="/about" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>会社概要</Link>
-                        <Link href="/privacy" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>プライバシーポリシー</Link>
-                        <Link href="/terms" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>利用規約</Link>
-                        <Link href="/contact" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>お問い合わせ</Link>
+                        <Link href="/about" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>会社概要</Link>
+                        <Link href="/privacy" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>プライバシーポリシー</Link>
+                        <Link href="/terms" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>利用規約</Link>
+                        <Link href="/contact" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>お問い合わせ</Link>
                     </Stack>
 
-                    <Stack spacing={4} textAlign={{base: 'center', md: 'left'}}>
+                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
                         <Text fontSize="lg" fontWeight="bold" color="gray.900">
                             サービス
                         </Text>
-                        <Link href="/services" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>ERPシステム</Link>
-                        <Link href="/signta-lab" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>サインタラボ</Link>
-                        <Link href="/signta-connect" fontSize="sm" _hover={{textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer'}}>サインタ・コネクト</Link>
+                        <Link href="/services" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>ERPシステム</Link>
+                        <Link href="/signta-lab" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>サインタラボ</Link>
+                        <Link href="/signta-connect" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>サインタ・コネクト</Link>
                     </Stack>
 
-                    <Stack spacing={4} textAlign={{base: 'center', md: 'left'}}>
+                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
                         <Text fontSize="lg" fontWeight="bold" color="gray.900">
                             SNS
                         </Text>
-                        <HStack spacing={4} w={{base: '100%', md: 'auto'}} justifyContent={{base: 'center', md: 'flex-start'}} display={{base: 'flex', md: 'block'}}>
+                        <HStack spacing={4} w={{ base: '100%', md: 'auto' }} justifyContent={{ base: 'center', md: 'flex-start' }} display='flex'>
                             <Link href="https://twitter.com" isExternal>
                                 <Icon as={FaTwitter} w={5} h={5} />
                             </Link>
