@@ -1,8 +1,10 @@
 'use client'
 
 import CTASection from "@/components/home/CTASection";
+import FAQ from "@/components/home/FAQ";
 import FeatureDetailsSection from "@/components/home/FeatureDetailsSection";
 import Hero from "@/components/home/Hero";
+import ImplementationFlow from "@/components/home/ImplementationFlow";
 import ResourcesSection from "@/components/home/ResourcesSection";
 import ServiceIntroSection from "@/components/home/ServiceIntroSection";
 import { Box } from "@chakra-ui/react";
@@ -37,7 +39,9 @@ export default function Home() {
       <ServiceIntroSection />
       <FeatureDetailsSection />
       <ResourcesSection />
+      <ImplementationFlow />
       <CTASection />
+      <FAQ />
     </Box>
   )
 }
