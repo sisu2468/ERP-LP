@@ -68,7 +68,7 @@ export default function PricingFeatures() {
                         <Heading
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
-                            bgGradient="linear(to-r, orange.400, orange.600)"
+                            bg="orange.400"
                             bgClip="text"
                         >
                             選ぶなら【ERPサービス名】
@@ -106,7 +106,7 @@ export default function PricingFeatures() {
                                         position="absolute"
                                         top={0}
                                         right={0}
-                                        bg={`orange.${400 + (index * 100)}`}
+                                        bg="orange.400"
                                         color="white"
                                         px={3}
                                         py={1}
@@ -121,8 +121,8 @@ export default function PricingFeatures() {
                                         <Flex
                                             w={12}
                                             h={12}
-                                            bg={`orange.${100 + (index * 100)}`}
-                                            color={`orange.${500 + (index * 100)}`}
+                                            bg="orange.200"
+                                            color="orange.500"
                                             borderRadius="full"
                                             align="center"
                                             justify="center"
@@ -133,7 +133,7 @@ export default function PricingFeatures() {
                                         <Heading
                                             as="h3"
                                             fontSize="xl"
-                                            color={`orange.${600 + (index * 100)}`}
+                                            color="orange.500"
                                         >
                                             {feature.title}
                                         </Heading>
