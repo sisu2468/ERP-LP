@@ -47,7 +47,7 @@ const implementationSteps = [
 
 export default function ImplementationFlow() {
     return (
-        <Box py={16} bg="gray.50">
+        <Box py={16} bg="white">
             <Container maxW={{ base: "xl", md: "4xl" }}>
                 <VStack spacing={12} align="stretch">
                     <Stack spacing={4} textAlign="center">
