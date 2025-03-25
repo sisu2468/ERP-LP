@@ -2,6 +2,7 @@ export interface NavItem {
   title: string;
   path: string;
   description: string;
+  subMenu?: NavItem[];
 }
 
 export interface CTACard {

@@ -1,12 +1,12 @@
 'use client'
 
-import CTASection from "@/components/home/CTASection";
-import FAQ from "@/components/home/FAQ";
-import FeatureDetailsSection from "@/components/home/FeatureDetailsSection";
-import FlowChart from "@/components/home/flowchart/FlowChart";
-import Hero from "@/components/home/Hero";
-import ResourcesSection from "@/components/home/ResourcesSection";
-import ServiceIntroSection from "@/components/home/ServiceIntroSection";
+import CTASection from "@/components/pages/home/CTASection";
+import FAQ from "@/components/pages/home/FAQ";
+import FeatureDetailsSection from "@/components/pages/home/FeatureDetailsSection";
+import FlowChart from "@/components/pages/home/flowchart/FlowChart";
+import Hero from "@/components/pages/home/Hero";
+import ResourcesSection from "@/components/pages/home/ResourcesSection";
+import ServiceIntroSection from "@/components/pages/home/ServiceIntroSection";
 import { Box } from "@chakra-ui/react";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
