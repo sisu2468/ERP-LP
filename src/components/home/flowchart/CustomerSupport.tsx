@@ -13,9 +13,9 @@ import {
     Badge,
     useColorModeValue,
 } from '@chakra-ui/react';
-import { 
-    FaComments, 
-    FaHeadset, 
+import {
+    FaComments,
+    FaHeadset,
     FaShieldAlt,
     FaCheckCircle,
     FaClock,
@@ -60,10 +60,10 @@ const supportFeatures = [
 export default function CustomerSupport() {
     const bgColor = useColorModeValue('gray.50', 'gray.900');
     const cardBg = useColorModeValue('white', 'gray.800');
-    
+
     return (
         <Box py={16} bg={bgColor}>
-            <Container maxW="6xl">
+            <Container maxW="8xl">
                 <VStack spacing={12}>
                     <VStack spacing={4} textAlign="center">
                         <Heading
@@ -109,70 +109,73 @@ export default function CustomerSupport() {
                                     left={0}
                                     right={0}
                                     h={2}
-                                    bgGradient={`linear(to-r, orange.${400 + (index * 100)}, orange.${500 + (index * 100)})`}
+                                    bg="orange.300"
+                                    // bgGradient={`linear(to-r, orange.${400 + (index * 100)}, orange.${500 + (index * 100)})`}
                                 />
 
-                                <VStack spacing={6} align="flex-start">
+                                <Flex h="100%" direction="column" gap={4} justify="space-between">
                                     <Flex
                                         w={16}
                                         h={16}
-                                        bg={`orange.${100 + (index * 100)}`}
-                                        color={`orange.${500 + (index * 100)}`}
+                                        bg="orange.200"
+                                        color="orange.500"
                                         borderRadius="xl"
                                         align="center"
                                         justify="center"
                                     >
                                         <Icon as={feature.icon} boxSize={8} />
                                     </Flex>
-
-                                    <VStack align="flex-start" spacing={3}>
-                                        <Heading
-                                            as="h3"
-                                            fontSize="2xl"
-                                            color={`orange.${600 + (index * 100)}`}
-                                        >
-                                            {feature.title}
-                                        </Heading>
-                                        <Text color="gray.600">
-                                            {feature.description}
-                                        </Text>
-                                        {feature.note && (
-                                            <Text
-                                                fontSize="sm"
-                                                color="gray.500"
-                                                fontStyle="italic"
+                                    <Flex h="100%" direction="column" gap={5} justify="space-between">
+                                        <VStack align="flex-start" spacing={3}>
+                                            <Heading
+                                                as="h3"
+                                                fontSize="2xl"
+                                                color="orange.500"
                                             >
-                                                {feature.note}
+                                                {feature.title}
+                                            </Heading>
+                                            <Text color="gray.600">
+                                                {feature.description}
                                             </Text>
-                                        )}
-                                    </VStack>
-
-                                    <Box w="full">
-                                        <SimpleGrid columns={3} spacing={2}>
-                                            {feature.benefits.map((benefit, idx) => (
-                                                <HStack
-                                                    key={idx}
-                                                    bg={`orange.${50 + (index * 50)}`}
-                                                    p={2}
-                                                    borderRadius="md"
-                                                    spacing={2}
+                                            {feature.note && (
+                                                <Text
+                                                    fontSize="sm"
+                                                    color="gray.500"
+                                                    fontStyle="italic"
                                                 >
-                                                    <Icon 
-                                                        as={benefit.icon}
-                                                        color={`orange.${500 + (index * 100)}`}
-                                                    />
-                                                    <Text
-                                                        fontSize="sm"
-                                                        color="gray.700"
-                                                        fontWeight="medium"
+                                                    {feature.note}
+                                                </Text>
+                                            )}
+                                        </VStack>
+
+                                        <Box w="full">
+                                            <SimpleGrid columns={3} spacing={2}>
+                                                {feature.benefits.map((benefit, idx) => (
+                                                    <HStack
+                                                        key={idx}
+                                                        bg="orange.50"
+                                                        p={2}
+                                                        borderRadius="md"
+                                                        spacing={2}
+                                                        h={20}
                                                     >
-                                                        {benefit.text}
-                                                    </Text>
-                                                </HStack>
-                                            ))}
-                                        </SimpleGrid>
-                                    </Box>
-                                </VStack>
+                                                        <Icon
+                                                            as={benefit.icon}
+                                                            color="orange.500"
+                                                        />
+                                                        <Text
+                                                            fontSize="sm"
+                                                            color="gray.700"
+                                                            fontWeight="medium"
+                                                        >
+                                                            {benefit.text}
+                                                        </Text>
+                                                    </HStack>
+                                                ))}
+                                            </SimpleGrid>
+                                        </Box>
+                                    </Flex>
+                                </Flex>
                             </Box>
                         ))}
                     </SimpleGrid>
