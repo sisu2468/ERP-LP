@@ -2,19 +2,19 @@
 
 import {
     Box,
-    Container,
-    Heading,
-    VStack,
-    Text,
     Circle,
+    Container,
     Flex,
+    Heading,
     Stack,
+    Text,
     useColorMode,
     useColorModeValue,
+    VStack,
 } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,7 +58,6 @@ export default function ImplementationFlow() {
     const textColor = useColorModeValue('gray.600', 'gray.300');
     const cardBg = useColorModeValue('white', 'gray.800');
     const borderColor = useColorModeValue('gray.200', 'gray.700');
-    const highlightBorderColor = useColorModeValue('orange.500', 'orange.400');
 
     const headingRef = useRef(null);
     const stepsRef = useRef(null);
@@ -128,10 +127,7 @@ export default function ImplementationFlow() {
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
                             fontWeight="bold"
-                            bgGradient={colorMode === 'light' 
-                                ? "linear(to-r, orange.400, orange.600)"
-                                : "linear(to-r, orange.300, orange.500)"
-                            }
+                            bgGradient={"linear(to-r, orange.400, orange.600)"}
                             bgClip="text"
                         >
                             導入の流れ
@@ -154,10 +150,7 @@ export default function ImplementationFlow() {
                             top="0"
                             bottom="0"
                             width="2px"
-                            bgGradient={colorMode === 'light'
-                                ? "linear(to-b, orange.200, orange.400)"
-                                : "linear(to-b, orange.300, orange.500)"
-                            }
+                            bgGradient={"linear(to-b, orange.200, orange.400)"}
                             display={{ base: 'none', md: 'block' }}
                         />
 
@@ -175,7 +168,7 @@ export default function ImplementationFlow() {
                                 <VStack spacing={1} minW="80px">
                                     <Circle
                                         size="104px"
-                                        bgGradient={`linear(to-br, orange.${300 + (index * 100)}, orange.${400 + (index * 100)})`}
+                                        bgGradient={`linear(to-br, orange.${200 + (index * 100)}, orange.${100 + (index * 100)})`}
                                         color="white"
                                         fontWeight="bold"
                                         boxShadow="lg"
@@ -189,9 +182,9 @@ export default function ImplementationFlow() {
                                     </Circle>
                                 </VStack>
 
-                                <Box 
-                                    flex={1} 
-                                    pt={2} 
+                                <Box
+                                    flex={1}
+                                    pt={2}
                                     bg={cardBg}
                                     borderRadius="xl"
                                     p={5}
@@ -233,7 +226,7 @@ export default function ImplementationFlow() {
                                                 {step.description}
                                             </Text>
                                         </Box>
-                                        
+
                                         {step.subTitle && (
                                             <Box>
                                                 <Heading
