@@ -14,6 +14,11 @@ import {
     useColorMode,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const faqData = [
     {
@@ -52,10 +57,100 @@ export default function FAQ() {
     const accordionHoverBg = useColorModeValue('gray.50', 'gray.700');
     const textColor = useColorModeValue('gray.600', 'gray.300');
 
+    const headingRef = useRef(null);
+    const accordionRef = useRef(null);
+    const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        // Heading animation
+        gsap.fromTo(headingRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: headingRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Accordion items animation
+        itemRefs.current.forEach((itemRef, index) => {
+            if (itemRef) {
+                // Initial animation
+                gsap.fromTo(itemRef,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        delay: index * 0.1,
+                        scrollTrigger: {
+                            trigger: itemRef,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+
+                // Hover animation
+                itemRef.addEventListener('mouseenter', () => {
+                    gsap.to(itemRef, {
+                        y: -4,
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        borderColor: colorMode === 'light' ? '#90CDF4' : '#3182CE',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                itemRef.addEventListener('mouseleave', () => {
+                    gsap.to(itemRef, {
+                        y: 0,
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        borderColor: accordionBorderColor,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                // Click animation for accordion buttons
+                const button = itemRef.querySelector('button');
+                if (button) {
+                    button.addEventListener('click', () => {
+                        gsap.to(button.querySelector('.chakra-accordion__icon'), {
+                            rotation: button.getAttribute('aria-expanded') === 'true' ? 0 : 180,
+                            duration: 0.3,
+                            ease: 'power2.inOut'
+                        });
+                    });
+                }
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            itemRefs.current.forEach(itemRef => {
+                if (itemRef) {
+                    itemRef.removeEventListener('mouseenter', () => {});
+                    itemRef.removeEventListener('mouseleave', () => {});
+                    const button = itemRef.querySelector('button');
+                    if (button) {
+                        button.removeEventListener('click', () => {});
+                    }
+                }
+            });
+        };
+    }, [colorMode, accordionBorderColor]);
+
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW={{ base: "xl", sm: "2xl", md: "2xl", lg: "4xl", xl: "6xl" }}>
                 <Heading
+                    ref={headingRef}
                     as="h2"
                     fontSize={{ base: "2xl", md: "3xl" }}
                     mb={8}
@@ -65,22 +160,24 @@ export default function FAQ() {
                     よくある質問
                 </Heading>
 
-                <Accordion allowMultiple>
+                <Accordion 
+                    ref={accordionRef}
+                    allowMultiple
+                >
                     {faqData.map((faq, index) => (
                         <AccordionItem
                             key={index}
+                            ref={el => { itemRefs.current[index] = el }}
                             border="1px"
                             borderColor={accordionBorderColor}
                             bg={accordionBg}
                             mb={4}
                             boxShadow="md"
                             borderRadius="md"
-                            _hover={{
-                                borderColor: colorMode === 'light' ? 'blue.200' : 'blue.500',
-                                transform: 'translateY(-1px)',
-                                boxShadow: 'lg',
+                            style={{ 
+                                willChange: 'transform',
+                                transform: 'translateY(0)'
                             }}
-                            transition="all 0.2s"
                         >
                             <h3>
                                 <AccordionButton

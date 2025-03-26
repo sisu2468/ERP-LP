@@ -20,6 +20,11 @@ import {
     FaHeadset, 
     FaCloudUploadAlt 
 } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const pricingFeatures = [
     {
@@ -69,6 +74,95 @@ export default function PricingFeatures() {
     const iconColor = useColorModeValue('orange.500', 'orange.300');
     const tagBg = useColorModeValue('orange.400', 'orange.500');
     const borderColor = useColorModeValue('gray.100', 'gray.700');
+
+    const headingRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        // Heading animation
+        gsap.fromTo(headingRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: headingRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Description animation
+        gsap.fromTo(descriptionRef.current,
+            { opacity: 0, y: 20 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                delay: 0.2,
+                scrollTrigger: {
+                    trigger: descriptionRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Cards animation
+        cardsRef.current.forEach((cardRef, index) => {
+            if (cardRef) {
+                // Scroll animation
+                gsap.fromTo(cardRef,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        delay: index * 0.1,
+                        scrollTrigger: {
+                            trigger: cardRef,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+
+                // Hover animation
+                cardRef.addEventListener('mouseenter', () => {
+                    gsap.to(cardRef, {
+                        translateY: -8,
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        borderColor: colorMode === 'light' ? '#FED7AA' : '#ED8936',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                cardRef.addEventListener('mouseleave', () => {
+                    gsap.to(cardRef, {
+                        translateY: 0,
+                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        borderColor: borderColor,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            cardsRef.current.forEach(cardRef => {
+                if (cardRef) {
+                    cardRef.removeEventListener('mouseenter', () => {});
+                    cardRef.removeEventListener('mouseleave', () => {});
+                }
+            });
+        };
+    }, [colorMode, borderColor]);
     
     return (
         <Box py={16} bgGradient={bgGradient}>
@@ -76,6 +170,7 @@ export default function PricingFeatures() {
                 <VStack spacing={12}>
                     <VStack spacing={4} textAlign="center">
                         <Heading
+                            ref={headingRef}
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
                             bgGradient={colorMode === 'light' 
@@ -87,6 +182,7 @@ export default function PricingFeatures() {
                             選ぶならサインタ・コア
                         </Heading>
                         <Text 
+                            ref={descriptionRef}
                             fontSize={{ base: "lg", md: "xl" }}
                             color={textColor}
                             maxW="2xl"
@@ -102,6 +198,7 @@ export default function PricingFeatures() {
                         {pricingFeatures.map((feature, index) => (
                             <GridItem key={index}>
                                 <Box
+                                    ref={el => { cardsRef.current[index] = el }}
                                     bg={cardBg}
                                     p={6}
                                     borderRadius="xl"
@@ -111,12 +208,7 @@ export default function PricingFeatures() {
                                     overflow="hidden"
                                     borderWidth="1px"
                                     borderColor={borderColor}
-                                    _hover={{
-                                        transform: 'translateY(-4px)',
-                                        boxShadow: 'xl',
-                                        borderColor: colorMode === 'light' ? 'orange.200' : 'orange.500',
-                                    }}
-                                    transition="all 0.3s"
+                                    style={{ transform: 'translateY(0)' }}
                                 >
                                     <Box
                                         position="absolute"

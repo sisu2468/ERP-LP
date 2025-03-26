@@ -27,6 +27,12 @@ import {
   FaStamp,
   FaSitemap,
 } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTab } from '@chakra-ui/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface FeatureDetail {
   icon: React.ElementType;
@@ -106,6 +112,41 @@ const features: FeatureCategory[] = [
   },
 ];
 
+type AnimatedTabPanelProps = {
+  children: React.ReactNode;
+  bg?: string;
+  borderX?: string;
+  borderBottom?: string;
+  borderColor?: string;
+  borderBottomRadius?: string;
+  [key: string]: any;
+};
+
+const AnimatedTabPanel = ({ children, ...props }: AnimatedTabPanelProps) => {
+  const tabRef = useRef(null);
+  const isSelected = props['aria-selected'] === true;
+
+  useEffect(() => {
+    if (isSelected && tabRef.current) {
+      gsap.fromTo(tabRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out"
+        }
+      );
+    }
+  }, [isSelected]);
+
+  return (
+    <TabPanel ref={tabRef} {...props}>
+      {children}
+    </TabPanel>
+  );
+};
+
 const FeatureCard = ({ icon, title, description }: FeatureDetail) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -119,6 +160,8 @@ const FeatureCard = ({ icon, title, description }: FeatureDetail) => {
       bg={bgColor}
       borderRadius="lg"
       border="1px"
+      w="100%"
+      minH="180px"
       borderColor={borderColor}
       _hover={{
         transform: 'translateY(-4px)',
@@ -151,21 +194,105 @@ export default function FeatureDetailsSection() {
   const tabHoverBg = useColorModeValue('gray.100', 'gray.700');
   const tabSelectedBg = useColorModeValue('white', 'gray.800');
 
+  const headingRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const tabsRef = useRef(null);
+  const tabPanelsRef = useRef(null);
+
+  useEffect(() => {
+    // Heading animation
+    gsap.fromTo(headingRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Description animation
+    gsap.fromTo(descriptionRef.current,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.2,
+        scrollTrigger: {
+          trigger: descriptionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Tabs animation
+    gsap.fromTo(tabsRef.current,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.4,
+        scrollTrigger: {
+          trigger: tabsRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Tab panels animation
+    gsap.fromTo(tabPanelsRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.6,
+        scrollTrigger: {
+          trigger: tabPanelsRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
     <Box py={16} bg={bgColor} transition="background-color 0.2s">
       <Container maxW="7xl">
         <VStack spacing={12}>
           <Box textAlign="center">
-            <Heading as="h2" size="xl" mb={4} color={headingColor}>
+            <Heading 
+              ref={headingRef}
+              as="h2" 
+              size="xl" 
+              mb={4} 
+              color={headingColor}
+            >
               機能の詳細説明
             </Heading>
-            <Text color={descriptionColor} fontSize="lg">
+            <Text 
+              ref={descriptionRef}
+              color={descriptionColor} 
+              fontSize="lg"
+            >
               業務効率化を実現する主要機能
             </Text>
           </Box>
 
           <Tabs variant="enclosed" width="full">
-            <TabList>
+            <TabList ref={tabsRef}>
               {features.map((category) => (
                 <Tab
                   key={category.title}
@@ -186,9 +313,9 @@ export default function FeatureDetailsSection() {
               ))}
             </TabList>
 
-            <TabPanels>
+            <TabPanels ref={tabPanelsRef}>
               {features.map((category) => (
-                <TabPanel 
+                <AnimatedTabPanel 
                   key={category.title}
                   bg={tabSelectedBg}
                   borderX="1px"
@@ -204,6 +331,7 @@ export default function FeatureDetailsSection() {
                     </Box>
                     <Divider borderColor={borderColor} />
                     <Grid
+                      w="100%"
                       templateColumns={{
                         base: '1fr',
                         md: 'repeat(2, 1fr)',
@@ -216,7 +344,7 @@ export default function FeatureDetailsSection() {
                       ))}
                     </Grid>
                   </VStack>
-                </TabPanel>
+                </AnimatedTabPanel>
               ))}
             </TabPanels>
           </Tabs>

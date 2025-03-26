@@ -2,16 +2,21 @@
 
 import {
     Box,
-    Container,
-    Heading,
-    VStack,
-    Text,
     Circle,
+    Container,
     Flex,
+    Heading,
     Stack,
+    Text,
     useColorMode,
     useColorModeValue,
+    VStack,
 } from '@chakra-ui/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef } from 'react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Update the data structure for steps with more detailed information
 const implementationSteps = [
@@ -53,21 +58,76 @@ export default function ImplementationFlow() {
     const textColor = useColorModeValue('gray.600', 'gray.300');
     const cardBg = useColorModeValue('white', 'gray.800');
     const borderColor = useColorModeValue('gray.200', 'gray.700');
-    const highlightBorderColor = useColorModeValue('orange.500', 'orange.400');
+
+    const headingRef = useRef(null);
+    const stepsRef = useRef(null);
+    const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        // Heading animation
+        gsap.fromTo(headingRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: headingRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Steps container animation
+        gsap.fromTo(stepsRef.current,
+            { opacity: 0 },
+            {
+                opacity: 1,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: stepsRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Individual step animations
+        stepRefs.current.forEach((stepRef, index) => {
+            if (stepRef) {
+                gsap.fromTo(stepRef,
+                    { opacity: 0, x: -30 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.6,
+                        delay: index * 0.2,
+                        scrollTrigger: {
+                            trigger: stepRef,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        };
+    }, []);
 
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW={{ base: "xl", md: "4xl" }}>
                 <VStack spacing={12} align="stretch">
-                    <Stack spacing={4} textAlign="center">
+                    <Stack spacing={4} textAlign="center" ref={headingRef}>
                         <Heading
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
                             fontWeight="bold"
-                            bgGradient={colorMode === 'light' 
-                                ? "linear(to-r, orange.400, orange.600)"
-                                : "linear(to-r, orange.300, orange.500)"
-                            }
+                            bgGradient={"linear(to-r, orange.400, orange.600)"}
                             bgClip="text"
                         >
                             導入の流れ
@@ -83,23 +143,21 @@ export default function ImplementationFlow() {
                         </Text>
                     </Stack>
 
-                    <VStack spacing={0} position="relative">
+                    <VStack spacing={0} position="relative" ref={stepsRef}>
                         <Box
                             position="absolute"
                             left="52px"
                             top="0"
                             bottom="0"
                             width="2px"
-                            bgGradient={colorMode === 'light'
-                                ? "linear(to-b, orange.200, orange.400)"
-                                : "linear(to-b, orange.300, orange.500)"
-                            }
+                            bgGradient={"linear(to-b, orange.200, orange.400)"}
                             display={{ base: 'none', md: 'block' }}
                         />
 
                         {implementationSteps.map((step, index) => (
                             <Flex
                                 key={step.step}
+                                ref={el => { stepRefs.current[index] = el }}
                                 w="100%"
                                 gap={6}
                                 position="relative"
@@ -110,7 +168,7 @@ export default function ImplementationFlow() {
                                 <VStack spacing={1} minW="80px">
                                     <Circle
                                         size="104px"
-                                        bgGradient={`linear(to-br, orange.${300 + (index * 100)}, orange.${400 + (index * 100)})`}
+                                        bgGradient={`linear(to-br, orange.${200 + (index * 100)}, orange.${100 + (index * 100)})`}
                                         color="white"
                                         fontWeight="bold"
                                         boxShadow="lg"
@@ -124,9 +182,9 @@ export default function ImplementationFlow() {
                                     </Circle>
                                 </VStack>
 
-                                <Box 
-                                    flex={1} 
-                                    pt={2} 
+                                <Box
+                                    flex={1}
+                                    pt={2}
                                     bg={cardBg}
                                     borderRadius="xl"
                                     p={5}
@@ -168,7 +226,7 @@ export default function ImplementationFlow() {
                                                 {step.description}
                                             </Text>
                                         </Box>
-                                        
+
                                         {step.subTitle && (
                                             <Box>
                                                 <Heading
