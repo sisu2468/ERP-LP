@@ -10,6 +10,7 @@ import {
     GridItem,
     Icon,
     Flex,
+    useColorMode,
     useColorModeValue,
 } from '@chakra-ui/react';
 import { 
@@ -55,10 +56,19 @@ const pricingFeatures = [
 ];
 
 export default function PricingFeatures() {
+    const { colorMode } = useColorMode();
     const bgGradient = useColorModeValue(
         'linear(to-br, orange.50, gray.50)',
         'linear(to-br, gray.800, gray.900)'
     );
+    const cardBg = useColorModeValue('white', 'gray.800');
+    const headingColor = useColorModeValue('orange.500', 'orange.300');
+    const textColor = useColorModeValue('gray.600', 'gray.300');
+    const noteColor = useColorModeValue('gray.500', 'gray.400');
+    const iconBg = useColorModeValue('orange.200', 'orange.900');
+    const iconColor = useColorModeValue('orange.500', 'orange.300');
+    const tagBg = useColorModeValue('orange.400', 'orange.500');
+    const borderColor = useColorModeValue('gray.100', 'gray.700');
     
     return (
         <Box py={16} bgGradient={bgGradient}>
@@ -68,14 +78,17 @@ export default function PricingFeatures() {
                         <Heading
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
-                            bg="orange.400"
+                            bgGradient={colorMode === 'light' 
+                                ? "linear(to-r, orange.400, orange.600)"
+                                : "linear(to-r, orange.300, orange.500)"
+                            }
                             bgClip="text"
                         >
                             選ぶならサインタ・コア
                         </Heading>
                         <Text 
                             fontSize={{ base: "lg", md: "xl" }}
-                            color="gray.600"
+                            color={textColor}
                             maxW="2xl"
                         >
                             ビジネスの成長に合わせて選べる、柔軟な料金プラン
@@ -89,16 +102,19 @@ export default function PricingFeatures() {
                         {pricingFeatures.map((feature, index) => (
                             <GridItem key={index}>
                                 <Box
-                                    bg="white"
+                                    bg={cardBg}
                                     p={6}
                                     borderRadius="xl"
                                     boxShadow="lg"
                                     height="full"
                                     position="relative"
                                     overflow="hidden"
+                                    borderWidth="1px"
+                                    borderColor={borderColor}
                                     _hover={{
                                         transform: 'translateY(-4px)',
                                         boxShadow: 'xl',
+                                        borderColor: colorMode === 'light' ? 'orange.200' : 'orange.500',
                                     }}
                                     transition="all 0.3s"
                                 >
@@ -106,7 +122,7 @@ export default function PricingFeatures() {
                                         position="absolute"
                                         top={0}
                                         right={0}
-                                        bg="orange.400"
+                                        bg={tagBg}
                                         color="white"
                                         px={3}
                                         py={1}
@@ -121,11 +137,15 @@ export default function PricingFeatures() {
                                         <Flex
                                             w={12}
                                             h={12}
-                                            bg="orange.200"
-                                            color="orange.500"
+                                            bg={iconBg}
+                                            color={iconColor}
                                             borderRadius="full"
                                             align="center"
                                             justify="center"
+                                            transition="all 0.3s"
+                                            _hover={{
+                                                transform: 'scale(1.1)',
+                                            }}
                                         >
                                             <Icon as={feature.icon} boxSize={6} />
                                         </Flex>
@@ -133,19 +153,19 @@ export default function PricingFeatures() {
                                         <Heading
                                             as="h3"
                                             fontSize="xl"
-                                            color="orange.500"
+                                            color={headingColor}
                                         >
                                             {feature.title}
                                         </Heading>
 
-                                        <Text color="gray.600">
+                                        <Text color={textColor}>
                                             {feature.description}
                                         </Text>
 
                                         {feature.note && (
                                             <Text
                                                 fontSize="sm"
-                                                color="gray.500"
+                                                color={noteColor}
                                                 fontStyle="italic"
                                             >
                                                 {feature.note}
