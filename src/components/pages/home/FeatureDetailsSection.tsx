@@ -30,6 +30,7 @@ import {
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTab } from '@chakra-ui/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,6 +111,41 @@ const features: FeatureCategory[] = [
     ],
   },
 ];
+
+type AnimatedTabPanelProps = {
+  children: React.ReactNode;
+  bg?: string;
+  borderX?: string;
+  borderBottom?: string;
+  borderColor?: string;
+  borderBottomRadius?: string;
+  [key: string]: any;
+};
+
+const AnimatedTabPanel = ({ children, ...props }: AnimatedTabPanelProps) => {
+  const tabRef = useRef(null);
+  const isSelected = props['aria-selected'] === true;
+
+  useEffect(() => {
+    if (isSelected && tabRef.current) {
+      gsap.fromTo(tabRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out"
+        }
+      );
+    }
+  }, [isSelected]);
+
+  return (
+    <TabPanel ref={tabRef} {...props}>
+      {children}
+    </TabPanel>
+  );
+};
 
 const FeatureCard = ({ icon, title, description }: FeatureDetail) => {
   const bgColor = useColorModeValue('white', 'gray.800');
@@ -279,7 +315,7 @@ export default function FeatureDetailsSection() {
 
             <TabPanels ref={tabPanelsRef}>
               {features.map((category) => (
-                <TabPanel 
+                <AnimatedTabPanel 
                   key={category.title}
                   bg={tabSelectedBg}
                   borderX="1px"
@@ -295,6 +331,7 @@ export default function FeatureDetailsSection() {
                     </Box>
                     <Divider borderColor={borderColor} />
                     <Grid
+                      w="100%"
                       templateColumns={{
                         base: '1fr',
                         md: 'repeat(2, 1fr)',
@@ -307,7 +344,7 @@ export default function FeatureDetailsSection() {
                       ))}
                     </Grid>
                   </VStack>
-                </TabPanel>
+                </AnimatedTabPanel>
               ))}
             </TabPanels>
           </Tabs>
