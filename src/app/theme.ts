@@ -8,8 +8,8 @@ const theme = extendTheme({
   styles: {
     global: (props: { colorMode: ColorMode }) => ({
       body: {
-        bg: props.colorMode === 'dark' ? '#2D3748' : '#FFFFFF', // Dark mode background or light mode background
-        color: props.colorMode === 'dark' ? '#FFFFFF' : '#2D3748', // Dark mode text color or light mode text color
+        bg: props.colorMode === 'dark' ? 'hsl(220 17.647% 20% / 1)' : '#FFFFFF', // Dark mode background or light mode background
+        color: props.colorMode === 'dark' ? '#FFFFFF' : 'hsl(220 17.647% 20% / 1)', // Dark mode text color or light mode text color
       },
     }),
   },

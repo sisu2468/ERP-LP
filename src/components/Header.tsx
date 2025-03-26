@@ -14,7 +14,8 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Text
+  Text,
+  useColorMode
 } from '@chakra-ui/react';
 import gsap from 'gsap';
 import Image from 'next/image';
@@ -22,6 +23,7 @@ import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import SLink from './SLink';
 import Header_MenuButton from './buttons/Header_MenuButton';
+import ThemeToggle from './common/ThemeToggle';
 
 export default function Header() {
   const navRef = useRef<HTMLElement>(null);
@@ -29,6 +31,7 @@ export default function Header() {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { colorMode } = useColorMode();
 
   const handleMenuClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -83,23 +86,31 @@ export default function Header() {
       top="0"
       left="0"
       right="0"
-      bg="white"
+      bg={colorMode === 'light' ? 'white' : 'gray.800'}
       backdropFilter="blur(8px)"
       borderBottom="1px"
-      borderColor="gray.100"
+      borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
       zIndex="sticky"
     >
       <Box w="100%">
-        <Flex h="16" alignItems="center" justifyContent={{ base: 'space-between', lg: 'space-between', xl: 'flex-start' }} gap={10} borderBottom="1px solid #cccccc" px={{ base: 4, sm: 6, xl: 8 }} >
-          <Box w="120px" h="35px">
-            <Link href="/">
+        <Flex 
+          h="16" 
+          alignItems="center" 
+          justifyContent={{ base: 'space-between', lg: 'space-between', xl: 'flex-start' }} 
+          gap={10} 
+          borderBottom="1px" 
+          borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'} 
+          px={{ base: 4, sm: 6, xl: 8 }}
+        >
+          <Box>
+            <SLink href="/">
               <Image
-                src="/logos/sainta.jpg"
+                src={colorMode === 'light' ? "/logos/sainta.png" : "/logos/sainta-white.png"}
                 alt="サインタロゴ"
                 width={120}
                 height={35}
               />
-            </Link>
+            </SLink>
           </Box>
 
           <HStack spacing="8" display={{ base: 'none', md: 'none', lg: 'none', xl: 'flex' }}>
@@ -107,15 +118,23 @@ export default function Header() {
               <Menu key={item.path}>
                 {item.subMenu ? (
                   <Header_MenuButton pathname={pathname} item={item}>
-                    <Flex gap={1} alignItems='center'>
+                    <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
                       {item.title}
-                      <Icon as={ChevronDownIcon} ml={1} h={4} w={4} />
+                      <Icon 
+                        as={ChevronDownIcon} 
+                        ml={1} 
+                        h={4} 
+                        w={4} 
+                        color={colorMode === 'light' ? 'gray.600' : 'white'}
+                      />
                     </Flex>
                   </Header_MenuButton>
                 ) : (
                   <Link href={item.path}>
                     <Header_MenuButton pathname={pathname} item={item}>
-                      {item.title}
+                      <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
+                        {item.title}
+                      </Flex>
                     </Header_MenuButton>
                   </Link>
                 )}
@@ -124,16 +143,29 @@ export default function Header() {
                     py="2"
                     boxShadow="lg"
                     border="1px"
-                    borderColor="gray.100"
+                    borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+                    bg={colorMode === 'light' ? 'white' : 'gray.800'}
                   >
                     {item.subMenu.map((subItem) => (
-                      <MenuItem key={subItem.path}>
+                      <MenuItem 
+                        key={subItem.path}
+                        _hover={{
+                          bg: colorMode === 'light' ? 'gray.50' : 'gray.700'
+                        }}
+                      >
                         <SLink href={subItem.path}>
                           <Box>
-                            <Text fontSize="sm" fontWeight="medium">
+                            <Text 
+                              fontSize="sm" 
+                              fontWeight="medium"
+                              color={colorMode === 'light' ? 'gray.800' : 'white'}
+                            >
                               {subItem.title}
                             </Text>
-                            <Text fontSize="xs" color="gray.500">
+                            <Text 
+                              fontSize="xs" 
+                              color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
+                            >
                               {subItem.description}
                             </Text>
                           </Box>
@@ -146,20 +178,23 @@ export default function Header() {
             ))}
           </HStack>
 
-          <IconButton
-            ref={hamburgerRef}
-            display={{ lg: 'flex', xl: 'none' }}
-            aria-label="Open menu"
-            colorScheme="orange"
-            bg='orange.500'
-            color='white'
-            _hover={{ bg: 'gray.400' }}
-            borderRadius="xl"
-            icon={<HamburgerIcon />}
-            variant="ghost"
-            size="lg"
-            onClick={handleMenuClick}
-          />
+          <Flex gap={4} alignItems="center">
+            <ThemeToggle />
+            <IconButton
+              ref={hamburgerRef}
+              display={{ lg: 'flex', xl: 'none' }}
+              aria-label="Open menu"
+              colorScheme="orange"
+              bg='orange.500'
+              color='white'
+              _hover={{ bg: colorMode === 'light' ? 'gray.400' : 'gray.600' }}
+              borderRadius="xl"
+              icon={<HamburgerIcon />}
+              variant="ghost"
+              size="lg"
+              onClick={handleMenuClick}
+            />
+          </Flex>
         </Flex>
 
         <Box
@@ -171,7 +206,7 @@ export default function Header() {
           top="100%"
           left="0"
           right="0"
-          bg="white"
+          bg={colorMode === 'light' ? 'white' : 'gray.800'}
           py="4"
           boxShadow="lg"
         >
@@ -181,37 +216,61 @@ export default function Header() {
                 <Box
                   px="4"
                   py="3"
-                  _hover={{ bg: 'gray.50' }}
-                  color={pathname === item.path ? 'gray.900' : 'gray.500'}
+                  _hover={{ bg: colorMode === 'light' ? 'gray.50' : 'gray.700' }}
+                  color={pathname === item.path ? 
+                    (colorMode === 'light' ? 'gray.900' : 'white') : 
+                    (colorMode === 'light' ? 'gray.500' : 'gray.400')
+                  }
                 >
                   <Flex justify="space-between" align="center">
                     <Box>
-                      <Text fontSize="sm" fontWeight="medium">
+                      <Text 
+                        fontSize="sm" 
+                        fontWeight="medium"
+                        color={colorMode === 'light' ? 'gray.800' : 'white'}
+                      >
                         {item.title}
                       </Text>
-                      <Text fontSize="xs" color="gray.500">
+                      <Text 
+                        fontSize="xs" 
+                        color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
+                      >
                         {item.description}
                       </Text>
                     </Box>
                     {item.subMenu && (
-                      <Icon as={ChevronDownIcon} h={4} w={4} />
+                      <Icon 
+                        as={ChevronDownIcon} 
+                        h={4} 
+                        w={4}
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'} 
+                      />
                     )}
                   </Flex>
                 </Box>
               </SLink>
               {item.subMenu && (
-                <Box pl="6" bg="gray.50">
+                <Box 
+                  pl="6" 
+                  bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
+                >
                   {item.subMenu.map((subItem) => (
                     <Link key={subItem.path} href={subItem.path}>
                       <Box
                         px="4"
                         py="2"
-                        _hover={{ bg: 'gray.100' }}
+                        _hover={{ bg: colorMode === 'light' ? 'gray.100' : 'gray.600' }}
                       >
-                        <Text fontSize="sm">
+                        <Text 
+                          fontSize="sm"
+                          color={colorMode === 'light' ? 'gray.800' : 'white'}
+                        >
                           {subItem.title}
                         </Text>
-                        <Text fontSize="xs" color="gray.500">
+                        <Text 
+                          fontSize="xs" 
+                          color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
+                        >
                           {subItem.description}
                         </Text>
                       </Box>
