@@ -14,6 +14,23 @@ const theme = extendTheme({
     }),
   },
   colors: {
+    orange: {
+      50: '#FFF3E0',
+      100: '#FFE0B2',
+      150: '#FFD399', // New intermediate value
+      200: '#FFC784',
+      250: '#FFBA6B', // New intermediate value
+      300: '#FFAD52',
+      350: '#FFA039', // New intermediate value
+      400: '#FF9320',
+      450: '#FF8507', // New intermediate value
+      500: '#FF7700',
+      550: '#ED6F00', // New intermediate value
+      600: '#DB6700',
+      700: '#B85600',
+      800: '#964600',
+      900: '#733600',
+    },
     // You can customize the color palette for light and dark mode here
     brand: {
       50: '#F0E6FF',
