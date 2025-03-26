@@ -3,7 +3,8 @@ import {
   Container,
   Heading,
   SimpleGrid,
-  VStack
+  VStack,
+  useColorMode
 } from '@chakra-ui/react';
 import {
   FaChartLine,
@@ -12,8 +13,9 @@ import {
 } from 'react-icons/fa';
 import FeatureCard from './FeatureCarts';
 
-
 export default function ServiceIntroSection() {
+  const { colorMode } = useColorMode();
+
   const startupFeatures = {
     accounting: {
       title: '会計・請求管理',
@@ -51,7 +53,11 @@ export default function ServiceIntroSection() {
   };
 
   return (
-    <Box py={16} bg="gray.50">
+    <Box 
+      py={16} 
+      bg={colorMode === 'light' ? 'gray.50' : 'gray.900'}
+      transition="background-color 0.2s"
+    >
       <Container maxW="8xl">
         <VStack spacing={12}>
           <Box width="full">
@@ -60,13 +66,19 @@ export default function ServiceIntroSection() {
               size="lg"
               mb={8}
               textAlign="center"
-              color="gray.700"
+              color={colorMode === 'light' ? 'gray.700' : 'gray.100'}
             >
               スタートアップ・フリーランス向けサービス
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-              <FeatureCard {...startupFeatures.accounting} />
-              <FeatureCard {...startupFeatures.finance} />
+              <FeatureCard 
+                {...startupFeatures.accounting} 
+                colorMode={colorMode}
+              />
+              <FeatureCard 
+                {...startupFeatures.finance} 
+                colorMode={colorMode}
+              />
             </SimpleGrid>
           </Box>
 
@@ -76,12 +88,15 @@ export default function ServiceIntroSection() {
               size="lg"
               mb={8}
               textAlign="center"
-              color="gray.700"
+              color={colorMode === 'light' ? 'gray.700' : 'gray.100'}
             >
               税理士・行政書士向けサービス
             </Heading>
             <Box maxW="600px" mx="auto">
-              <FeatureCard {...professionalFeatures.matching} />
+              <FeatureCard 
+                {...professionalFeatures.matching} 
+                colorMode={colorMode}
+              />
             </Box>
           </Box>
         </VStack>

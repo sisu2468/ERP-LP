@@ -1,38 +1,55 @@
-import { Icon, Card, CardHeader, CardBody, List, ListItem, ListIcon, Heading, VStack, Text } from "@chakra-ui/react";
-
-import { FaCheckCircle } from "react-icons/fa";
+import { Box, Icon, Text, VStack } from '@chakra-ui/react';
+import { IconType } from 'react-icons';
 
 interface FeatureCardProps {
     title: string;
-    icon: React.ElementType;
+    icon: IconType;
     features: string[];
+    colorMode: 'light' | 'dark';
 }
 
-export default function FeatureCard({ title, icon, features }: FeatureCardProps) {
+export default function FeatureCard({ title, icon, features, colorMode }: FeatureCardProps) {
     return (
-        <Card
-            height="full"
-            shadow="lg"
-            _hover={{ transform: 'translateY(-4px)', transition: '0.3s' }}
+        <Box
+            p={8}
+            bg={colorMode === 'light' ? 'white' : 'gray.800'}
+            borderRadius="xl"
+            boxShadow="lg"
+            transition="all 0.3s"
+            _hover={{
+                transform: 'translateY(-4px)',
+                boxShadow: 'xl',
+            }}
         >
-            <CardHeader>
-                <VStack spacing={4}>
-                    <Icon as={icon} w={10} h={10} color="orange.500" />
-                    <Heading size="md" textAlign="center">
+            <VStack spacing={6} align="start">
+                <Box>
+                    <Icon
+                        as={icon}
+                        w={8}
+                        h={8}
+                        color={colorMode === 'light' ? 'orange.500' : 'orange.300'}
+                        mb={4}
+                    />
+                    <Text
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color={colorMode === 'light' ? 'gray.700' : 'white'}
+                    >
                         {title}
-                    </Heading>
-                </VStack>
-            </CardHeader>
-            <CardBody>
-                <List spacing={3}>
+                    </Text>
+                </Box>
+                <VStack spacing={3} align="start">
                     {features.map((feature, index) => (
-                        <ListItem key={index} display="flex" alignItems="flex-start">
-                            <ListIcon as={FaCheckCircle} color="green.500" mt={1} />
-                            <Text>{feature}</Text>
-                        </ListItem>
+                        <Text
+                            key={index}
+                            color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
+                            fontSize="md"
+                        >
+                            • {feature}
+                        </Text>
                     ))}
-                </List>
-            </CardBody>
-        </Card>
+                </VStack>
+            </VStack>
+        </Box>
     );
 }
