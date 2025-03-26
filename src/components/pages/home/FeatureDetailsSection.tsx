@@ -11,6 +11,7 @@ import {
   Grid,
   VStack,
   Icon,
+  useColorMode,
   useColorModeValue,
   Divider,
 } from '@chakra-ui/react';
@@ -106,8 +107,11 @@ const features: FeatureCategory[] = [
 ];
 
 const FeatureCard = ({ icon, title, description }: FeatureDetail) => {
-  const bgColor = useColorModeValue('white', 'gray.700');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const textColor = useColorModeValue('gray.600', 'gray.300');
+  const iconColor = useColorModeValue('orange.500', 'orange.300');
+  const titleColor = useColorModeValue('gray.800', 'white');
 
   return (
     <Box
@@ -123,12 +127,12 @@ const FeatureCard = ({ icon, title, description }: FeatureDetail) => {
       }}
     >
       <VStack spacing={4} align="flex-start">
-        <Icon as={icon} w={8} h={8} color="orange.500" />
+        <Icon as={icon} w={8} h={8} color={iconColor} />
         <Box>
-          <Text fontWeight="bold" fontSize="lg" mb={2}>
+          <Text fontWeight="bold" fontSize="lg" mb={2} color={titleColor}>
             {title}
           </Text>
-          <Text color="gray.600" fontSize="sm">
+          <Text color={textColor} fontSize="sm">
             {description}
           </Text>
         </Box>
@@ -138,17 +142,24 @@ const FeatureCard = ({ icon, title, description }: FeatureDetail) => {
 };
 
 export default function FeatureDetailsSection() {
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const { colorMode } = useColorMode();
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const headingColor = useColorModeValue('gray.800', 'white');
+  const descriptionColor = useColorModeValue('gray.600', 'gray.300');
+  const tabBg = useColorModeValue('gray.50', 'gray.800');
+  const tabHoverBg = useColorModeValue('gray.100', 'gray.700');
+  const tabSelectedBg = useColorModeValue('white', 'gray.800');
 
   return (
-    <Box py={16} bg="white">
+    <Box py={16} bg={bgColor} transition="background-color 0.2s">
       <Container maxW="7xl">
         <VStack spacing={12}>
           <Box textAlign="center">
-            <Heading as="h2" size="xl" mb={4}>
+            <Heading as="h2" size="xl" mb={4} color={headingColor}>
               機能の詳細説明
             </Heading>
-            <Text color="gray.600" fontSize="lg">
+            <Text color={descriptionColor} fontSize="lg">
               業務効率化を実現する主要機能
             </Text>
           </Box>
@@ -159,10 +170,16 @@ export default function FeatureDetailsSection() {
                 <Tab
                   key={category.title}
                   _selected={{
-                    color: 'orange.500',
+                    color: colorMode === 'light' ? 'orange.500' : 'orange.300',
                     borderColor: borderColor,
                     borderBottom: 'none',
+                    bg: tabSelectedBg,
                   }}
+                  _hover={{
+                    bg: tabHoverBg,
+                  }}
+                  bg={tabBg}
+                  color={descriptionColor}
                 >
                   {category.title}
                 </Tab>
@@ -171,14 +188,21 @@ export default function FeatureDetailsSection() {
 
             <TabPanels>
               {features.map((category) => (
-                <TabPanel key={category.title}>
+                <TabPanel 
+                  key={category.title}
+                  bg={tabSelectedBg}
+                  borderX="1px"
+                  borderBottom="1px"
+                  borderColor={borderColor}
+                  borderBottomRadius="md"
+                >
                   <VStack spacing={8}>
                     <Box textAlign="center" maxW="2xl" mx="auto">
-                      <Text fontSize="lg" color="gray.600">
+                      <Text fontSize="lg" color={descriptionColor}>
                         {category.description}
                       </Text>
                     </Box>
-                    <Divider />
+                    <Divider borderColor={borderColor} />
                     <Grid
                       templateColumns={{
                         base: '1fr',
