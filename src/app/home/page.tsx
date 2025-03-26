@@ -9,8 +9,13 @@ import Hero from "@/components/pages/home/Hero";
 import ResourcesSection from "@/components/pages/home/ResourcesSection";
 import ServiceIntroSection from "@/components/pages/home/ServiceIntroSection";
 import { Box } from "@chakra-ui/react";
+
 import gsap from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import { useEffect, useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const sectionsRef = useRef([]);
