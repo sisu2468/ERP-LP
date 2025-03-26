@@ -12,6 +12,11 @@ import {
     useColorMode,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Update the data structure for steps with more detailed information
 const implementationSteps = [
@@ -55,11 +60,70 @@ export default function ImplementationFlow() {
     const borderColor = useColorModeValue('gray.200', 'gray.700');
     const highlightBorderColor = useColorModeValue('orange.500', 'orange.400');
 
+    const headingRef = useRef(null);
+    const stepsRef = useRef(null);
+    const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        // Heading animation
+        gsap.fromTo(headingRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: headingRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Steps container animation
+        gsap.fromTo(stepsRef.current,
+            { opacity: 0 },
+            {
+                opacity: 1,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: stepsRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Individual step animations
+        stepRefs.current.forEach((stepRef, index) => {
+            if (stepRef) {
+                gsap.fromTo(stepRef,
+                    { opacity: 0, x: -30 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.6,
+                        delay: index * 0.2,
+                        scrollTrigger: {
+                            trigger: stepRef,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        };
+    }, []);
+
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW={{ base: "xl", md: "4xl" }}>
                 <VStack spacing={12} align="stretch">
-                    <Stack spacing={4} textAlign="center">
+                    <Stack spacing={4} textAlign="center" ref={headingRef}>
                         <Heading
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
@@ -83,7 +147,7 @@ export default function ImplementationFlow() {
                         </Text>
                     </Stack>
 
-                    <VStack spacing={0} position="relative">
+                    <VStack spacing={0} position="relative" ref={stepsRef}>
                         <Box
                             position="absolute"
                             left="52px"
@@ -100,6 +164,7 @@ export default function ImplementationFlow() {
                         {implementationSteps.map((step, index) => (
                             <Flex
                                 key={step.step}
+                                ref={el => { stepRefs.current[index] = el }}
                                 w="100%"
                                 gap={6}
                                 position="relative"
