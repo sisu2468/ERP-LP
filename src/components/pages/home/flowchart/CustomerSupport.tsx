@@ -23,6 +23,11 @@ import {
     FaUsers,
     FaHandshake
 } from 'react-icons/fa';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const supportFeatures = [
     {
@@ -71,15 +76,88 @@ export default function CustomerSupport() {
     const benefitTextColor = useColorModeValue('gray.700', 'gray.200');
     const borderColor = useColorModeValue('gray.200', 'gray.700');
 
+    const headingRef = useRef(null);
+    const cardsRef = useRef(null);
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        // Heading animation
+        gsap.fromTo(headingRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: headingRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Individual card animations
+        cardRefs.current.forEach((cardRef, index) => {
+            if (cardRef) {
+                // Scroll animation
+                gsap.fromTo(cardRef,
+                    { opacity: 0, y: 30 },  // Changed from y: 50 to y: 30
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        delay: index * 0.1,  // Changed from 0.2 to 0.1
+                        scrollTrigger: {
+                            trigger: cardRef,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+
+                // Hover animation
+                cardRef.addEventListener('mouseenter', () => {
+                    gsap.to(cardRef, {
+                        translateY: -8,
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        borderColor: colorMode === 'light' ? '#FED7AA' : '#ED8936',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+
+                cardRef.addEventListener('mouseleave', () => {
+                    gsap.to(cardRef, {
+                        translateY: 0,
+                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        borderColor: borderColor,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            cardRefs.current.forEach(cardRef => {
+                if (cardRef) {
+                    cardRef.removeEventListener('mouseenter', () => {});
+                    cardRef.removeEventListener('mouseleave', () => {});
+                }
+            });
+        };
+    }, [colorMode, borderColor]);
+
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW="8xl">
                 <VStack spacing={12}>
-                    <VStack spacing={4} textAlign="center">
+                    <VStack spacing={4} textAlign="center" ref={headingRef}>
                         <Heading
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
-                            bgGradient={colorMode === 'light' 
+                            bgGradient={colorMode === 'light'
                                 ? "linear(to-r, orange.400, orange.600)"
                                 : "linear(to-r, orange.300, orange.500)"
                             }
@@ -100,10 +178,13 @@ export default function CustomerSupport() {
                         columns={{ base: 1, md: 3 }}
                         spacing={8}
                         w="full"
+                        ref={cardsRef}
                     >
                         {supportFeatures.map((feature, index) => (
                             <Box
                                 key={index}
+                                ref={el => { cardRefs.current[index] = el }}
+                                style={{ willChange: 'transform', transform: 'translateY(0)' }}
                                 bg={cardBg}
                                 p={8}
                                 borderRadius="2xl"
