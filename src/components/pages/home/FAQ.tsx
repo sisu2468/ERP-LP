@@ -2,15 +2,17 @@
 
 import {
     Accordion,
-    AccordionItem,
     AccordionButton,
-    AccordionPanel,
     AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
     Box,
     Container,
     Heading,
-    Text,
     Link,
+    Text,
+    useColorMode,
+    useColorModeValue,
 } from '@chakra-ui/react';
 
 const faqData = [
@@ -42,43 +44,57 @@ const faqData = [
 ];
 
 export default function FAQ() {
+    const { colorMode } = useColorMode();
+    const bgColor = useColorModeValue('gray.50', 'gray.800');
+    const headingColor = useColorModeValue('gray.800', 'white');
+    const accordionBg = useColorModeValue('white', 'gray.800');
+    const accordionBorderColor = useColorModeValue('gray.200', 'gray.700');
+    const accordionHoverBg = useColorModeValue('gray.50', 'gray.700');
+    const textColor = useColorModeValue('gray.600', 'gray.300');
+
     return (
-        <Box py={16} bg="gray.50">
+        <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW={{ base: "xl", sm: "2xl", md: "2xl", lg: "4xl", xl: "6xl" }}>
                 <Heading
                     as="h2"
                     fontSize={{ base: "2xl", md: "3xl" }}
                     mb={8}
                     textAlign="center"
-                    color="gray.800"
+                    color={headingColor}
                 >
                     よくある質問
                 </Heading>
-                
+
                 <Accordion allowMultiple>
                     {faqData.map((faq, index) => (
-                        <AccordionItem 
+                        <AccordionItem
                             key={index}
                             border="1px"
-                            borderColor="gray.200"
-                            bg="white"
+                            borderColor={accordionBorderColor}
+                            bg={accordionBg}
                             mb={4}
                             boxShadow="md"
                             borderRadius="md"
+                            _hover={{
+                                borderColor: colorMode === 'light' ? 'blue.200' : 'blue.500',
+                                transform: 'translateY(-1px)',
+                                boxShadow: 'lg',
+                            }}
+                            transition="all 0.2s"
                         >
                             <h3>
-                                <AccordionButton 
+                                <AccordionButton
                                     py={4}
-                                    _hover={{ bg: 'gray.50' }}
+                                    _hover={{ bg: accordionHoverBg }}
                                 >
-                                    <Box flex="1" textAlign="left" fontWeight="medium">
+                                    <Box flex="1" textAlign="left" fontWeight="medium" color={headingColor}>
                                         {faq.question}
                                     </Box>
-                                    <AccordionIcon />
+                                    <AccordionIcon color={colorMode === 'light' ? 'gray.800' : 'gray.100'} />
                                 </AccordionButton>
                             </h3>
                             <AccordionPanel pb={4}>
-                                <Text color="gray.600">
+                                <Text color={textColor}>
                                     {faq.answer}
                                 </Text>
                             </AccordionPanel>
