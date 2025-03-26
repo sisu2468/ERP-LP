@@ -12,9 +12,84 @@ import {
   FaHandshake
 } from 'react-icons/fa';
 import FeatureCard from './FeatureCarts';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ServiceIntroSection() {
   const { colorMode } = useColorMode();
+  const startupHeadingRef = useRef(null);
+  const professionalHeadingRef = useRef(null);
+  const startupCardsRef = useRef(null);
+  const professionalCardRef = useRef(null);
+
+  useEffect(() => {
+    // Startup section animations
+    gsap.fromTo(startupHeadingRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: startupHeadingRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    gsap.fromTo(startupCardsRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.3,
+        scrollTrigger: {
+          trigger: startupCardsRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Professional section animations
+    gsap.fromTo(professionalHeadingRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: professionalHeadingRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    gsap.fromTo(professionalCardRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.3,
+        scrollTrigger: {
+          trigger: professionalCardRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
 
   const startupFeatures = {
     accounting: {
@@ -62,6 +137,7 @@ export default function ServiceIntroSection() {
         <VStack spacing={12}>
           <Box width="full">
             <Heading
+              ref={startupHeadingRef}
               as="h2"
               size="lg"
               mb={8}
@@ -70,7 +146,11 @@ export default function ServiceIntroSection() {
             >
               スタートアップ・フリーランス向けサービス
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+            <SimpleGrid 
+              ref={startupCardsRef}
+              columns={{ base: 1, md: 2 }} 
+              spacing={8}
+            >
               <FeatureCard 
                 {...startupFeatures.accounting} 
                 colorMode={colorMode}
@@ -84,6 +164,7 @@ export default function ServiceIntroSection() {
 
           <Box width="full">
             <Heading
+              ref={professionalHeadingRef}
               as="h2"
               size="lg"
               mb={8}
@@ -92,7 +173,11 @@ export default function ServiceIntroSection() {
             >
               税理士・行政書士向けサービス
             </Heading>
-            <Box maxW="600px" mx="auto">
+            <Box 
+              ref={professionalCardRef}
+              maxW="600px" 
+              mx="auto"
+            >
               <FeatureCard 
                 {...professionalFeatures.matching} 
                 colorMode={colorMode}
