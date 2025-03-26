@@ -18,7 +18,7 @@ export default function CompanyMember() {
                             textAlign="center"
                             color={accentColor}
                         >
-                            CEOにお会いする
+                            CEO自己紹介
                         </Heading>
                     </VStack>
 
