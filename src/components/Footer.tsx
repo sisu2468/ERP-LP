@@ -12,90 +12,101 @@ import {
     SimpleGrid,
     Stack,
     Text,
+    useColorMode,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin, FaMapMarkerAlt, FaPhone, FaTwitter } from 'react-icons/fa';
 
 export default function Footer() {
+    const { colorMode } = useColorMode();
+    const bgColor = useColorModeValue('white', 'gray.900');
+    const borderColor = useColorModeValue('#E0E0E0', 'gray.700');
+    const headingColor = useColorModeValue('gray.900', 'white');
+    const textColor = useColorModeValue('gray.600', 'gray.300');
+    const linkColor = useColorModeValue('gray.600', 'gray.300');
+    const iconColor = useColorModeValue('gray.600', 'gray.400');
+    const dividerColor = useColorModeValue('gray.200', 'gray.700');
+
     return (
-        <Box bg="white" py={10} borderTop="1px solid #E0E0E0">
+        <Box bg={bgColor} py={10} borderTop={`1px solid ${borderColor}`} transition="background-color 0.2s">
             <Container maxW="7xl">
                 <SimpleGrid columns={{ base: 1, md: 4 }} spacing={8}>
                     <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
-                        <Text fontSize="lg" fontWeight="bold" color="gray.900">
+                        <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             株式会社サインタ
                         </Text>
                         <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
-                            <Icon as={FaMapMarkerAlt} mt={1} />
+                            <Icon as={FaMapMarkerAlt} mt={1} color={iconColor} />
                             <Flex flexDirection='column' alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
-                                <Text fontSize="sm">
+                                <Text fontSize="sm" color={textColor}>
                                     〒108-0073
                                 </Text>
-                                <Text fontSize="sm">
+                                <Text fontSize="sm" color={textColor}>
                                     東京都港区三田1丁目3-40 606号室
                                 </Text>
                             </Flex>
                         </HStack>
                         <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
-                            <Icon as={FaPhone} />
-                            <Text fontSize="sm">
-                                <Link href="tel:+8109029138411">+81 090-2913-8411</Link>
+                            <Icon as={FaPhone} color={iconColor} />
+                            <Text fontSize="sm" color={textColor}>
+                                <Link href="tel:+8109029138411" color={linkColor} _hover={{ color: 'orange.500' }}>+81 090-2913-8411</Link>
                             </Text>
                         </HStack>
                         <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
-                            <Icon as={FaEnvelope} />
-                            <Text fontSize="sm">
-                                <Link href="mailto:support@sainta.co.jp">support@sainta.co.jp</Link>
+                            <Icon as={FaEnvelope} color={iconColor} />
+                            <Text fontSize="sm" color={textColor}>
+                                <Link href="mailto:support@sainta.co.jp" color={linkColor} _hover={{ color: 'orange.500' }}>support@sainta.co.jp</Link>
                             </Text>
                         </HStack>
                     </Stack>
 
                     <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
-                        <Text fontSize="lg" fontWeight="bold" color="gray.900">
+                        <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             会社情報
                         </Text>
-                        <Link href="/about" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>会社概要</Link>
-                        <Link href="/privacy" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>プライバシーポリシー</Link>
-                        <Link href="/terms" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>利用規約</Link>
-                        <Link href="/contact" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>お問い合わせ</Link>
+                        <Link href="/about" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>会社概要</Link>
+                        <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>プライバシーポリシー</Link>
+                        <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>利用規約</Link>
+                        <Link href="/contact" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>お問い合わせ</Link>
                     </Stack>
 
                     <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
-                        <Text fontSize="lg" fontWeight="bold" color="gray.900">
+                        <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             サービス
                         </Text>
-                        <Link href="/services" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>ERPシステム</Link>
-                        <Link href="/signta-lab" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>サインタラボ</Link>
-                        <Link href="/signta-connect" fontSize="sm" _hover={{ textDecoration: 'underline', textDecorationColor: 'orange', cursor: 'pointer' }}>サインタ・コネクト</Link>
+                        <Link href="/services" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>ERPシステム</Link>
+                        <Link href="/signta-lab" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタラボ</Link>
+                        <Link href="/signta-connect" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタ・コネクト</Link>
                     </Stack>
 
                     <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
-                        <Text fontSize="lg" fontWeight="bold" color="gray.900">
+                        <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             SNS
                         </Text>
                         <HStack spacing={4} w={{ base: '100%', md: 'auto' }} justifyContent={{ base: 'center', md: 'flex-start' }} display='flex'>
                             <Link href="https://twitter.com" isExternal>
-                                <Icon as={FaTwitter} w={5} h={5} />
+                                <Icon as={FaTwitter} w={5} h={5} color={iconColor} _hover={{ color: 'blue.400' }} transition="color 0.2s" />
                             </Link>
                             <Link href="https://facebook.com" isExternal>
-                                <Icon as={FaFacebook} w={5} h={5} />
+                                <Icon as={FaFacebook} w={5} h={5} color={iconColor} _hover={{ color: 'blue.600' }} transition="color 0.2s" />
                             </Link>
                             <Link href="https://linkedin.com" isExternal>
-                                <Icon as={FaLinkedin} w={5} h={5} />
+                                <Icon as={FaLinkedin} w={5} h={5} color={iconColor} _hover={{ color: 'blue.500' }} transition="color 0.2s" />
                             </Link>
                             <Link href="https://instagram.com" isExternal>
-                                <Icon as={FaInstagram} w={5} h={5} />
+                                <Icon as={FaInstagram} w={5} h={5} color={iconColor} _hover={{ color: 'pink.500' }} transition="color 0.2s" />
                             </Link>
                         </HStack>
                     </Stack>
                 </SimpleGrid>
 
-                <Divider my={8} />
+                <Divider my={8} borderColor={dividerColor} />
                 <Flex justifyContent="center" alignItems="center" textAlign="center" gap={4}>
-                    <Text fontSize="sm">
+                    <Text fontSize="sm" color={textColor}>
                         © {new Date().getFullYear()} 株式会社サインタ. All rights reserved.
                     </Text>
                     <Image
-                        src="/logos/sainta-hakuchou.png"
+                        src={colorMode === 'light' ? "/logos/sainta-hakuchou.png" : "/logos/sainta-hakuchou-white.png"}
                         alt="株式会社サインタ"
                         width="30px"
                         height="auto"
