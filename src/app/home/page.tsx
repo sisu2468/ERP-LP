@@ -1,5 +1,6 @@
 'use client'
 
+import ScrollButtons from "@/components/common/ScrollButtons";
 import CTASection from "@/components/pages/home/CTASection";
 import FAQ from "@/components/pages/home/FAQ";
 import FeatureDetailsSection from "@/components/pages/home/FeatureDetailsSection";
@@ -10,6 +11,7 @@ import ServiceIntroSection from "@/components/pages/home/ServiceIntroSection";
 import { Box } from "@chakra-ui/react";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
+
 export default function Home() {
   const sectionsRef = useRef([]);
 
@@ -42,6 +44,7 @@ export default function Home() {
       <FlowChart />
       <CTASection />
       <FAQ />
+      <ScrollButtons />
     </Box>
   )
 }
