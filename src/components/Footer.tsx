@@ -64,7 +64,7 @@ export default function Footer() {
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             会社情報
                         </Text>
-                        <Link href="/about" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>会社概要</Link>
+                        <Link href="/company" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>会社概要</Link>
                         <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>プライバシーポリシー</Link>
                         <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>利用規約</Link>
                         <Link href="/contact" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>お問い合わせ</Link>
