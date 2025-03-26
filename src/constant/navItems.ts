@@ -3,7 +3,7 @@ import { NavItem } from "./interface";
 export const navItems: NavItem[] = [
     {
         title: '会社概要',
-        path: '/about',
+        path: '/company',
         description: '会社概要やミッションを紹介',
     },
     {
