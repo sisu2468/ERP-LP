@@ -18,6 +18,11 @@ import Button_Orange from '../../buttons/Button_Orange';
 import Button_Blue from '../../buttons/Button_Blue';
 import { CTACard } from './CTACard';
 import { ctaCards } from '../../../constant/CTACards';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function CTASection() {
     const { colorMode } = useColorMode();
@@ -29,11 +34,75 @@ export default function CTASection() {
     const iconColor = useColorModeValue('gray.600', 'gray.300');
     const borderColor = useColorModeValue('gray.100', 'gray.700');
 
+    const headingRef = useRef(null);
+    const cardsGridRef = useRef(null);
+    const ctaBoxRef = useRef(null);
+
+    useEffect(() => {
+        // Heading animation
+        gsap.fromTo(headingRef.current,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: headingRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Cards grid container animation
+        gsap.fromTo(cardsGridRef.current,
+            { opacity: 0 },
+            {
+                opacity: 1,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: cardsGridRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Bottom CTA box animation
+        const ctaBox = ctaBoxRef.current;
+        if (ctaBox) {
+            gsap.fromTo(ctaBox,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    scrollTrigger: {
+                        trigger: ctaBox,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        }
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+           
+        };
+    }, [colorMode, borderColor]);
+
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW="7xl">
                 <VStack spacing={16}>
-                    <VStack spacing={4} textAlign="center" maxW="2xl" mx="auto">
+                    <VStack 
+                        ref={headingRef}
+                        spacing={4} 
+                        textAlign="center" 
+                        maxW="2xl" 
+                        mx="auto"
+                    >
                         <Heading 
                             size="xl"
                             color={headingColor}
@@ -50,20 +119,23 @@ export default function CTASection() {
                     </VStack>
 
                     <SimpleGrid
+                        ref={cardsGridRef}
                         columns={{ base: 1, lg: 3 }}
                         spacing={8}
                         width="full"
                     >
-                        {ctaCards.map((card) => (
+                        {ctaCards.map((card, index) => (
                             <CTACard 
                                 key={card.title} 
                                 card={card} 
                                 colorMode={colorMode}
+                                index={index}
                             />
                         ))}
                     </SimpleGrid>
 
                     <Box
+                        ref={ctaBoxRef}
                         bg={boxBg}
                         w="full"
                         p={8}
@@ -71,12 +143,10 @@ export default function CTASection() {
                         textAlign="center"
                         borderWidth="1px"
                         borderColor={borderColor}
-                        _hover={{
-                            borderColor: colorMode === 'light' ? 'orange.200' : 'orange.500',
-                            transform: 'translateY(-2px)',
-                            boxShadow: 'lg',
+                        style={{ 
+                            willChange: 'transform',
+                            transform: 'translateY(0)'
                         }}
-                        transition="all 0.3s"
                     >
                         <VStack spacing={4}>
                             <HStack spacing={2} color={iconColor}>
