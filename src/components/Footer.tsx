@@ -31,13 +31,13 @@ export default function Footer() {
         <Box bg={bgColor} py={10} borderTop={`1px solid ${borderColor}`} transition="background-color 0.2s">
             <Container maxW="7xl">
                 <SimpleGrid columns={{ base: 1, md: 4 }} spacing={8}>
-                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
+                    <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             株式会社サインタ
                         </Text>
-                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
+                        <HStack align="flex-start" textAlign='left' alignItems='flex-start' justifyContent='flex-start'>
                             <Icon as={FaMapMarkerAlt} mt={1} color={iconColor} />
-                            <Flex flexDirection='column' alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
+                            <Flex flexDirection='column' alignItems='flex-start' justifyContent='flex-start'>
                                 <Text fontSize="sm" color={textColor}>
                                     〒108-0073
                                 </Text>
@@ -46,13 +46,13 @@ export default function Footer() {
                                 </Text>
                             </Flex>
                         </HStack>
-                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
+                        <HStack align="flex-start" textAlign='left' alignItems='flex-start' justifyContent='flex-start'>
                             <Icon as={FaPhone} color={iconColor} />
                             <Text fontSize="sm" color={textColor}>
                                 <Link href="tel:+8109029138411" color={linkColor} _hover={{ color: 'orange.500' }}>+81 090-2913-8411</Link>
                             </Text>
                         </HStack>
-                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems={{base: 'center', md: 'flex-start'}} justifyContent={{base: 'center', md: 'flex-start'}}>
+                        <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems='flex-start' justifyContent='flex-start'>
                             <Icon as={FaEnvelope} color={iconColor} />
                             <Text fontSize="sm" color={textColor}>
                                 <Link href="mailto:support@sainta.co.jp" color={linkColor} _hover={{ color: 'orange.500' }}>support@sainta.co.jp</Link>
@@ -60,7 +60,7 @@ export default function Footer() {
                         </HStack>
                     </Stack>
 
-                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
+                    <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             会社情報
                         </Text>
@@ -70,7 +70,7 @@ export default function Footer() {
                         <Link href="/contact" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>お問い合わせ</Link>
                     </Stack>
 
-                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
+                    <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             サービス
                         </Text>
@@ -79,11 +79,11 @@ export default function Footer() {
                         <Link href="/signta-connect" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタ・コネクト</Link>
                     </Stack>
 
-                    <Stack spacing={4} textAlign={{ base: 'center', md: 'left' }}>
+                    <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             SNS
                         </Text>
-                        <HStack spacing={4} w={{ base: '100%', md: 'auto' }} justifyContent={{ base: 'center', md: 'flex-start' }} display='flex'>
+                        <HStack spacing={4} w={{ base: '100%', md: 'auto' }} justifyContent='flex-start' display='flex'>
                             <Link href="https://twitter.com" isExternal>
                                 <Icon as={FaTwitter} w={5} h={5} color={iconColor} _hover={{ color: 'blue.400' }} transition="color 0.2s" />
                             </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
                 </SimpleGrid>
 
                 <Divider my={8} borderColor={dividerColor} />
-                <Flex justifyContent="center" alignItems="center" textAlign="center" gap={4}>
+                <Flex gap={4}>
                     <Text fontSize="sm" color={textColor}>
                         © {new Date().getFullYear()} 株式会社サインタ. All rights reserved.
                     </Text>
