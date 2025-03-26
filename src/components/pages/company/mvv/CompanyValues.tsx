@@ -53,6 +53,8 @@ export default function CompanyValues() {
     const textColor = useColorModeValue('gray.700', 'gray.100');
 
     useEffect(() => {
+        const handlers = new Map<HTMLDivElement, { enter: () => void; leave: () => void }>();
+        
         const ctx = gsap.context(() => {
             valueRefs.current.forEach((ref, index) => {
                 if (ref) {
@@ -76,16 +78,53 @@ export default function CompanyValues() {
                             }
                         }
                     );
+
+                    const handleMouseEnter = () => {
+                        gsap.to(ref, {
+                            y: -8,
+                            scale: 1.02,
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            borderColor: accentColor,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                    };
+
+                    const handleMouseLeave = () => {
+                        gsap.to(ref, {
+                            y: 0,
+                            scale: 1,
+                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                            borderColor: borderColor,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                    };
+
+                    handlers.set(ref, { enter: handleMouseEnter, leave: handleMouseLeave });
+                    ref.addEventListener('mouseenter', handleMouseEnter);
+                    ref.addEventListener('mouseleave', handleMouseLeave);
                 }
             });
         });
 
-        return () => ctx.revert();
-    }, []);
+        return () => {
+            ctx.revert();
+            valueRefs.current.forEach(ref => {
+                if (ref) {
+                    const handler = handlers.get(ref);
+                    if (handler) {
+                        ref.removeEventListener('mouseenter', handler.enter);
+                        ref.removeEventListener('mouseleave', handler.leave);
+                    }
+                }
+            });
+        };
+    }, [accentColor, borderColor]);
 
     return (
         <MVVCard
-            title="価値観"
+            title="バリュー"
             titleEn="VALUES"
         >
             <SimpleGrid 
@@ -105,12 +144,8 @@ export default function CompanyValues() {
                         borderWidth="1px"
                         borderColor={borderColor}
                         position="relative"
-                        transition="all 0.3s"
-                        _hover={{
-                            transform: 'translateY(-4px)',
-                            boxShadow: '2xl',
-                            borderColor: accentColor
-                        }}
+                        transition="none"
+                        style={{ willChange: 'transform' }}
                     >
                         <Box
                             position="absolute"
