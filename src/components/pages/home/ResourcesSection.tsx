@@ -1,31 +1,31 @@
 import {
+  Avatar,
+  Badge,
   Box,
+  Button,
+  Card,
+  CardBody,
   Container,
   Heading,
-  Text,
-  SimpleGrid,
-  VStack,
   HStack,
   Icon,
-  Button,
-  Badge,
-  Avatar,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  useColorModeValue,
+  SimpleGrid,
+  Text,
   useColorMode,
+  useColorModeValue,
+  VStack
 } from '@chakra-ui/react';
-import {
-  FaBook,
-  FaLightbulb,
-  FaUserTie,
-  FaClock,
-  FaArrowRight,
-  FaRegBookmark,
-} from 'react-icons/fa';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+import {
+  FaArrowRight,
+  FaClock,
+  FaLightbulb
+} from 'react-icons/fa';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface GuideArticle {
   title: string;
@@ -118,25 +118,89 @@ const tips: Tip[] = [
   },
 ];
 
-const ResourceCard = ({ children, href }: { children: React.ReactNode; href: string }) => {
+const ResourceCard = ({ children, href, index }: { children: React.ReactNode; href: string; index: number }) => {
+  const cardRef = useRef(null);
   const cardBg = useColorModeValue('white', 'gray.800');
   const cardBorder = useColorModeValue('gray.100', 'gray.700');
-  
+  const hoverBg = useColorModeValue('gray.50', 'gray.700');
+  const hoverBorder = useColorModeValue('orange.500', 'orange.300');
+  const hoverShadow = useColorModeValue('lg', 'dark-lg');
+
+  useEffect(() => {
+    gsap.fromTo(cardRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        delay: index * 0.1,
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  }, [index]);
+
   return (
     <Card
+      ref={cardRef}
       as={Link}
       href={href}
       height="full"
       bg={cardBg}
       borderColor={cardBorder}
       borderWidth="1px"
-      _hover={{
-        transform: 'translateY(-4px)',
-        shadow: 'lg',
-        textDecoration: 'none',
-        borderColor: useColorModeValue('orange.500', 'orange.300'),
+      position="relative"
+      overflow="hidden"
+      _before={{
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        bg: hoverBg,
+        opacity: 0,
+        transition: 'opacity 0.3s ease',
+        zIndex: 0,
       }}
-      transition="all 0.3s"
+      _hover={{
+        transform: 'translate(-8px, -8px) scale(1.02)',
+        shadow: hoverShadow,
+        textDecoration: 'none',
+        borderColor: hoverBorder,
+        _before: {
+          opacity: 1,
+        },
+        '& .card-icon': {
+          transform: 'scale(1.2) rotate(5deg)',
+          color: hoverBorder,
+        },
+        '& .card-badge': {
+          transform: 'translateX(4px)',
+        },
+        '& .card-title': {
+          color: hoverBorder,
+        },
+      }}
+      transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+      sx={{
+        '& > *': {
+          position: 'relative',
+          zIndex: 1,
+        },
+        '& .card-icon': {
+          transition: 'all 0.3s ease',
+        },
+        '& .card-badge': {
+          transition: 'transform 0.3s ease',
+        },
+        '& .card-title': {
+          transition: 'color 0.3s ease',
+        },
+      }}
     >
       {children}
     </Card>
@@ -151,21 +215,76 @@ export default function ResourcesSection() {
   const buttonHoverBg = useColorModeValue('gray.100', 'gray.700');
   const iconColor = useColorModeValue('orange.500', 'orange.300');
 
+  const guidesRef = useRef(null);
+  const caseStudiesRef = useRef(null);
+  const tipsRef = useRef(null);
+
+  useEffect(() => {
+    // Guides section animation
+    gsap.fromTo(guidesRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: guidesRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Case studies section animation
+    gsap.fromTo(caseStudiesRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: caseStudiesRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Tips section animation
+    gsap.fromTo(tipsRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: tipsRef.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
     <Box py={16} bg={bgColor} transition="background-color 0.2s">
       <Container maxW="7xl">
         <VStack spacing={16}>
           {/* 導入ガイド */}
-          <Box width="full">
+          <Box width="full" ref={guidesRef}>
             <HStack mb={8} justify="space-between">
               <VStack align="flex-start">
                 <Heading size="lg" color={headingColor}>導入ガイド</Heading>
                 <Text color={subTextColor}>「最初の一歩」シリーズ</Text>
               </VStack>
-              <Button 
-                rightIcon={<FaArrowRight />} 
-                variant="ghost" 
-                as={Link} 
+              <Button
+                rightIcon={<FaArrowRight />}
+                variant="ghost"
+                as={Link}
                 href="/guides"
                 color={subTextColor}
                 _hover={{
@@ -177,15 +296,15 @@ export default function ResourcesSection() {
               </Button>
             </HStack>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {guides.map((guide) => (
-                <ResourceCard key={guide.title} href={guide.link}>
+              {guides.map((guide, index) => (
+                <ResourceCard key={guide.title} href={guide.link} index={index}>
                   <CardBody>
                     <VStack align="flex-start" spacing={4}>
-                      <Badge colorScheme="green">{guide.category}</Badge>
-                      <Heading size="md" color={headingColor}>{guide.title}</Heading>
+                      <Badge colorScheme="green" className="card-badge">{guide.category}</Badge>
+                      <Heading size="md" color={headingColor} className="card-title">{guide.title}</Heading>
                       <Text color={subTextColor}>{guide.description}</Text>
                       <HStack color={subTextColor}>
-                        <Icon as={FaClock} />
+                        <Icon as={FaClock} className="card-icon" />
                         <Text fontSize="sm">読了時間: {guide.readTime}</Text>
                       </HStack>
                     </VStack>
@@ -196,16 +315,16 @@ export default function ResourcesSection() {
           </Box>
 
           {/* 事例紹介 */}
-          <Box width="full">
+          <Box width="full" ref={caseStudiesRef}>
             <HStack mb={8} justify="space-between">
               <VStack align="flex-start">
                 <Heading size="lg" color={headingColor}>事例紹介</Heading>
                 <Text color={subTextColor}>成功事例インタビュー</Text>
               </VStack>
-              <Button 
-                rightIcon={<FaArrowRight />} 
-                variant="ghost" 
-                as={Link} 
+              <Button
+                rightIcon={<FaArrowRight />}
+                variant="ghost"
+                as={Link}
                 href="/case-studies"
                 color={subTextColor}
                 _hover={{
@@ -217,18 +336,18 @@ export default function ResourcesSection() {
               </Button>
             </HStack>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-              {caseStudies.map((study) => (
-                <ResourceCard key={study.title} href={study.link}>
+              {caseStudies.map((study, index) => (
+                <ResourceCard key={study.title} href={study.link} index={index}>
                   <CardBody>
                     <VStack align="flex-start" spacing={4}>
                       <HStack>
-                        <Avatar size="md" name={study.personName} src={study.imageUrl} />
+                        <Avatar size="md" name={study.personName} src={study.imageUrl} className="card-icon" />
                         <Box>
-                          <Text fontWeight="bold" color={headingColor}>{study.personName}</Text>
+                          <Text fontWeight="bold" color={headingColor} className="card-title">{study.personName}</Text>
                           <Text fontSize="sm" color={subTextColor}>{study.position}</Text>
                         </Box>
                       </HStack>
-                      <Heading size="md" color={headingColor}>{study.title}</Heading>
+                      <Heading size="md" color={headingColor} className="card-title">{study.title}</Heading>
                       <Text color={subTextColor}>{study.summary}</Text>
                       <Text fontSize="sm" color={subTextColor}>{study.company}</Text>
                     </VStack>
@@ -239,16 +358,16 @@ export default function ResourcesSection() {
           </Box>
 
           {/* 業務効率化Tips */}
-          <Box width="full">
+          <Box width="full" ref={tipsRef}>
             <HStack mb={8} justify="space-between">
               <VStack align="flex-start">
                 <Heading size="lg" color={headingColor}>業務効率化 Tips</Heading>
                 <Text color={subTextColor}>日常業務の時短テクニック</Text>
               </VStack>
-              <Button 
-                rightIcon={<FaArrowRight />} 
-                variant="ghost" 
-                as={Link} 
+              <Button
+                rightIcon={<FaArrowRight />}
+                variant="ghost"
+                as={Link}
                 href="/tips"
                 color={subTextColor}
                 _hover={{
@@ -260,14 +379,14 @@ export default function ResourcesSection() {
               </Button>
             </HStack>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {tips.map((tip) => (
-                <ResourceCard key={tip.title} href={tip.link}>
+              {tips.map((tip, index) => (
+                <ResourceCard key={tip.title} href={tip.link} index={index}>
                   <CardBody>
                     <VStack align="flex-start" spacing={4}>
-                      <Badge colorScheme="blue">{tip.category}</Badge>
-                      <Heading size="md" color={headingColor}>{tip.title}</Heading>
+                      <Badge colorScheme="blue" className="card-badge">{tip.category}</Badge>
+                      <Heading size="md" color={headingColor} className="card-title">{tip.title}</Heading>
                       <Text color={subTextColor}>{tip.description}</Text>
-                      <Icon as={FaLightbulb} color={iconColor} />
+                      <Icon as={FaLightbulb} color={iconColor} className="card-icon" />
                     </VStack>
                   </CardBody>
                 </ResourceCard>
