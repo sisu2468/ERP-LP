@@ -1,4 +1,4 @@
-import { FaFileAlt, FaComments, FaPlayCircle } from "react-icons/fa";
+import { FaFileAlt, FaComments, FaPlayCircle, FaCheckCircle, FaHeadset, FaCreditCard, FaCalendarCheck, FaBook, FaLightbulb, FaFileInvoiceDollar, FaCog, FaPercent, FaChartLine, FaHandshake } from "react-icons/fa";
 import { CTACard } from "./interface";
 
 export const ctaCards: CTACard[] = [
@@ -9,10 +9,10 @@ export const ctaCards: CTACard[] = [
         buttonText: '今すぐ無料体験',
         buttonLink: '/trial',
         features: [
-            '全機能が利用可能',
-            '14日間無料',
-            'クレジットカード不要',
-            '専任サポート付き',
+            { text: '全機能が利用可能' },
+            { text: '14日間無料' },
+            { text: 'クレジットカード不要' },
+            { text: '専任サポート付き' },
         ],
         primary: true,
     },
@@ -23,10 +23,10 @@ export const ctaCards: CTACard[] = [
         buttonText: '無料相談を予約',
         buttonLink: '/consultation',
         features: [
-            'オンライン相談可能',
-            '導入事例の紹介',
-            '課題解決のアドバイス',
-            '見積もり相談可能',
+            { text: 'オンライン相談可能' },
+            { text: '導入事例の紹介' },
+            { text: '課題解決のアドバイス' },
+            { text: '見積もり相談可能' },
         ],
     },
     {
@@ -36,10 +36,10 @@ export const ctaCards: CTACard[] = [
         buttonText: 'プランを確認',
         buttonLink: '/pricing',
         features: [
-            '柔軟なプラン選択',
-            'スケーラブルな料金体系',
-            '年間契約割引あり',
-            'カスタマイズ可能',
+            { text: '柔軟なプラン選択' },
+            { text: 'スケーラブルな料金体系' },
+            { text: '年間契約割引あり' },
+            { text: 'カスタマイズ可能' },
         ],
     },
 ];

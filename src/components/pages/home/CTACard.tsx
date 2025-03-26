@@ -1,67 +1,60 @@
-import { useColorModeValue } from "@chakra-ui/react";
+import { Box, Heading, Icon, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { CTACard as CTACardType } from '../../../constant/interface';
+interface CTACardProps {
+    card: CTACardType;
+    colorMode: 'light' | 'dark';
+}
 
-import { Card, CardBody, VStack, Heading, Text, Icon, HStack, Button, Link } from "@chakra-ui/react";
-import { CTACard as CTACardType } from "../../../constant/interface";
-import { FaCheck, FaArrowRight } from "react-icons/fa";
-
-export const CTACard = ({ card }: { card: CTACardType }) => {
-    const bgColor = useColorModeValue(
-        card.primary ? 'orange.500' : 'white',
-        card.primary ? 'orange.500' : 'gray.700'
-    );
-    const textColor = card.primary ? 'white' : undefined;
-    const borderColor = useColorModeValue('gray.200', 'gray.600');
+export function CTACard({ card, colorMode }: CTACardProps) {
+    const cardBg = useColorModeValue('white', 'gray.800');
+    const headingColor = useColorModeValue('gray.800', 'white');
+    const textColor = useColorModeValue('gray.600', 'gray.300');
+    const iconColor = useColorModeValue('orange.500', 'orange.300');
+    const borderColor = useColorModeValue('gray.200', 'gray.700');
+    const iconBg = useColorModeValue('orange.50', 'gray.700');
 
     return (
-        <Card
-            height="full"
-            bg={bgColor}
-            color={textColor}
-            border="1px"
-            borderColor={card.primary ? 'transparent' : borderColor}
-            shadow="xl"
+        <Box
+            bg={cardBg}
+            p={8}
+            borderRadius="xl"
+            borderWidth="1px"
+            borderColor={borderColor}
             _hover={{
-                transform: 'translateY(-8px)',
-                shadow: '2xl',
+                transform: 'translateY(-4px)',
+                boxShadow: 'xl',
+                borderColor: colorMode === 'light' ? 'orange.200' : 'orange.500',
             }}
-            transition="all 0.3s ease"
+            transition="all 0.3s"
         >
-            <CardBody>
-                <VStack spacing={6} align="flex-start">
-                    <Icon as={card.icon} w={10} h={10} color={card.primary ? 'white' : 'orange'} />
-
-                    <VStack align="flex-start" spacing={2}>
-                        <Heading size="lg">{card.title}</Heading>
-                        <Text opacity={0.9}>{card.description}</Text>
-                    </VStack>
-
-                    {card.features && (
-                        <VStack align="flex-start" spacing={3} w="full">
-                            {card.features.map((feature) => (
-                                <HStack key={feature} spacing={3}>
-                                    <Icon as={FaCheck} w={5} h={5} />
-                                    <Text>{feature}</Text>
-                                </HStack>
-                            ))}
-                        </VStack>
-                    )}
-
-                    <Button
-                        as={Link}
-                        href={card.buttonLink}
-                        size="lg"
-                        width="full"
-                        rightIcon={<FaArrowRight />}
-                        colorScheme={card.primary ? 'white' : 'orange'}
-                        variant={card.primary ? 'outline' : 'solid'}
-                        _hover={{
-                            transform: 'translateX(4px)',
-                        }}
-                    >
-                        {card.buttonText}
-                    </Button>
-                </VStack>
-            </CardBody>
-        </Card>
+            <VStack spacing={4} align="flex-start">
+                <Box
+                    p={3}
+                    bg={iconBg}
+                    borderRadius="lg"
+                    transition="all 0.3s"
+                    _hover={{
+                        transform: 'scale(1.1)',
+                    }}
+                >
+                    <Icon
+                        as={card.icon}
+                        boxSize={6}
+                        color={iconColor}
+                    />
+                </Box>
+                <Heading 
+                    size="md"
+                    color={headingColor}
+                >
+                    {card.title}
+                </Heading>
+                <Text 
+                    color={textColor}
+                >
+                    {card.description}
+                </Text>
+            </VStack>
+        </Box>
     );
-};
+}

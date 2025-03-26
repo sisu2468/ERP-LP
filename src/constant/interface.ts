@@ -11,6 +11,10 @@ export interface CTACard {
   icon: React.ElementType;
   buttonText: string;
   buttonLink: string;
-  features?: string[];
+  features?: Feature[];
   primary?: boolean;
+}
+
+export interface Feature {
+  text: string;
 }

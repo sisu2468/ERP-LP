@@ -9,6 +9,8 @@ import {
     Circle,
     Flex,
     Stack,
+    useColorMode,
+    useColorModeValue,
 } from '@chakra-ui/react';
 
 // Update the data structure for steps with more detailed information
@@ -41,33 +43,42 @@ const implementationSteps = [
         step: 5,
         title: '確認後、すぐに利用開始！',
         description: '今なら 2 週間お試し無料',
-        highlight: true,
     },
 ];
 
 export default function ImplementationFlow() {
+    const { colorMode } = useColorMode();
+    const bgColor = useColorModeValue('white', 'gray.800');
+    const headingColor = useColorModeValue('gray.800', 'white');
+    const textColor = useColorModeValue('gray.600', 'gray.300');
+    const cardBg = useColorModeValue('white', 'gray.800');
+    const borderColor = useColorModeValue('gray.200', 'gray.700');
+    const highlightBorderColor = useColorModeValue('orange.500', 'orange.400');
+
     return (
-        <Box py={16} bg="white">
+        <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW={{ base: "xl", md: "4xl" }}>
                 <VStack spacing={12} align="stretch">
                     <Stack spacing={4} textAlign="center">
                         <Heading
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl" }}
-                            color="gray.800"
                             fontWeight="bold"
-                            bgGradient="linear(to-r, orange.400, orange.600)"
+                            bgGradient={colorMode === 'light' 
+                                ? "linear(to-r, orange.400, orange.600)"
+                                : "linear(to-r, orange.300, orange.500)"
+                            }
                             bgClip="text"
                         >
                             導入の流れ
                         </Heading>
                         <Text
                             fontSize={{ base: "lg", md: "xl" }}
-                            color="gray.700"
+                            color={headingColor}
                         >
-                            導入まで、カンタン <Text as="span" color="orange.500" fontWeight="bold" fontSize="2xl">5</Text> ステップ
+                            導入まで、カンタン <Text as="span" color={colorMode === 'light' ? "orange.500" : "orange.300"} fontWeight="bold" fontSize="2xl">5</Text> ステップ
                         </Text>
-                        <Text color="gray.600" maxW="2xl" mx="auto">
+                        <Text color={textColor} maxW="2xl" mx="auto">
                             シンプルな導入プロセスで、すぐにサービスをご利用いただけます
                         </Text>
                     </Stack>
@@ -79,7 +90,10 @@ export default function ImplementationFlow() {
                             top="0"
                             bottom="0"
                             width="2px"
-                            bgGradient="linear(to-b, orange.200, orange.400)"
+                            bgGradient={colorMode === 'light'
+                                ? "linear(to-b, orange.200, orange.400)"
+                                : "linear(to-b, orange.300, orange.500)"
+                            }
                             display={{ base: 'none', md: 'block' }}
                         />
 
@@ -96,7 +110,7 @@ export default function ImplementationFlow() {
                                 <VStack spacing={1} minW="80px">
                                     <Circle
                                         size="104px"
-                                        bgGradient={`linear(to-br, orange.${200 + (index * 100)}, orange.${300 + (index * 100)})`}
+                                        bgGradient={`linear(to-br, orange.${300 + (index * 100)}, orange.${400 + (index * 100)})`}
                                         color="white"
                                         fontWeight="bold"
                                         boxShadow="lg"
@@ -113,11 +127,12 @@ export default function ImplementationFlow() {
                                 <Box 
                                     flex={1} 
                                     pt={2} 
-                                    bg="white" 
+                                    bg={cardBg}
                                     borderRadius="xl"
                                     p={5}
-                                    boxShadow={step.highlight ? "2xl" : "md"}
-                                    borderWidth={step.highlight ? "2px" : "1px"}
+                                    boxShadow="md"
+                                    borderWidth="1px"
+                                    borderColor={borderColor}
                                     position="relative"
                                     _before={{
                                         content: '""',
@@ -144,12 +159,12 @@ export default function ImplementationFlow() {
                                             <Heading
                                                 as="h3"
                                                 fontSize="lg"
-                                                color="orange.600"
+                                                color={colorMode === 'light' ? "orange.600" : "orange.300"}
                                                 mb={2}
                                             >
                                                 {step.title}
                                             </Heading>
-                                            <Text color="gray.600">
+                                            <Text color={textColor}>
                                                 {step.description}
                                             </Text>
                                         </Box>
@@ -159,12 +174,12 @@ export default function ImplementationFlow() {
                                                 <Heading
                                                     as="h4"
                                                     fontSize="md"
-                                                    color="orange.500"
+                                                    color={colorMode === 'light' ? "orange.500" : "orange.300"}
                                                     mb={2}
                                                 >
                                                     {step.subTitle}
                                                 </Heading>
-                                                <Text color="gray.600">
+                                                <Text color={textColor}>
                                                     {step.subDescription}
                                                 </Text>
                                             </Box>

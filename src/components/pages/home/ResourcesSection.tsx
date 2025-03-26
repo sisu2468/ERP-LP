@@ -15,6 +15,7 @@ import {
   CardBody,
   CardFooter,
   useColorModeValue,
+  useColorMode,
 } from '@chakra-ui/react';
 import {
   FaBook,
@@ -117,38 +118,61 @@ const tips: Tip[] = [
   },
 ];
 
-const ResourceCard = ({ children, href }: { children: React.ReactNode; href: string }) => (
-  <Card
-    as={Link}
-    href={href}
-    height="full"
-    _hover={{
-      transform: 'translateY(-4px)',
-      shadow: 'lg',
-      textDecoration: 'none',
-    }}
-    transition="all 0.3s"
-  >
-    {children}
-  </Card>
-);
+const ResourceCard = ({ children, href }: { children: React.ReactNode; href: string }) => {
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const cardBorder = useColorModeValue('gray.100', 'gray.700');
+  
+  return (
+    <Card
+      as={Link}
+      href={href}
+      height="full"
+      bg={cardBg}
+      borderColor={cardBorder}
+      borderWidth="1px"
+      _hover={{
+        transform: 'translateY(-4px)',
+        shadow: 'lg',
+        textDecoration: 'none',
+        borderColor: useColorModeValue('orange.500', 'orange.300'),
+      }}
+      transition="all 0.3s"
+    >
+      {children}
+    </Card>
+  );
+};
 
 export default function ResourcesSection() {
+  const { colorMode } = useColorMode();
   const bgColor = useColorModeValue('gray.50', 'gray.900');
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const headingColor = useColorModeValue('gray.800', 'white');
+  const subTextColor = useColorModeValue('gray.600', 'gray.300');
+  const buttonHoverBg = useColorModeValue('gray.100', 'gray.700');
+  const iconColor = useColorModeValue('orange.500', 'orange.300');
 
   return (
-    <Box py={16} bg={bgColor}>
+    <Box py={16} bg={bgColor} transition="background-color 0.2s">
       <Container maxW="7xl">
         <VStack spacing={16}>
           {/* 導入ガイド */}
           <Box width="full">
             <HStack mb={8} justify="space-between">
               <VStack align="flex-start">
-                <Heading size="lg">導入ガイド</Heading>
-                <Text color="gray.600">「最初の一歩」シリーズ</Text>
+                <Heading size="lg" color={headingColor}>導入ガイド</Heading>
+                <Text color={subTextColor}>「最初の一歩」シリーズ</Text>
               </VStack>
-              <Button rightIcon={<FaArrowRight />} variant="ghost" as={Link} href="/guides">
+              <Button 
+                rightIcon={<FaArrowRight />} 
+                variant="ghost" 
+                as={Link} 
+                href="/guides"
+                color={subTextColor}
+                _hover={{
+                  bg: buttonHoverBg,
+                  color: headingColor,
+                }}
+              >
                 すべて見る
               </Button>
             </HStack>
@@ -158,9 +182,9 @@ export default function ResourcesSection() {
                   <CardBody>
                     <VStack align="flex-start" spacing={4}>
                       <Badge colorScheme="green">{guide.category}</Badge>
-                      <Heading size="md">{guide.title}</Heading>
-                      <Text color="gray.600">{guide.description}</Text>
-                      <HStack color="gray.500">
+                      <Heading size="md" color={headingColor}>{guide.title}</Heading>
+                      <Text color={subTextColor}>{guide.description}</Text>
+                      <HStack color={subTextColor}>
                         <Icon as={FaClock} />
                         <Text fontSize="sm">読了時間: {guide.readTime}</Text>
                       </HStack>
@@ -175,10 +199,20 @@ export default function ResourcesSection() {
           <Box width="full">
             <HStack mb={8} justify="space-between">
               <VStack align="flex-start">
-                <Heading size="lg">事例紹介</Heading>
-                <Text color="gray.600">成功事例インタビュー</Text>
+                <Heading size="lg" color={headingColor}>事例紹介</Heading>
+                <Text color={subTextColor}>成功事例インタビュー</Text>
               </VStack>
-              <Button rightIcon={<FaArrowRight />} variant="ghost" as={Link} href="/case-studies">
+              <Button 
+                rightIcon={<FaArrowRight />} 
+                variant="ghost" 
+                as={Link} 
+                href="/case-studies"
+                color={subTextColor}
+                _hover={{
+                  bg: buttonHoverBg,
+                  color: headingColor,
+                }}
+              >
                 すべて見る
               </Button>
             </HStack>
@@ -190,13 +224,13 @@ export default function ResourcesSection() {
                       <HStack>
                         <Avatar size="md" name={study.personName} src={study.imageUrl} />
                         <Box>
-                          <Text fontWeight="bold">{study.personName}</Text>
-                          <Text fontSize="sm" color="gray.500">{study.position}</Text>
+                          <Text fontWeight="bold" color={headingColor}>{study.personName}</Text>
+                          <Text fontSize="sm" color={subTextColor}>{study.position}</Text>
                         </Box>
                       </HStack>
-                      <Heading size="md">{study.title}</Heading>
-                      <Text color="gray.600">{study.summary}</Text>
-                      <Text fontSize="sm" color="gray.500">{study.company}</Text>
+                      <Heading size="md" color={headingColor}>{study.title}</Heading>
+                      <Text color={subTextColor}>{study.summary}</Text>
+                      <Text fontSize="sm" color={subTextColor}>{study.company}</Text>
                     </VStack>
                   </CardBody>
                 </ResourceCard>
@@ -208,10 +242,20 @@ export default function ResourcesSection() {
           <Box width="full">
             <HStack mb={8} justify="space-between">
               <VStack align="flex-start">
-                <Heading size="lg">業務効率化 Tips</Heading>
-                <Text color="gray.600">日常業務の時短テクニック</Text>
+                <Heading size="lg" color={headingColor}>業務効率化 Tips</Heading>
+                <Text color={subTextColor}>日常業務の時短テクニック</Text>
               </VStack>
-              <Button rightIcon={<FaArrowRight />} variant="ghost" as={Link} href="/tips">
+              <Button 
+                rightIcon={<FaArrowRight />} 
+                variant="ghost" 
+                as={Link} 
+                href="/tips"
+                color={subTextColor}
+                _hover={{
+                  bg: buttonHoverBg,
+                  color: headingColor,
+                }}
+              >
                 すべて見る
               </Button>
             </HStack>
@@ -221,9 +265,9 @@ export default function ResourcesSection() {
                   <CardBody>
                     <VStack align="flex-start" spacing={4}>
                       <Badge colorScheme="blue">{tip.category}</Badge>
-                      <Heading size="md">{tip.title}</Heading>
-                      <Text color="gray.600">{tip.description}</Text>
-                      <Icon as={FaLightbulb} color="orange.500" />
+                      <Heading size="md" color={headingColor}>{tip.title}</Heading>
+                      <Text color={subTextColor}>{tip.description}</Text>
+                      <Icon as={FaLightbulb} color={iconColor} />
                     </VStack>
                   </CardBody>
                 </ResourceCard>
