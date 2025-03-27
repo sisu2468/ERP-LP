@@ -101,7 +101,7 @@ export default function Footer() {
                 </SimpleGrid>
 
                 <Divider my={8} borderColor={dividerColor} />
-                <Flex gap={4}>
+                <Flex gap={4} justifyContent="center" alignItems="center">
                     <Text fontSize="sm" color={textColor}>
                         © {new Date().getFullYear()} 株式会社サインタ. All rights reserved.
                     </Text>
