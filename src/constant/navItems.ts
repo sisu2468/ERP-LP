@@ -44,6 +44,11 @@ export const navItems: NavItem[] = [
     //     description: '導入ガイド・活用事例・業務効率化のコツ',
     // },
     {
+        title: '採用情報',
+        path: '/career',
+        description: '採用情報',
+    },
+    {
         title: 'お問い合わせ・無料体験',
         path: '/contact',
         description: '相談・無料トライアル申し込み',
