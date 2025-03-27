@@ -75,7 +75,7 @@ export default function Footer() {
                             サービス
                         </Text>
                         <Link href="/services" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>ERPシステム</Link>
-                        <Link href="/signta-lab" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタラボ</Link>
+                        <Link href="/signta-lab" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタ・ラボ</Link>
                         <Link href="/signta-connect" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタ・コネクト</Link>
                     </Stack>
 

@@ -17,7 +17,7 @@ export const navItems: NavItem[] = [
         description: 'ERPの各機能一覧',
     },
     {
-        title: 'サインタラボ',
+        title: 'サインタ・ラボ',
         path: '/signta-lab',
         description: 'webシステムの開発',
     },
@@ -38,11 +38,11 @@ export const navItems: NavItem[] = [
         path: '/pricing',
         description: '料金体系と導入プラン',
     },
-    {
-        title: 'お役立ち情報',
-        path: '/resources',
-        description: '導入ガイド・活用事例・業務効率化のコツ',
-    },
+    // {
+    //     title: 'お役立ち情報',
+    //     path: '/resources',
+    //     description: '導入ガイド・活用事例・業務効率化のコツ',
+    // },
     {
         title: 'お問い合わせ・無料体験',
         path: '/contact',
