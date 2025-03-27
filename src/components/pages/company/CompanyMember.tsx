@@ -15,6 +15,7 @@ export default function CompanyMember() {
                         <Heading
                             as="h2"
                             size="lg"
+                            fontSize={{ base: "3xl", md: "4xl" }}
                             textAlign="center"
                             color={accentColor}
                         >

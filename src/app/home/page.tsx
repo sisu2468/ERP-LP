@@ -1,6 +1,5 @@
 'use client'
 
-import ScrollButtons from "@/components/common/ScrollButtons";
 import CTASection from "@/components/pages/home/CTASection";
 import FAQ from "@/components/pages/home/FAQ";
 import FeatureDetailsSection from "@/components/pages/home/FeatureDetailsSection";
@@ -49,7 +48,6 @@ export default function Home() {
       <FlowChart />
       <CTASection />
       <FAQ />
-      <ScrollButtons />
     </Box>
   )
 }

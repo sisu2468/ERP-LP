@@ -1,9 +1,10 @@
+import ScrollButtons from "@/components/common/ScrollButtons";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Box } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   title: "ERP Landing Page",
@@ -28,6 +29,7 @@ export default function RootLayout({
             <main className="flex-grow">
               {children}
             </main>
+            <ScrollButtons />
             <Footer />
           </Box>
         </Providers>

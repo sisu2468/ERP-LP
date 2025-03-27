@@ -19,11 +19,11 @@ export default function CompanyProfile() {
     useEffect(() => {
         // Heading animation
         gsap.fromTo(sectionRef.current,
-            { 
+            {
                 opacity: 0,
-                y: 30 
+                y: 30
             },
-            { 
+            {
                 opacity: 1,
                 y: 0,
                 duration: 0.8,
@@ -37,12 +37,12 @@ export default function CompanyProfile() {
 
         // Card animation
         gsap.fromTo(cardRef.current,
-            { 
+            {
                 opacity: 0,
                 scale: 0.95,
                 y: 30
             },
-            { 
+            {
                 opacity: 1,
                 scale: 1,
                 y: 0,
@@ -60,11 +60,11 @@ export default function CompanyProfile() {
         // Items stagger animation
         itemRefs.current.forEach((item, index) => {
             gsap.fromTo(item,
-                { 
+                {
                     opacity: 0,
                     x: -20
                 },
-                { 
+                {
                     opacity: 1,
                     x: 0,
                     duration: 0.5,
@@ -81,8 +81,8 @@ export default function CompanyProfile() {
     }, []);
 
     return (
-        <Box 
-            bg={bgColor} 
+        <Box
+            bg={bgColor}
             id="company"
             position="relative"
             _before={{
@@ -105,6 +105,7 @@ export default function CompanyProfile() {
                                 as="h2"
                                 size="lg"
                                 textAlign="center"
+                                fontSize={{ base: "3xl", md: "4xl" }}
                                 color={accentColor}
                                 bgGradient={`linear(to-r, ${accentColor}, orange.400)`}
                                 bgClip="text"
@@ -112,17 +113,17 @@ export default function CompanyProfile() {
                                 会社概要
                             </Heading>
                             <Text
-                                fontSize="md"
                                 color="gray.500"
+                                fontSize={{ base: "xl", md: "2xl" }}
                                 letterSpacing="wider"
                             >
                                 COMPANY PROFILE
                             </Text>
                         </VStack>
 
-                        <VStack 
+                        <VStack
                             ref={cardRef}
-                            spacing={6} 
+                            spacing={6}
                             align="start"
                             borderRadius="xl"
                             borderWidth="1px"
@@ -139,12 +140,14 @@ export default function CompanyProfile() {
                             {[
                                 { label: "会社名", content: <Text fontSize="lg" color={textColor}>株式会社サインタ</Text> },
                                 { label: "所在地", content: <Text color={textColor}>東京都港区三⽥1丁⽬3-406F[606]</Text> },
-                                { label: "代表", content: (
-                                    <VStack align="start" spacing={1}>
-                                        <Text color={textColor}>サンタナム理志(CEO)</Text>
-                                        <Text color={textColor}>望⽉佑樹(COO)</Text>
-                                    </VStack>
-                                )},
+                                {
+                                    label: "代表", content: (
+                                        <VStack align="start" spacing={1}>
+                                            <Text color={textColor}>サンタナム理志(CEO)</Text>
+                                            <Text color={textColor}>望⽉佑樹(COO)</Text>
+                                        </VStack>
+                                    )
+                                },
                                 { label: "メンバー", content: <Text color={textColor}>3名</Text> }
                             ].map((item, index) => (
                                 <HStack
@@ -158,9 +161,9 @@ export default function CompanyProfile() {
                                     borderBottomWidth="1px"
                                     borderColor={borderColor}
                                 >
-                                    <Text 
-                                        fontWeight="bold" 
-                                        minW="120px" 
+                                    <Text
+                                        fontWeight="bold"
+                                        minW="120px"
                                         color={accentColor}
                                         bgGradient={`linear(to-r, ${accentColor}, orange.400)`}
                                         bgClip="text"
@@ -171,18 +174,18 @@ export default function CompanyProfile() {
                                 </HStack>
                             ))}
 
-                            <HStack 
-                                spacing={8} 
-                                w="full" 
-                                py={4} 
+                            <HStack
+                                spacing={8}
+                                w="full"
+                                py={4}
                                 alignItems="flex-start"
                                 ref={el => {
                                     if (el) itemRefs.current[4] = el;
                                 }}
                             >
-                                <Text 
-                                    fontWeight="bold" 
-                                    minW="120px" 
+                                <Text
+                                    fontWeight="bold"
+                                    minW="120px"
                                     color={accentColor}
                                     bgGradient={`linear(to-r, ${accentColor}, orange.400)`}
                                     bgClip="text"
@@ -195,9 +198,9 @@ export default function CompanyProfile() {
                                         "カスタムウェブデザインサービス『サインタ・ラボ』",
                                         "専⾨家ネットワーク・提携サービス『サインタ・コネクト』"
                                     ].map((service, index) => (
-                                        <ListItem 
-                                            key={index} 
-                                            display="flex" 
+                                        <ListItem
+                                            key={index}
+                                            display="flex"
                                             alignItems="center"
                                             transition="all 0.3s"
                                             _hover={{
@@ -205,10 +208,10 @@ export default function CompanyProfile() {
                                                 transform: 'translateX(4px)'
                                             }}
                                         >
-                                            <ListIcon 
-                                                as={FiCircle} 
-                                                color={accentColor} 
-                                                fontSize="xs" 
+                                            <ListIcon
+                                                as={FiCircle}
+                                                color={accentColor}
+                                                fontSize="xs"
                                             />
                                             <Text color={textColor}>{service}</Text>
                                         </ListItem>
