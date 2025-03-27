@@ -116,7 +116,7 @@ export default function MVVCard({ title, titleEn, subtitle, subtitleEn, descript
                             </Heading>
                             <Text
                                 fontSize="lg"
-                                color={accentColor}
+                                color="gray.500"
                                 letterSpacing="wider"
                                 fontWeight="semibold"
                             >
