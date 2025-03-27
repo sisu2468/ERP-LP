@@ -6,7 +6,7 @@ import CompanyMVV from "@/components/pages/company/mvv/CompanyMVV";
 import BusinessOverview from "@/components/pages/company/BusinessOverview";
 import ServiceIntroduction from "@/components/pages/company/service_introduction/ServiceIntroduction";
 import Service_Description from "@/components/pages/company/description/Service_Description";
-
+import OperationStrengths from "@/components/pages/company/operation_strengths/OperationStrengths";
 export default function Company() {
     return (
         <Container maxW="full" p={0}>
@@ -17,6 +17,7 @@ export default function Company() {
             <BusinessOverview />
             <ServiceIntroduction />
             <Service_Description />
+            <OperationStrengths />
         </Container>
     )
 }   

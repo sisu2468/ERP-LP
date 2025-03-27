@@ -50,17 +50,17 @@ export default function ServiceIntroduction() {
     return (
         <Box bg={bgColor} py={{ base: 12, md: 20 }} overflow="hidden">
             <Container maxW="8xl">
-                <VStack spacing={{ base: 10, md: 16 }} align="start">
+                <VStack spacing={{ base: 10, md: 16 }} align="center">
                     <motion.div
                         ref={headingRef}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ type: "spring", stiffness: 100, damping: 20 }}
                     >
-                        <VStack align="start" spacing={2} w="full">
+                        <VStack align="center" spacing={2} w="full">
                             <Heading
                                 as="h2"
-                                fontSize={{ base: "3xl", md: "5xl" }}
+                                fontSize={{ base: "3xl", md: "4xl" }}
                                 fontWeight="bold"
                                 color="orange.500"
                                 letterSpacing="wide"
@@ -69,9 +69,10 @@ export default function ServiceIntroduction() {
                             </Heading>
                             <Heading
                                 as="h3"
-                                fontSize={{ base: "2xl", md: "4xl" }}
+                                fontSize={{ base: "xl", md: "2xl" }}
                                 fontWeight="bold"
-                                color={textColor}
+                                color="gray.500"
+                                letterSpacing="wider"
                             >
                                 SERVICE INTRODUCTION
                             </Heading>

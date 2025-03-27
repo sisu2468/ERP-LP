@@ -9,10 +9,15 @@ export default function Service_Description() {
     return (
         <Box py={20} bg={bgColor} overflow="hidden">
             <Container maxW="8xl">
-                <VStack spacing={{ base: 10, md: 16 }} align="start">
-                    <Heading as="h2" fontSize={{ base: "3xl", md: "5xl" }} fontWeight="bold" color="orange.500" letterSpacing="wide">
-                        各事業の詳細説明
-                    </Heading>
+                <VStack spacing={{ base: 10, md: 16 }} align="center">
+                    <VStack align="center" spacing={2} w="full">
+                        <Heading as="h2" fontSize={{ base: "3xl", md: "4xl" }} fontWeight="bold" color="orange.500" letterSpacing="wide">
+                            各事業の詳細説明
+                        </Heading>
+                        <Heading as="h3" fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="gray.500" letterSpacing="wider">
+                            SERVICE DESCRIPTION
+                        </Heading>
+                    </VStack>
                     <DescriptionCard
                         title="ERPソフトウェア『サインタ・コア』"
                         description1="サインタ・コアは、企業運営の複雑さを解消し、効 率性を最⼤化するために設計された統合プラット フォームです。会計、在庫管理、顧客関係管理、⼈事 管理などの主要ビジネス機能を⼀元化し、リアルタイ ムでのデータ分析とレポート機能を提供します。"

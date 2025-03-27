@@ -89,33 +89,34 @@ export default function BusinessOverview() {
     return (
         <Box py={20} bg={bgColor} overflow="hidden">
             <Container maxW="8xl">
-                <VStack spacing={16} align="start" w="full">
-                    <VStack align="start" spacing={4} ref={headingRef} w="full">
+                <VStack spacing={16} align="center" w="full">
+                    <VStack align="center" spacing={4} ref={headingRef} w="full">
                         <Heading
                             as="h2"
-                            fontSize={{ base: "4xl", md: "5xl" }}
+                            fontSize={{ base: "3xl", md: "4xl" }}
                             fontWeight="bold"
                             color="orange.500"
                         >
                             事業概要
                         </Heading>
                         <Text
-                            fontSize={{ base: "2xl", md: "3xl" }}
+                            fontSize={{ base: "xl", md: "2xl" }}
                             fontWeight="bold"
-                            color={subheadingColor}
+                            color="gray.500"
+                            letterSpacing="wider"
                         >
                             BUSINESS OVERVIEW
                         </Text>
                     </VStack>
 
-                    <Flex 
-                        direction={{ base: "column", lg: "row" }} 
-                        gap={{ base: 16, lg: 10 }} 
+                    <Flex
+                        direction={{ base: "column", lg: "row" }}
+                        gap={{ base: 16, lg: 10 }}
                         w="full"
                         justify="space-between"
                     >
-                        <Box 
-                            ref={textRef} 
+                        <Box
+                            ref={textRef}
                             flex="1"
                             maxW={{ lg: "50%" }}
                         >
