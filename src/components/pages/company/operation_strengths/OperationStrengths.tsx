@@ -73,7 +73,7 @@ const strengthsData = {
 };
 
 export default function OperationStrengths() {
-    const bgColor = useColorModeValue('white', 'gray.900');
+    const bgColor = useColorModeValue('white', 'gray.800');
     const headingColor = useColorModeValue('orange.500', 'orange.300');
 
     return (
