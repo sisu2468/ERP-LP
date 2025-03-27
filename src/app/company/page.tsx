@@ -8,6 +8,7 @@ import ServiceIntroduction from "@/components/pages/company/service_introduction
 import Service_Description from "@/components/pages/company/description/Service_Description";
 import OperationStrengths from "@/components/pages/company/operation_strengths/OperationStrengths";
 import Achievements from "@/components/pages/company/achievements/Achievements";
+import OurThoughts from "@/components/pages/company/our_thoughts/OurThoughts";
 
 export default function Company() {
     return (
@@ -21,6 +22,7 @@ export default function Company() {
             <Service_Description />
             <OperationStrengths />
             <Achievements />
+            <OurThoughts />
         </Container>
     )
 }   

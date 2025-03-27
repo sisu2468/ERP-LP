@@ -115,7 +115,7 @@ export default function Achievements() {
                         <Heading
                             as={motion.h2}
                             variants={titleVariants}
-                            fontSize={{ base: "3xl", md: "5xl" }}
+                            fontSize={{ base: "3xl", md: "4xl" }}
                             fontWeight="bold"
                             color={headingColor}
                             letterSpacing="wide"
@@ -126,7 +126,7 @@ export default function Achievements() {
                         <Heading
                             as={motion.h3}
                             variants={titleVariants}
-                            fontSize={{ base: "2xl", md: "3xl" }}
+                            fontSize={{ base: "xl", md: "2xl" }}
                             fontWeight="bold"
                             color="gray.500"
                             letterSpacing="wide"
