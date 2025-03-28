@@ -5,7 +5,8 @@ import {
     Box,
     Container,
     useColorMode,
-    VStack
+    VStack,
+    Text
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import PricingSection from './LabSection';
@@ -101,7 +102,7 @@ const pricingData = {
 
 export default function PricingLab() {
     const { colorMode } = useColorMode();
-    const { bgColor } = getColors(colorMode);
+    const { bgColor, headingColor } = getColors(colorMode);
 
     return (
         <MotionBox
@@ -114,6 +115,11 @@ export default function PricingLab() {
         >
             <Container maxW={{ base: "xl", md: "6xl" }}>
                 <VStack spacing={12} align="stretch">
+                    <VStack spacing={6} textAlign="center">
+                        <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="bold" color="orange.500">
+                            サインタラボ料金表
+                        </Text>
+                    </VStack>
                     <PricingSection title="基本サービス" items={pricingData.basic} />
                     <PricingSection title="LEVEL 1" items={pricingData.level1} level="開発期間：1週間" />
                     <PricingSection title="LEVEL 2" items={pricingData.level2} level="開発期間：2～3週間" />
