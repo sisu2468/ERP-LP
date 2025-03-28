@@ -69,8 +69,6 @@ export default function PricingERP() {
 
                     <ModulePricing />
 
-                    <ContractDiscounts />
-
                     <PricingFeatures />
 
                     <PricingCalculator />
