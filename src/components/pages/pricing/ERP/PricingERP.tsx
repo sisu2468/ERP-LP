@@ -7,7 +7,6 @@ import {
     Grid,
     Heading,
     Text,
-    useBreakpointValue,
     useColorMode,
     VStack
 } from '@chakra-ui/react';
@@ -78,11 +77,10 @@ const pricingPackages = [
 
 export default function PricingERP() {
     const { colorMode } = useColorMode();
-    const { bgColor, headingColor, textColor } = getColors(colorMode);
-    const isMobile = useBreakpointValue({ base: true, md: false });
+    const { bgColor1, textColor } = getColors(colorMode);
 
     return (
-        <Box py={16} bg={bgColor}>
+        <Box py={16} bg={bgColor1}>
             <Container maxW={{ base: "xl", md: "6xl" }}>
                 <VStack spacing={12} align="stretch">
                     <VStack spacing={6} textAlign="center">
