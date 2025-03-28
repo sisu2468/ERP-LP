@@ -6,16 +6,16 @@ export const navItems: NavItem[] = [
         path: '/company',
         description: '会社概要やミッションを紹介',
     },
-    {
-        title: 'トップ',
-        path: '/',
-        description: 'サービス概要や導入メリットを紹介',
-    },
-    {
-        title: 'サービス',
-        path: '/services',
-        description: 'ERPの各機能一覧',
-    },
+    // {
+    //     title: 'トップ',
+    //     path: '/',
+    //     description: 'サービス概要や導入メリットを紹介',
+    // },
+    // {
+    //     title: 'サービス',
+    //     path: '/services',
+    //     description: 'ERPの各機能一覧',
+    // },
     {
         title: 'サインタ・ラボ',
         path: '/signta-lab',

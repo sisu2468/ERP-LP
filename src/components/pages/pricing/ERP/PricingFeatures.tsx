@@ -5,15 +5,14 @@ import {
     Box,
     Grid,
     Heading,
-    Text,
-    VStack,
     HStack,
     Icon,
+    Text,
     useColorMode,
-    Divider,
+    VStack
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { MdInfo, MdAccessTime, MdPeople, MdSwapHoriz, MdStar } from 'react-icons/md';
+import { MdAccessTime, MdInfo, MdPeople, MdStar, MdSwapHoriz } from 'react-icons/md';
 
 const MotionBox = motion(Box);
 
@@ -70,7 +69,7 @@ const features = [
 
 export default function PricingFeatures() {
     const { colorMode } = useColorMode();
-    const { bgColor, headingColor, textColor, cardBg, borderColor } = getColors(colorMode);
+    const { headingColor, textColor, cardBg, borderColor } = getColors(colorMode);
 
     return (
         <MotionBox
@@ -81,7 +80,7 @@ export default function PricingFeatures() {
         >
             <VStack spacing={8} align="stretch">
                 <Heading size="lg" color={headingColor}>追加機能と特典</Heading>
-                
+
                 <Grid
                     templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
                     gap={6}
@@ -130,11 +129,11 @@ export default function PricingFeatures() {
                 </Grid>
 
                 <Box
-                    bg={colorMode === 'light' ? 'orange.50' : 'orange.900'}
+                    bg={cardBg}
                     p={6}
                     borderRadius="xl"
                     borderWidth="1px"
-                    borderColor={colorMode === 'light' ? 'orange.200' : 'orange.800'}
+                    borderColor={borderColor}
                 >
                     <HStack spacing={4}>
                         <Icon as={MdInfo} w={6} h={6} color="orange.400" />

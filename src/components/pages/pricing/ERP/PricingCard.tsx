@@ -22,7 +22,6 @@ const MotionBox = motion(Box);
 interface PricingPackage {
     name: string;
     price: number;
-    description: string;
     features: string[];
     color: string;
     popular?: boolean;
@@ -118,25 +117,27 @@ export default function PricingCard({ package: pkg, index }: PricingCardProps) {
             <Flex h="100%" direction={{ base: "row", md: "column" }} justify="space-between">
                 <Flex direction="column" gap={4}>
                     <Box textAlign="center">
-                        {pkg.popular && (
-                            <Badge
-                                colorScheme="orange"
-                                mb={3}
-                                px={3}
-                                py={1}
-                                borderRadius="full"
+                        <Flex justify="center" gap={2}>
+                            <Text
+                                fontSize="xl"
+                                fontWeight="bold"
+                                color={headingColor}
+                                mb={2}
                             >
-                                おすすめ
-                            </Badge>
-                        )}
-                        <Text
-                            fontSize="xl"
-                            fontWeight="bold"
-                            color={headingColor}
-                            mb={2}
-                        >
-                            {pkg.name}
-                        </Text>
+                                {pkg.name}
+                            </Text>
+                            {pkg.popular && (
+                                <Badge
+                                    colorScheme="orange"
+                                    mb={3}
+                                    px={3}
+                                    py={1}
+                                    borderRadius="full"
+                                >
+                                    おすすめ
+                                </Badge>
+                            )}
+                        </Flex>
                         <Text
                             fontSize="3xl"
                             fontWeight="bold"
@@ -145,13 +146,6 @@ export default function PricingCard({ package: pkg, index }: PricingCardProps) {
                         >
                             ¥{pkg.price.toLocaleString()}
                             <Text as="span" fontSize="md" color={textColor}>/月</Text>
-                        </Text>
-                        <Text
-                            color={textColor}
-                            fontSize="sm"
-                            mb={4}
-                        >
-                            {pkg.description}
                         </Text>
                     </Box>
 

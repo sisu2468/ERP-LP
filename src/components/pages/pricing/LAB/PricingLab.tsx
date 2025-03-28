@@ -25,7 +25,7 @@ const containerVariants = {
 
 
 const pricingData = {
-    basic: [
+    level1: [
         {
             name: 'ランディングページ（LP）制作',
             price: '¥150,000〜',
@@ -42,7 +42,7 @@ const pricingData = {
             description: 'SEO最適化設計、コンテンツ管理システム、SNS連携機能'
         }
     ],
-    level1: [
+    level2: [
         {
             name: '採用・求人プラットフォーム',
             price: '¥450,000〜',
@@ -59,7 +59,7 @@ const pricingData = {
             description: '商品管理、決済システム連携、注文管理機能'
         }
     ],
-    level2: [
+    level3: [
         {
             name: '高機能予約システム',
             price: '¥800,000〜',
@@ -76,7 +76,7 @@ const pricingData = {
             description: 'ユーザー管理、マッチングアルゴリズム、メッセージ機能'
         }
     ],
-    level3: [
+    option: [
         {
             name: 'SEO対策強化',
             price: '¥100,000〜',
@@ -102,7 +102,7 @@ const pricingData = {
 
 export default function PricingLab() {
     const { colorMode } = useColorMode();
-    const { bgColor, headingColor } = getColors(colorMode);
+    const { bgColor, textColor } = getColors(colorMode);
 
     return (
         <MotionBox
@@ -117,14 +117,18 @@ export default function PricingLab() {
                 <VStack spacing={12} align="stretch">
                     <VStack spacing={6} textAlign="center">
                         <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="bold" color="orange.500">
-                            サインタラボ料金表
+                            サインタ・ラボ
                         </Text>
                     </VStack>
-                    <PricingSection title="基本サービス" items={pricingData.basic} />
                     <PricingSection title="LEVEL 1" items={pricingData.level1} level="開発期間：1週間" />
                     <PricingSection title="LEVEL 2" items={pricingData.level2} level="開発期間：2～3週間" />
                     <PricingSection title="LEVEL 3" items={pricingData.level3} level="開発期間：1ヶ月以上" />
-                    <PricingSection title="オプションサービス" items={pricingData.level3} borderstate={true} />
+                    <PricingSection title="オプションサービス" items={pricingData.option} borderstate={true} />
+                    <VStack spacing={6} textAlign="center">
+                        <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color={textColor}>
+                            ※ 上記以外のシステム開発についてはご相談ください for SAINTA LAB
+                        </Text>
+                    </VStack>
                 </VStack>
             </Container>
         </MotionBox>

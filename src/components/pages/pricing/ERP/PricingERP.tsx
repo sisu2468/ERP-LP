@@ -15,6 +15,7 @@ import ContractDiscounts from './ContractDiscounts';
 import PricingCalculator from './PricingCalculator';
 import PricingCard from './PricingCard';
 import PricingFeatures from './PricingFeatures';
+
 const MotionBox = motion(Box);
 const MotionHeading = motion(Heading);
 const MotionText = motion(Text);
@@ -47,28 +48,24 @@ const pricingPackages = [
     {
         name: '人事向け',
         price: 20000,
-        description: '従業員管理・経費管理・タイムシート・会計管理',
         features: ['従業員管理', '経費管理', 'タイムシート', '会計管理'],
         color: 'blue.400'
     },
     {
         name: '会計向け',
         price: 30000,
-        description: '従業員管理・顧客管理・会計管理・請求書・在庫',
         features: ['従業員管理', '顧客管理', '会計管理', '請求書', '在庫管理'],
         color: 'purple.400'
     },
     {
         name: '営業向け',
         price: 35000,
-        description: '従業員管理・顧客管理・販売・営業管理・請求書・在庫管理',
         features: ['従業員管理', '顧客管理', '販売管理', '営業管理', '請求書', '在庫管理'],
         color: 'orange.400'
     },
     {
         name: '全モジュール',
         price: 60000,
-        description: 'すべてのモジュールを含む',
         features: ['すべてのモジュール', 'カスタマイズ対応', '優先サポート'],
         color: 'green.400',
         popular: true
@@ -94,7 +91,7 @@ export default function PricingERP() {
                             whileInView="visible"
                             viewport={{ once: true }}
                         >
-                            サインタ ERP プラン
+                            サインタ・コア
                         </MotionHeading>
                         <MotionText
                             color={textColor}
