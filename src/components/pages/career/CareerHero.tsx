@@ -43,41 +43,54 @@ export default function CareerHero() {
     return (
         <Box
             position="relative"
-            height={{ base: "50vh", md: "50vh" }}
+            height={{ base: "60vh", md: "70vh" }}
             width="100%"
             overflow="hidden"
-            _before={{
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundImage: overlayColor,
-                zIndex: 1
-            }}
         >
+            {/* Background Image Container */}
             <Box
                 position="absolute"
                 top={0}
                 left={0}
                 right={0}
                 bottom={0}
-                backgroundImage="url('/images/career/career.jpg')"
-                backgroundSize="cover"
-                backgroundPosition="center"
-                backgroundAttachment="fixed"
-                filter="brightness(0.9)"
-                as={MotionBox}
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-            />
+                zIndex={0}
+            >
+                {/* Responsive Background Image */}
+                <Box
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    backgroundImage="url('/images/career/career.jpg')"
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                    backgroundRepeat="no-repeat"
+                    filter="brightness(0.9)"
+                    as={MotionBox}
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                />
 
+                <Box
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    bgImage={overlayColor}
+                    zIndex={1}
+                />
+            </Box>
+
+            {/* Content Container */}
             <Container
                 maxW="7xl"
                 height="100%"
                 position="relative"
                 zIndex={2}
+                px={{ base: 4, md: 6 }}
             >
                 <VStack
                     as={motion.div}
@@ -88,23 +101,30 @@ export default function CareerHero() {
                     justify="center"
                     align="center"
                 >
-                    <VStack align="center" spacing={3}>
+                    <VStack 
+                        align="center" 
+                        spacing={{ base: 3, md: 4 }}
+                        maxW={{ base: "100%", md: "90%", lg: "80%" }}
+                    >
                         <MotionHeading
                             variants={textVariants}
-                            fontSize={{ base: "4xl", md: "6xl" }}
+                            fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
                             fontWeight="bold"
                             color={textColor}
                             letterSpacing="wide"
                             lineHeight="shorter"
+                            textAlign="center"
                         >
                             採用 CAREERS
                         </MotionHeading>
                         <MotionText
                             variants={textVariants}
-                            fontSize={{ base: "xl", md: "2xl" }}
+                            fontSize={{ base: "lg", sm: "xl", md: "2xl" }}
                             color={textColor}
                             maxW="2xl"
                             lineHeight="tall"
+                            textAlign="center"
+                            px={{ base: 4, md: 0 }}
                         >
                             サインタと共に、ビジネスに革新を、世界に刺激を
                         </MotionText>
@@ -113,11 +133,11 @@ export default function CareerHero() {
                     <MotionBox
                         variants={textVariants}
                         width={lineWidth}
-                        height="4px"
+                        height={{ base: "3px", md: "4px" }}
                         bg="orange.400"
                         initial={{ width: 0 }}
                         animate={{ width: lineWidth }}
-                        transition={{ delay: 1, duration: 0.8 }}
+                        transition={{ delay: 1 }}
                     />
                 </VStack>
             </Container>

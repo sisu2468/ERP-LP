@@ -1,5 +1,6 @@
 'use client';
 
+import { getColors } from '@/constant/colorenum';
 import {
     Box,
     Circle,
@@ -49,11 +50,9 @@ const recruitmentSteps = [
 
 export default function CareerProcess() {
     const { colorMode } = useColorMode();
-    const bgColor = useColorModeValue('gray.50', 'gray.900');
-    const headingColor = useColorModeValue('gray.800', 'white');
-    const textColor = useColorModeValue('gray.600', 'gray.300');
-    const cardBg = useColorModeValue('white', 'gray.800');
-    const borderColor = useColorModeValue('gray.200', 'gray.700');
+
+    const { bgColor1, headingColor, textColor, cardBg, borderColor } = getColors(colorMode);
+
     const noteColor = useColorModeValue('orange.600', 'orange.300');
 
     const headingRef = useRef(null);
@@ -113,7 +112,7 @@ export default function CareerProcess() {
     }, []);
 
     return (
-        <Box py={16} bg={bgColor} transition="background-color 0.2s">
+        <Box py={16} bg={bgColor1} transition="background-color 0.2s">
             <Container maxW={{ base: "xl", md: "4xl" }}>
                 <VStack spacing={12} align="stretch">
                     <Stack spacing={4} textAlign="center" ref={headingRef}>
@@ -124,7 +123,7 @@ export default function CareerProcess() {
                             bgGradient={"linear(to-r, orange.400, orange.600)"}
                             bgClip="text"
                         >
-                            採用プロセス
+                            採用プロセスの流れ
                         </Heading>
                         <Text
                             fontSize={{ base: "lg", md: "xl" }}
