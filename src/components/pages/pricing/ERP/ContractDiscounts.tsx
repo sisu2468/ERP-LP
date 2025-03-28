@@ -14,36 +14,42 @@ const MotionText = motion(Text);
 
 interface PriceDetails {
     monthly: number;
-    yearly: number;
+    total: number;
     savings: number;
 }
+
+const BASE_PRICE = 60000; // All modules package price
+const USER_PRICE = 3000;  // Price per additional user
 
 const contractDiscounts = [
     {
         period: '1ヶ月',
         discount: 0,
+        billingPeriod: 1,
         prices: {
-            monthly: 25000,
-            yearly: 25000 * 12,
+            monthly: BASE_PRICE,
+            total: BASE_PRICE,
             savings: 0
         }
     },
     {
         period: '3ヶ月',
         discount: 5,
+        billingPeriod: 3,
         prices: {
-            monthly: 25000 * 0.95,
-            yearly: 25000 * 0.95 * 12,
-            savings: 25000 * 0.05 * 12
+            monthly: BASE_PRICE * 0.95,
+            total: BASE_PRICE * 0.95 * 3,
+            savings: BASE_PRICE * 0.05 * 3
         }
     },
     {
         period: '12ヶ月',
         discount: 10,
+        billingPeriod: 12,
         prices: {
-            monthly: 25000 * 0.90,
-            yearly: 25000 * 0.90 * 12,
-            savings: 25000 * 0.10 * 12
+            monthly: BASE_PRICE * 0.90,
+            total: BASE_PRICE * 0.90 * 12,
+            savings: BASE_PRICE * 0.10 * 12
         }
     }
 ];
@@ -110,7 +116,6 @@ export default function ContractDiscounts() {
     const { colorMode } = useColorMode();
     const { headingColor, textColor, cardBg, borderColor } = getColors(colorMode);
     const [selectedPeriod, setSelectedPeriod] = useState(0);
-    const [isYearly, setIsYearly] = useState(false);
     const [[page, direction], setPage] = useState([0, 0]);
 
     const paginate = (newDirection: number) => {
@@ -128,105 +133,71 @@ export default function ContractDiscounts() {
         >
             <VStack spacing={8} align="stretch">
                 <Heading size="lg" color={headingColor}>契約期間と割引体系</Heading>
-                <VStack spacing={4} align="center" position="relative">
-                    <Box
-                        mt={4}
-                        bg="gray.100"
-                        p={1}
-                        borderRadius="full"
-                        display="flex"
-                        alignItems="center"
-                        _dark={{ bg: "gray.700" }}
-                    >
-                        <Text
-                            px={3}
-                            py={1}
-                            color={isYearly ? "orange.500" : "gray.500"}
-                            fontWeight="medium"
-                            fontSize="sm"
-                            cursor="pointer"
-                            onClick={() => setIsYearly(true)}
-                            bg={isYearly ? "white" : "transparent"}
-                            borderRadius="full"
-                            _dark={{
-                                color: isYearly ? "orange.200" : "gray.400",
-                                bg: isYearly ? "gray.800" : "transparent"
-                            }}
-                            transition="all 0.2s"
-                        >
-                            年間
-                        </Text>
-                        <Text
-                            px={3}
-                            py={1}
-                            color={!isYearly ? "orange.500" : "gray.500"}
-                            fontWeight="medium"
-                            fontSize="sm"
-                            cursor="pointer"
-                            onClick={() => setIsYearly(false)}
-                            bg={!isYearly ? "white" : "transparent"}
-                            borderRadius="full"
-                            _dark={{
-                                color: !isYearly ? "orange.200" : "gray.400",
-                                bg: !isYearly ? "gray.800" : "transparent"
-                            }}
-                            transition="all 0.2s"
-                        >
-                            月間
-                        </Text>
-                    </Box>
-                    <HStack spacing={4}>
-                        <IconButton
-                            aria-label="Previous period"
-                            icon={<FiArrowLeft />}
-                            onClick={() => paginate(-1)}
-                            variant="ghost"
-                            colorScheme="orange"
-                        />
-
-                        <Box position="relative" width="300px" height="80px">
-                            <AnimatePresence mode="popLayout" initial={false} custom={direction}>
-                                <MotionBox
-                                    key={page}
-                                    custom={direction}
-                                    variants={priceVariants}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    position="absolute"
-                                    width="100%"
-                                    textAlign="center"
-                                >
-                                    <VStack spacing={2}>
-                                        <Text fontSize="3xl" fontWeight="bold" color={headingColor}>
-                                            ¥{isYearly
-                                                ? Math.floor(contractDiscounts[selectedPeriod].prices.yearly).toLocaleString()
-                                                : Math.floor(contractDiscounts[selectedPeriod].prices.monthly).toLocaleString()
-                                            }
-                                            <Text as="span" fontSize="lg" color={textColor}>
-                                                {isYearly ? '/年' : '/月'}
-                                            </Text>
-                                        </Text>
-                                        {contractDiscounts[selectedPeriod].prices.savings > 0 && (
-                                            <Badge colorScheme="green" fontSize="md">
-                                                年間 ¥{Math.floor(contractDiscounts[selectedPeriod].prices.savings).toLocaleString()} お得！
-                                            </Badge>
-                                        )}
-                                    </VStack>
-                                </MotionBox>
-                            </AnimatePresence>
-                        </Box>
-
-                        <IconButton
-                            aria-label="Next period"
-                            icon={<FiArrowRight />}
-                            onClick={() => paginate(1)}
-                            variant="ghost"
-                            colorScheme="orange"
-                        />
+                <VStack spacing={6} align="center" position="relative">
+                    <HStack spacing={4} justify="center">
+                        {contractDiscounts.map((discount, index) => (
+                            <Button
+                                key={index}
+                                onClick={() => setSelectedPeriod(index)}
+                                bg={selectedPeriod === index ? "black" : "gray.200"}
+                                color={selectedPeriod === index ? "white" : "black"}
+                                _hover={{
+                                    bg: selectedPeriod === index ? "blackAlpha.800" : "gray.300"
+                                }}
+                                _dark={{
+                                    bg: selectedPeriod === index ? "white" : "gray.600",
+                                    color: selectedPeriod === index ? "black" : "white",
+                                    _hover: {
+                                        bg: selectedPeriod === index ? "whiteAlpha.800" : "gray.500"
+                                    }
+                                }}
+                                borderRadius="full"
+                                px={6}
+                            >
+                                {discount.period}
+                            </Button>
+                        ))}
                     </HStack>
 
+                    <Box position="relative" width="300px" height="120px" mt={4}>
+                        <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+                            <MotionBox
+                                key={page}
+                                custom={direction}
+                                variants={priceVariants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                position="absolute"
+                                width="100%"
+                                textAlign="center"
+                            >
+                                <VStack spacing={3}>
+                                    <Text fontSize="4xl" fontWeight="bold" color={headingColor}>
+                                        ¥{Math.floor(contractDiscounts[selectedPeriod].prices.total).toLocaleString()}
+                                        <Text as="span" fontSize="xl" color={textColor}>
+                                            /年
+                                        </Text>
+                                    </Text>
+                                    {contractDiscounts[selectedPeriod].prices.savings > 0 && (
+                                        <Badge
+                                            colorScheme="green"
+                                            fontSize="md"
+                                            px={3}
+                                            py={1}
+                                            borderRadius="full"
+                                            bg="green.100"
+                                            color="green.700"
+                                        >
+                                            年間 ¥{Math.floor(contractDiscounts[selectedPeriod].prices.savings).toLocaleString()} お得！
+                                        </Badge>
+                                    )}
+                                </VStack>
+                            </MotionBox>
+                        </AnimatePresence>
+                    </Box>
                 </VStack>
+
                 <Grid
                     templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
                     gap={6}
@@ -240,10 +211,14 @@ export default function ContractDiscounts() {
                             borderRadius="xl"
                             boxShadow={selectedPeriod === index ? "xl" : "md"}
                             borderWidth="1px"
-                            borderColor={selectedPeriod === index ? "orange.500" : borderColor}
+                            borderColor={selectedPeriod === index ? "orange.200" : borderColor}
                             bg={selectedPeriod === index ? "orange.50" : cardBg}
                             cursor="pointer"
                             onClick={() => setSelectedPeriod(index)}
+                            _dark={{
+                                bg: selectedPeriod === index ? "gray.800" : cardBg,
+                                borderColor: selectedPeriod === index ? "white" : borderColor
+                            }}
                         >
                             <VStack spacing={3} align="center">
                                 <Text fontSize="xl" fontWeight="bold" color={headingColor}>
@@ -251,9 +226,12 @@ export default function ContractDiscounts() {
                                 </Text>
                                 <Badge
                                     colorScheme={discount.discount > 0 ? 'green' : 'gray'}
-                                    fontSize="lg"
+                                    fontSize="md"
                                     px={3}
                                     py={1}
+                                    bg={discount.discount > 0 ? "green.100" : "gray.100"}
+                                    color={discount.discount > 0 ? "green.700" : "gray.600"}
+                                    borderRadius="full"
                                 >
                                     {discount.discount > 0 ? `${discount.discount}%割引` : '標準料金'}
                                 </Badge>
@@ -266,7 +244,6 @@ export default function ContractDiscounts() {
                     variants={cardVariants}
                     color={textColor}
                     fontSize="sm"
-                    mt={2}
                     textAlign="center"
                 >
                     ※ 全モジュールパッケージ契約の場合、上記割引に加えてさらに5%の割引を適用
