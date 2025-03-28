@@ -18,4 +18,5 @@ export const getColors = (colorMode: ColorMode) => ({
     borderColor1: colorMode === 'light' ? 'gray.200' : 'gray.700',
     textColor1: colorMode === 'light' ? 'gray.900' : 'white',
 
+    bgColor2: colorMode === 'light' ? 'gray.100' : 'gray.800',
 });
