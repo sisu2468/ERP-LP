@@ -1,7 +1,7 @@
 'use client'
 
 import CTASection from "@/components/pages/home/CTASection";
-import FAQ from "@/components/pages/home/FAQ";
+import FAQ from "@/components/pages/home/faq/FAQ";
 import FeatureDetailsSection from "@/components/pages/home/FeatureDetailsSection";
 import FlowChart from "@/components/pages/home/flowchart/FlowChart";
 import Hero from "@/components/pages/home/Hero";

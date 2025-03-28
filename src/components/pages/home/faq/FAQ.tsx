@@ -4,19 +4,24 @@ import {
     Accordion,
     AccordionButton,
     AccordionIcon,
-    AccordionItem,
+    AccordionItem,  
     AccordionPanel,
     Box,
+    Button,
     Container,
     Heading,
+    HStack,
     Link,
     Text,
     useColorMode,
     useColorModeValue,
+    useDisclosure,
+    VStack
 } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef } from 'react';
+import SupportRequest from './SupportRequest';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,11 +50,24 @@ const faqData = [
     {
         question: '導入後のアップデートはどうなりますか？',
         answer: 'サインタでは定期的にアップデートを実施しており、新機能や改善点をお客様に提供します。'
+    },
+    {
+        question: '無料プランでどこまで使えますか？',
+        answer: '基本的な会計機能のみ利用可能です。'
+    },
+    {
+        question: 'プラン変更は簡単ですか？',
+        answer: 'はい、プランのアップグレード・ダウングレードはいつでも可能です。ビジネスの成長に合わせて 柔軟に対応できます。'
+    },
+    {
+        question: '年間契約はできますか？',
+        answer: 'はい、年間契約にすると1ヶ月分無料になります！長期利用でさらにお得に。'
     }
 ];
 
 export default function FAQ() {
     const { colorMode } = useColorMode();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const bgColor = useColorModeValue('gray.50', 'gray.800');
     const headingColor = useColorModeValue('gray.800', 'white');
     const accordionBg = useColorModeValue('white', 'gray.800');
@@ -135,16 +153,22 @@ export default function FAQ() {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
             itemRefs.current.forEach(itemRef => {
                 if (itemRef) {
-                    itemRef.removeEventListener('mouseenter', () => {});
-                    itemRef.removeEventListener('mouseleave', () => {});
+                    itemRef.removeEventListener('mouseenter', () => { });
+                    itemRef.removeEventListener('mouseleave', () => { });
                     const button = itemRef.querySelector('button');
                     if (button) {
-                        button.removeEventListener('click', () => {});
+                        button.removeEventListener('click', () => { });
                     }
                 }
             });
         };
     }, [colorMode, accordionBorderColor]);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Handle form submission logic here
+        onClose();
+    };
 
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
@@ -160,7 +184,7 @@ export default function FAQ() {
                     よくある質問
                 </Heading>
 
-                <Accordion 
+                <Accordion
                     ref={accordionRef}
                     allowMultiple
                 >
@@ -174,7 +198,7 @@ export default function FAQ() {
                             mb={4}
                             boxShadow="md"
                             borderRadius="md"
-                            style={{ 
+                            style={{
                                 willChange: 'transform',
                                 transform: 'translateY(0)'
                             }}
@@ -198,6 +222,53 @@ export default function FAQ() {
                         </AccordionItem>
                     ))}
                 </Accordion>
+                <VStack spacing={6} pt={8} pb={4}>
+                    <Heading as="h3" fontSize="2xl" color={headingColor} textAlign="center">
+                        今すぐ始めよう！
+                    </Heading>
+                    <HStack spacing={4}>
+                        <Button
+                            colorScheme="orange"
+                            size="lg"
+                            px={8}
+                            _hover={{
+                                transform: 'translateY(-2px)',
+                                boxShadow: 'lg'
+                            }}
+                        >
+                            無料で試す（14日間無料）
+                        </Button>
+                        <Button
+                            variant="outline"
+                            colorScheme="orange"
+                            size="lg"
+                            px={8}
+                            _hover={{
+                                transform: 'translateY(-2px)',
+                                boxShadow: 'lg'
+                            }}
+                        >
+                            プランを比較する
+                        </Button>
+                    </HStack>
+                    <VStack spacing={2}>
+                        <Text color={textColor}>
+                            💬 まだ迷っていますか？お気軽にお問い合わせください。
+                        </Text>
+                        <Button
+                            variant="link"
+                            colorScheme="blue"
+                            onClick={onOpen}
+                            _hover={{
+                                textDecoration: 'none',
+                                transform: 'translateY(-1px)'
+                            }}
+                        >
+                            お問い合わせフォーム
+                        </Button>
+                    </VStack>
+                </VStack>
+                <SupportRequest isOpen={isOpen} onClose={onClose} handleSubmit={handleSubmit} />
             </Container>
         </Box>
     );
