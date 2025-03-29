@@ -22,6 +22,11 @@ export const navItems: NavItem[] = [
         description: 'webシステムの開発',
     },
     {
+        title: 'サインタ・コア ',
+        path: '/signta-erp',
+        description: 'ERPの各機能一覧',
+    },
+    {
         title: 'サインタ・コネクト',
         path: '/signta-connect',
         description: '専門家マッチングプラットフォーム',
@@ -38,18 +43,18 @@ export const navItems: NavItem[] = [
         path: '/pricing',
         description: '料金体系と導入プラン',
     },
-    // {
-    //     title: 'お役立ち情報',
-    //     path: '/resources',
-    //     description: '導入ガイド・活用事例・業務効率化のコツ',
-    // },
+    {
+        title: 'お役立ち情報',
+        path: '/resources',
+        description: '導入ガイド・活用事例・業務効率化のコツ',
+    },
     {
         title: '採用情報',
         path: '/career',
         description: '採用情報',
     },
     {
-        title: 'お問い合わせ・無料体験',
+        title: 'お問い合わせ',
         path: '/contact',
         description: '相談・無料トライアル申し込み',
     },
