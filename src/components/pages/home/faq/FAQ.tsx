@@ -4,7 +4,7 @@ import {
     Accordion,
     AccordionButton,
     AccordionIcon,
-    AccordionItem,  
+    AccordionItem,
     AccordionPanel,
     Box,
     Button,
@@ -22,6 +22,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
 import SupportRequest from './SupportRequest';
+import SLink from '@/components/SLink';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -238,18 +239,20 @@ export default function FAQ() {
                         >
                             無料で試す（14日間無料）
                         </Button>
-                        <Button
-                            variant="outline"
-                            colorScheme="orange"
-                            size="lg"
-                            px={8}
-                            _hover={{
-                                transform: 'translateY(-2px)',
-                                boxShadow: 'lg'
-                            }}
-                        >
-                            プランを比較する
-                        </Button>
+                        <SLink href="/compare">
+                            <Button
+                                variant="outline"
+                                colorScheme="orange"
+                                size="lg"
+                                px={8}
+                                _hover={{
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: 'lg'
+                                }}
+                            >
+                                プランを比較する
+                            </Button>
+                        </SLink>
                     </HStack>
                     <VStack spacing={2}>
                         <Text color={textColor}>

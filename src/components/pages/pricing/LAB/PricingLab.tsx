@@ -126,7 +126,7 @@ export default function PricingLab() {
                     <PricingSection title="オプションサービス" items={pricingData.option} borderstate={true} />
                     <VStack spacing={6} textAlign="center">
                         <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color={textColor}>
-                            ※ 上記以外のシステム開発についてはご相談ください for SAINTA LAB
+                            ※ 上記以外のシステム開発についてはご相談ください
                         </Text>
                     </VStack>
                 </VStack>
