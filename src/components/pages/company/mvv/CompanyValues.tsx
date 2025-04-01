@@ -1,12 +1,13 @@
 'use client';
 
-import { Box, SimpleGrid, VStack, Text, Icon, useColorModeValue, Flex } from "@chakra-ui/react";
 import MVVCard from "@/components/pages/company/mvv/MVVCard";
-import { FiHexagon, FiMinimize2 } from "react-icons/fi";
-import { RiShieldStarLine, RiLightbulbFlashLine, RiTeamLine, RiDashboardLine } from "react-icons/ri";
-import { useRef, useEffect } from "react";
+import { getColors } from "@/constant/colorenum";
+import { Box, Flex, Icon, SimpleGrid, Text, useColorModeValue, VStack, useColorMode } from "@chakra-ui/react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import { useEffect, useRef } from "react";
+import { FiMinimize2 } from "react-icons/fi";
+import { RiDashboardLine, RiLightbulbFlashLine, RiShieldStarLine, RiTeamLine } from "react-icons/ri";
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -47,9 +48,11 @@ const values = [
 
 export default function CompanyValues() {
     const valueRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const { colorMode } = useColorMode();
     const accentColor = useColorModeValue('orange.500', 'orange.300');
     const cardBg = useColorModeValue('white', 'gray.700');
     const borderColor = useColorModeValue('orange.100', 'orange.700');
+    const bgColor1 = getColors(colorMode).bgColor1;
     const textColor = useColorModeValue('gray.700', 'gray.100');
 
     useEffect(() => {
@@ -161,7 +164,7 @@ export default function CompanyValues() {
                                 <Flex
                                     w={12}
                                     h={12}
-                                    bg={useColorModeValue('orange.100', 'orange.900')}
+                                    bg={bgColor1}
                                     color={accentColor}
                                     borderRadius="xl"
                                     align="center"
