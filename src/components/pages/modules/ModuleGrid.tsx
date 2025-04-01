@@ -39,7 +39,7 @@ const modules = [
         catchCopy: 'バラバラな製品情報を統一、問い合わせ対応を劇的に改善',
         description: '製品データを一元管理し、どの担当者でも同じ正確な情報を提供できる体制を構築。顧客満足度向上と社内混乱の解消を同時に実現します。',
         icon: '/featureimages/product.png',
-        packages: ['会計向け'],
+        packages: ['会計向け', '営業向け'],
     },
     {
         title: 'タイムシート',
@@ -53,7 +53,7 @@ const modules = [
         catchCopy: '領収書の山と格闘する日々にピリオド',
         description: '経費精算の煩わしさから解放され、承認プロセスも簡略化。「どこでいくら使っているのか」を正確に把握し、無駄なコスト削減につなげます。',
         icon: '/featureimages/expenses.png',
-        packages: ['人事向け'],
+        packages: ['人事向け', '会計向け', '営業向け'],
     },
     {
         title: '請求書管理',
@@ -83,7 +83,7 @@ const ModuleGrid = () => {
                     <VStack spacing={8} textAlign="center">
                         <Heading
                             fontSize={{ base: "3xl", md: "4xl" }}
-                            bgGradient={colorMode === 'light' 
+                            bgGradient={colorMode === 'light'
                                 ? "linear(to-r, orange.400, orange.600)"
                                 : "linear(to-r, orange.300, orange.500)"
                             }
