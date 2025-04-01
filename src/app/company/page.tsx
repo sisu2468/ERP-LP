@@ -18,10 +18,10 @@ export default function Company() {
             <CompanyProfile />
             <CompanyMVV />
             <BusinessOverview />
-            <ServiceIntroduction />
+            {/* <ServiceIntroduction />
             <Service_Description />
             <OperationStrengths />
-            <Achievements />
+            <Achievements /> */}
             <OurThoughts />
         </Container>
     )
