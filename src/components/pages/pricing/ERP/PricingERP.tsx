@@ -4,18 +4,15 @@ import { getColors } from '@/constant/colorenum';
 import {
     Box,
     Container,
-    Grid,
     Heading,
     Text,
     useColorMode,
     VStack
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import ContractDiscounts from './ContractDiscounts';
-import PricingCalculator from './PricingCalculator';
-import PricingCard from './PricingCard';
-import PricingFeatures from './PricingFeatures';
 import ModulePricing from './ModulePricing';
+import PricingCalculator from './PricingCalculator';
+import PricingFeatures from './PricingFeatures';
 
 const MotionHeading = motion(Heading);
 const MotionText = motion(Text);

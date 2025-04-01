@@ -18,22 +18,22 @@ export const navItems: NavItem[] = [
     // },
     {
         title: 'サインタ・ラボ',
-        path: '/signta-lab',
+        path: '/sainta-lab',
         description: 'webシステムの開発',
     },
     {
         title: 'サインタ・コア ',
-        path: '/signta-erp',
+        path: '/sainta-erp',
         description: 'ERPの各機能一覧',
     },
     {
         title: 'サインタ・コネクト',
-        path: '/signta-connect',
+        path: '/sainta-connect',
         description: '専門家マッチングプラットフォーム',
         subMenu: [
             {
                 title: 'サインタ・コネクト',
-                path: '/signta-connect',
+                path: '/sainta-connect',
                 description: '専門家マッチングプラットフォーム',
             },
         ],
