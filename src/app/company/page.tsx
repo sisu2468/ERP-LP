@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
     title: "【株式会社サインタ】会社概要",
     description: "株式会社サインタの会社概要ページでは、私たちの企業理念、歴史、業務内容を詳しくご紹介します。信頼性と革新性を重視し、クライアントの成功をサポートしています。",
-    metadataBase: new URL('https://sainta.co.jp'),
+    metadataBase: new URL('https://sainta.co.jp/company'),
     icons: {
         icon: [
             { url: '/favicons/favicon.ico' },
