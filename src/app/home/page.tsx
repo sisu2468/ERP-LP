@@ -8,8 +8,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "【株式会社サインタ】サインタ・コアにはどんな機能が入ってる？",
-  description: "サインタERPの基本機能「サインタ・コア」には、ビジネスをスムーズに運営するための必須ツールが揃っています。",
+  title: "【株式会社サインタ】スマートERP",
+  description: "株式会社サインタが提供するスマートERP「サインタ・コア」は、企業の業務効率を大幅に向上させる次世代のシステムです。",
   metadataBase: new URL('https://sainta.co.jp/home'),
   icons: {
     icon: "/favicons/favicon.ico",

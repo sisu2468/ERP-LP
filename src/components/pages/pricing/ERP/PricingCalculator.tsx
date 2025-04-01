@@ -189,17 +189,17 @@ export default function PricingCalculator() {
                                 
                                 <HStack justify="space-between">
                                     <Text color={textColor}>基本パッケージ料金</Text>
-                                    <Text fontWeight="bold">¥{basePrice.toLocaleString()}</Text>
+                                    <Text fontWeight="bold" color={textColor}>¥{basePrice.toLocaleString()}</Text>
                                 </HStack>
 
                                 <HStack justify="space-between">
                                     <Text color={textColor}>プラットフォーム料金</Text>
-                                    <Text fontWeight="bold">¥{platformFee.toLocaleString()}</Text>
+                                    <Text fontWeight="bold" color={textColor}>¥{platformFee.toLocaleString()}</Text>
                                 </HStack>
 
                                 <HStack justify="space-between">
                                     <Text color={textColor}>追加ユーザー料金</Text>
-                                    <Text fontWeight="bold">¥{additionalUserCost.toLocaleString()}</Text>
+                                    <Text fontWeight="bold" color={textColor}>¥{additionalUserCost.toLocaleString()}</Text>
                                 </HStack>
 
                                 <HStack justify="space-between">
