@@ -136,7 +136,7 @@ export default function PricingCard({ package: pkg, index }: PricingCardProps) {
                                 px={2}
                                 borderRadius="full"
                             >
-                                {pkg.discount}%OFF
+                                {pkg.discount}% OFF
                             </Badge>
                         )}
                     </Box>
