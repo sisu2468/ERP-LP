@@ -18,18 +18,33 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
     title: "【株式会社サインタ】会社概要",
     description: "株式会社サインタの会社概要ページでは、私たちの企業理念、歴史、業務内容を詳しくご紹介します。信頼性と革新性を重視し、クライアントの成功をサポートしています。",
-    metadataBase: new URL('https://sainta.co.jp/company'),
+    metadataBase: new URL('https://sainta.co.jp'),
     icons: {
-        icon: "/favicons/favicon.ico",
+        icon: [
+            { url: '/favicons/favicon.ico' },
+            { url: '/favicons/favicon-96x96.png', sizes: '96x96', type: 'image/png' }
+        ],
     },
     openGraph: {
+        title: "【株式会社サインタ】会社概要",
+        description: "株式会社サインタの会社概要ページでは、私たちの企業理念、歴史、業務内容を詳しくご紹介します。信頼性と革新性を重視し、クライアントの成功をサポートしています。",
+        siteName: "株式会社サインタ",
+        locale: 'ja_JP',
+        type: 'website',
+        url: '/company',
         images: [{
             url: '/favicons/favicon-96x96.png',
-            width: 96,
-            height: 96,
-            alt: 'サインタ・コア Preview Image',
+            width: 1200,
+            height: 630,
+            alt: '株式会社サインタ - 会社概要',
         }],
     },
+    twitter: {
+        card: 'summary_large_image',
+        title: "【株式会社サインタ】会社概要",
+        description: "株式会社サインタの会社概要ページでは、私たちの企業理念、歴史、業務内容を詳しくご紹介します。",
+        images: ['/favicons/favicon-96x96.png'],
+    }
 };
 
 export default function Company() {
