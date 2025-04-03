@@ -1,16 +1,15 @@
 "use client"
 
 import { Box } from "@chakra-ui/react";
-import Hero from "./Hero";
-import ServiceIntroSection from "./ServiceIntroSection";
-import FeatureDetailsSection from "./FeatureDetailsSection";
-import ResourcesSection from "./ResourcesSection";
-import CTASection from "./CTASection";
-import FlowChart from "./flowchart/FlowChart";
-import FAQ from "./faq/FAQ";
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
+import CTASection from "./CTASection";
+import FAQ from "./faq/FAQ";
+import FeatureDetailsSection from "./FeatureDetailsSection";
+import FlowChart from "./flowchart/FlowChart";
+import Hero from "./Hero";
+import ServiceIntroSection from "./ServiceIntroSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,7 +40,6 @@ export default function HomePage() {
             <Hero />
             <ServiceIntroSection />
             <FeatureDetailsSection />
-            <ResourcesSection />
             <FlowChart />
             <CTASection />
             <FAQ />
