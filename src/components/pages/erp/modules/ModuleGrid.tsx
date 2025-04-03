@@ -73,11 +73,11 @@ const modules = [
 
 const ModuleGrid = () => {
     const { colorMode } = useColorMode();
-    const { textColor, bgColor } = getColors(colorMode);
+    const { textColor, bgColor2 } = getColors(colorMode);
 
 
     return (
-        <Box w="full" bg={bgColor} py={16}>
+        <Box w="full" bg={bgColor2} py={16}>
             <Container maxW="7xl">
                 <VStack spacing={16}>
                     <VStack spacing={8} textAlign="center">

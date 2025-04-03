@@ -1,4 +1,6 @@
-import ModuleGrid from "@/components/pages/modules/ModuleGrid";
+import Hero from "@/components/pages/erp/ERP-Hero";
+import ModuleGrid from "@/components/pages/erp/modules/ModuleGrid";
+import ResourcesSection from "@/components/pages/home/ResourcesSection";
 import { Container } from "@chakra-ui/react";
 import type { Metadata, Viewport } from "next";
 export const viewport: Viewport = {
@@ -26,6 +28,8 @@ export const metadata: Metadata = {
 export default function SaintaErp() {
     return (
         <Container maxW="full" p={0}>
+            <Hero />
+            <ResourcesSection />
             <ModuleGrid />
         </Container>
     )
