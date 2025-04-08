@@ -177,7 +177,6 @@ export default function CompanyValues() {
                                     <Icon 
                                         as={value.icon} 
                                         boxSize={6}
-                                        transform="rotate(90deg)"
                                     />
                                 </Flex>
                                 <VStack align="start" spacing={1}>
