@@ -7,24 +7,20 @@ import {
     AccordionItem,
     AccordionPanel,
     Box,
-    Button,
     Container,
-    Flex,
     Heading,
-    HStack,
     Link,
     Text,
     useColorMode,
     useColorModeValue,
     useDisclosure,
-    VStack
+    useToast
 } from '@chakra-ui/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
+import Recommend from './Recommend';
 import SupportRequest from './SupportRequest';
-import SLink from '@/components/SLink';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const faqData = [
@@ -70,6 +66,7 @@ const faqData = [
 export default function FAQ() {
     const { colorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
     const bgColor = useColorModeValue('gray.50', 'gray.800');
     const headingColor = useColorModeValue('gray.800', 'white');
     const accordionBg = useColorModeValue('white', 'gray.800');
@@ -80,6 +77,8 @@ export default function FAQ() {
     const headingRef = useRef(null);
     const accordionRef = useRef(null);
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    
 
     useEffect(() => {
         // Heading animation
@@ -224,63 +223,9 @@ export default function FAQ() {
                         </AccordionItem>
                     ))}
                 </Accordion>
-                <VStack spacing={6} pt={8} pb={4}>
-                    <Heading as="h3" fontSize="2xl" color={headingColor} textAlign="center">
-                        今すぐ始めよう！
-                    </Heading>
-                    <Flex
-                        gap={4}
-                        direction={{ base: 'column', sm: 'column', md: 'row' }}
-                    >
-                        <SLink href="/signup">
-                            <Button
-                                colorScheme="orange"
-                                size="lg"
-                                px={8}
-                                w={{ base: '100%', sm: '100%', md: '280px' }}
-                                _hover={{
-                                    transform: 'translateY(-2px)',
-                                    boxShadow: 'lg'
-                                }}
-                            >
-                                無料で試す（14日間無料）
-                            </Button>
-                        </SLink>
-                        <SLink href="/compare">
-                            <Button
-                                variant="outline"
-                                colorScheme="orange"
-                                size="lg"
-                                px={8}
-                                w={{ base: '100%', sm: '100%', md: '280px' }}
-                                _hover={{
-                                    transform: 'translateY(-2px)',
-                                    boxShadow: 'lg'
-                                }}
-                            >
-                                プランを比較する
-                            </Button>
-                        </SLink>
-                    </Flex>
-                    <VStack spacing={2}>
-                        <Text color={textColor}>
-                            💬 まだ迷っていますか？お気軽にお問い合わせください。
-                        </Text>
-                        <Button
-                            variant="link"
-                            colorScheme="blue"
-                            onClick={onOpen}
-                            _hover={{
-                                textDecoration: 'none',
-                                transform: 'translateY(-1px)'
-                            }}
-                        >
-                            お問い合わせフォーム
-                        </Button>
-                    </VStack>
-                </VStack>
+                <Recommend />
                 <SupportRequest isOpen={isOpen} onClose={onClose} handleSubmit={handleSubmit} />
             </Container>
         </Box>
     );
-} 
+}
