@@ -48,9 +48,9 @@ const itemVariants = {
 };
 
 const pricingPackages = [
-    { name: '人事向け', price: 20000 },
-    { name: '会計向け', price: 30000 },
-    { name: '営業向け', price: 35000 },
+    { name: '人事向け', price: 25000 },
+    { name: '会計向け', price: 40000 },
+    { name: '営業向け', price: 45000 },
     { name: '全モジュール', price: 60000 }
 ];
 
@@ -73,7 +73,7 @@ export default function PricingCalculator() {
     const basePrice = selectedPackage.price;
     const platformFee = 5000;
     const additionalUserFee = 3000;
-    const additionalUsers = Math.max(0, userCount - 2);
+    const additionalUsers = Math.max(0, userCount ? userCount - 2 : 0);
     const additionalUserCost = additionalUsers * additionalUserFee;
 
     const subtotal = basePrice + platformFee + additionalUserCost;
