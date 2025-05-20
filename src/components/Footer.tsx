@@ -30,7 +30,7 @@ export default function Footer() {
     return (
         <Box bg={bgColor} py={10} borderTop={`1px solid ${borderColor}`} transition="background-color 0.2s">
             <Container maxW="7xl">
-                <SimpleGrid columns={{ base: 1, md: 4 }} spacing={8}>
+                <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} justifyContent="space-between">
                     <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             株式会社サインタ
@@ -42,14 +42,14 @@ export default function Footer() {
                                     〒108-0073
                                 </Text>
                                 <Text fontSize="sm" color={textColor}>
-                                    東京都港区三田1丁目3-40 606号室
+                                    東京都港区三田１丁目3－40 6F
                                 </Text>
                             </Flex>
                         </HStack>
                         <HStack align="flex-start" textAlign='left' alignItems='flex-start' justifyContent='flex-start'>
                             <Icon as={FaPhone} color={iconColor} />
                             <Text fontSize="sm" color={textColor}>
-                                <Link href="tel:+8109029138411" color={linkColor} _hover={{ color: 'orange.500' }}>+81 090-2913-8411</Link>
+                                <Link href="tel:+8109029138411" color={linkColor} _hover={{ color: 'orange.500' }}>+81 03-5247-2777</Link>
                             </Text>
                         </HStack>
                         <HStack align="flex-start" textAlign={{ base: 'center', md: 'left' }} alignItems='flex-start' justifyContent='flex-start'>
@@ -70,14 +70,14 @@ export default function Footer() {
                         <Link href="/contact" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>お問い合わせ</Link>
                     </Stack>
 
-                    <Stack spacing={4} textAlign='left'>
+                    {/* <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
                             サービス
                         </Text>
                         <Link href="/services" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>ERPシステム</Link>
                         <Link href="/signta-lab" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタ・ラボ</Link>
                         <Link href="/signta-connect" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>サインタ・コネクト</Link>
-                    </Stack>
+                    </Stack> */}
 
                     <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
