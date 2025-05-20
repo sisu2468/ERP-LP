@@ -1,8 +1,8 @@
 'use client';
-import { Container, Heading, HStack, useColorModeValue, VStack, Text, Box, List, ListItem, ListIcon } from "@chakra-ui/react";
-import { FiCircle } from "react-icons/fi";
+import { Box, Container, Heading, HStack, List, ListIcon, ListItem, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 import { gsap } from "gsap";
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { FiCircle } from "react-icons/fi";
 
 export default function CompanyProfile() {
     const bgColor = useColorModeValue('white', 'gray.800');
@@ -139,16 +139,15 @@ export default function CompanyProfile() {
                         >
                             {[
                                 { label: "会社名", content: <Text fontSize="lg" color={textColor}>株式会社サインタ</Text> },
-                                { label: "所在地", content: <Text color={textColor}>東京都港区三⽥1丁⽬3-406F[606]</Text> },
+                                { label: "所在地", content: <Text color={textColor}>東京都港区三田１丁目3－40 6F</Text> },
                                 {
                                     label: "代表", content: (
                                         <VStack align="start" spacing={1}>
-                                            <Text color={textColor}>サンタナム理志(CEO)</Text>
-                                            <Text color={textColor}>望⽉佑樹(COO)</Text>
+                                            <Text color={textColor}>サンタナム 理志 (CEO)</Text>
                                         </VStack>
                                     )
                                 },
-                                { label: "メンバー", content: <Text color={textColor}>3名</Text> }
+                                { label: "メンバー", content: <Text color={textColor}>３名〜５名</Text> }
                             ].map((item, index) => (
                                 <HStack
                                     key={item.label}

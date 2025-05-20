@@ -16,28 +16,28 @@ export const navItems: NavItem[] = [
     //     path: '/services',
     //     description: 'ERPの各機能一覧',
     // },
-    {
-        title: 'サインタ・ラボ',
-        path: '/sainta-lab',
-        description: 'webシステムの開発',
-    },
+    // {
+    //     title: 'サインタ・ラボ',
+    //     path: '/sainta-lab',
+    //     description: 'webシステムの開発',
+    // },
     {
         title: 'サインタ・コア ',
         path: '/sainta-erp',
         description: 'ERPの各機能一覧',
     },
-    {
-        title: 'サインタ・コネクト',
-        path: '/sainta-connect',
-        description: '専門家マッチングプラットフォーム',
-        subMenu: [
-            {
-                title: 'サインタ・コネクト',
-                path: '/sainta-connect',
-                description: '専門家マッチングプラットフォーム',
-            },
-        ],
-    },
+    // {
+    //     title: 'サインタ・コネクト',
+    //     path: '/sainta-connect',
+    //     description: '専門家マッチングプラットフォーム',
+    //     subMenu: [
+    //         {
+    //             title: 'サインタ・コネクト',
+    //             path: '/sainta-connect',
+    //             description: '専門家マッチングプラットフォーム',
+    //         },
+    //     ],
+    // },
     {
         title: 'プラン・料金',
         path: '/pricing',

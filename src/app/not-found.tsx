@@ -1,8 +1,9 @@
 'use client';
 
-import { Box, Container, Heading, Text, VStack, Image, Button } from '@chakra-ui/react';
+import { Box, Container, Heading, Text, VStack, Button } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react';
 import SLink from '@/components/SLink';
+import Image from 'next/image';
 
 export default function NotFound() {
     const headingColor = useColorModeValue('gray.800', 'white');
@@ -10,20 +11,22 @@ export default function NotFound() {
 
     return (
         <Container maxW="container.xl" py={8}>
-            <VStack spacing={8} align="center" justify="center">
+            <VStack spacing={6} align="center" justify="center">
                 <Box 
                     position="relative" 
-                    w={{ base: "200px", md: "300px", lg: "500px" }}
-                    h={{ base: "200px", md: "300px", lg: "500px" }}
+                    w="full"
+                    maxW={{ base: "300px", md: "400px", lg: "500px" }}
                 >
                     <Image
-                        src="/contentblocks/main/contentimage_main4.png"
+                        src="/contentblocks/404/contentimage_main4.png"
                         alt="404 Error"
+                        layout="responsive"
                         width={500}
                         height={500}
                         style={{
                             objectFit: 'contain',
                         }}
+                        priority
                     />
                 </Box>
                 <Heading 
@@ -34,7 +37,7 @@ export default function NotFound() {
                 >
                     404
                 </Heading>
-                <VStack>
+                <VStack spacing={2}>
                     <Text 
                         color={textColor} 
                         textAlign="center"
@@ -56,7 +59,6 @@ export default function NotFound() {
                     <Button
                         colorScheme="orange"
                         size="lg"
-                        mt={4}
                         _hover={{
                             transform: 'translateY(-2px)',
                             boxShadow: 'lg'
