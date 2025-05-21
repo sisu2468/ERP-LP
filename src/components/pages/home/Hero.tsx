@@ -78,7 +78,7 @@ export default function Hero() {
                                 </Link>
                             </Box>
                             <Box width="100%">
-                                <Link href="/newsletter">
+                                <Link href="/request-information">
                                     <Button
                                         w="100%"
                                         size="lg"
