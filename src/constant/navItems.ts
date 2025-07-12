@@ -53,9 +53,9 @@ export const navItems: NavItem[] = [
         path: '/career',
         description: '採用情報',
     },
-    {
-        title: 'お問い合わせ',
-        path: '/contact',
-        description: '相談・無料トライアル申し込み',
-    },
+    // {
+    //     title: 'お問い合わせ',
+    //     path: '/contact',
+    //     description: '相談・無料トライアル申し込み',
+    // },
 ];
