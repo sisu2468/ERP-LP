@@ -240,15 +240,14 @@ export default function Header() {
         >
           {navItems.map((item) => (
             <Box key={item.path}>
-              <SLink href={item.subMenu ? '#' : item.path}>
+              {item.title === 'お問い合わせ' ? (
                 <Box
                   px="4"
                   py="3"
                   _hover={{ bg: colorMode === 'light' ? 'gray.50' : 'gray.700' }}
-                  color={pathname === item.path ?
-                    (colorMode === 'light' ? 'gray.900' : 'white') :
-                    (colorMode === 'light' ? 'gray.500' : 'gray.400')
-                  }
+                  color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
+                  cursor="pointer"
+                  onClick={onOpen}
                 >
                   <Flex justify="space-between" align="center">
                     <Box>
@@ -266,17 +265,47 @@ export default function Header() {
                         {item.description}
                       </Text>
                     </Box>
-                    {item.subMenu && (
-                      <Icon
-                        as={ChevronDownIcon}
-                        h={4}
-                        w={4}
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
-                      />
-                    )}
                   </Flex>
                 </Box>
-              </SLink>
+              ) : (
+                <SLink href={item.subMenu ? '#' : item.path}>
+                  <Box
+                    px="4"
+                    py="3"
+                    _hover={{ bg: colorMode === 'light' ? 'gray.50' : 'gray.700' }}
+                    color={pathname === item.path ?
+                      (colorMode === 'light' ? 'gray.900' : 'white') :
+                      (colorMode === 'light' ? 'gray.500' : 'gray.400')
+                    }
+                  >
+                    <Flex justify="space-between" align="center">
+                      <Box>
+                        <Text
+                          fontSize="sm"
+                          fontWeight="medium"
+                          color={colorMode === 'light' ? 'gray.800' : 'white'}
+                        >
+                          {item.title}
+                        </Text>
+                        <Text
+                          fontSize="xs"
+                          color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
+                        >
+                          {item.description}
+                        </Text>
+                      </Box>
+                      {item.subMenu && (
+                        <Icon
+                          as={ChevronDownIcon}
+                          h={4}
+                          w={4}
+                          color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
+                        />
+                      )}
+                    </Flex>
+                  </Box>
+                </SLink>
+              )}
               {item.subMenu && (
                 <Box
                   pl="6"
