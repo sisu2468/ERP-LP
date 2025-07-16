@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
 import {
+  Box,
+  Button as ChakraButton,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  HStack,
+  Input,
   Modal,
-  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  FormErrorMessage,
-  Button as ChakraButton,
+  ModalOverlay,
   Tag,
-  HStack,
-  Box,
   Text,
+  Textarea,
+  useColorMode,
   useColorModeValue
 } from '@chakra-ui/react';
+import React, { useState } from 'react';
 
 interface InquiryModalProps {
   isOpen: boolean;
@@ -33,7 +33,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
   const [touched, setTouched] = useState<{ name: boolean; email: boolean; content: boolean }>({ name: false, email: false, content: false });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
+  const { colorMode } = useColorMode();
   const isNameError = touched.name && (!form.name || !jpNameRegex.test(form.name));
   const isEmailError = touched.email && (!form.email || !emailRegex.test(form.email));
   const isContentError = touched.content && !form.content;
@@ -158,6 +158,14 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                 fontWeight="bold"
                 isLoading={submitting}
                 mb={2}
+                size="lg"
+                fontSize="md"
+                px={8}
+                _hover={{
+                  transform: "translateY(-2px)",
+                  boxShadow: "lg",
+                  bg: colorMode === 'light' ? 'orange.500' : 'orange.400',
+                }}
               >
                 送信
               </ChakraButton>
