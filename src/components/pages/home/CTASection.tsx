@@ -10,6 +10,8 @@ import {
     VStack,
     useColorMode,
     useColorModeValue,
+    Button,
+    useDisclosure,
 } from '@chakra-ui/react';
 import {
     FaClock
@@ -21,6 +23,7 @@ import { ctaCards } from '../../../constant/CTACards';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import InquiryModal from '../../common/InquiryModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,6 +40,7 @@ export default function CTASection() {
     const headingRef = useRef(null);
     const cardsGridRef = useRef(null);
     const ctaBoxRef = useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         // Heading animation
@@ -158,9 +162,21 @@ export default function CTASection() {
                                 flexWrap="wrap"
                                 justify="center"
                             >
-                                <Button_Orange href="/contact">
+                                <Button
+                                    size="lg"
+                                    colorScheme="orange"
+                                    px={8}
+                                    fontSize="md"
+                                    fontWeight="bold"
+                                    onClick={onOpen}
+                                    _hover={{
+                                        transform: "translateY(-2px)",
+                                        boxShadow: "lg",
+                                    }}
+                                >
                                     お問い合わせ
-                                </Button_Orange>
+                                </Button>
+                                <InquiryModal isOpen={isOpen} onClose={onClose} />
                                 <Button_Blue href="/faq">
                                     よくある質問
                                 </Button_Blue>
