@@ -10,9 +10,13 @@ import {
     VStack,
     useColorMode,
     useColorModeValue,
+    Button,
+    useDisclosure,
 } from '@chakra-ui/react';
 import {
-    FaClock
+    FaRocket,
+    FaChartLine,
+    FaUsers
 } from 'react-icons/fa';
 import Button_Orange from '../../buttons/Button_Orange';
 import Button_Blue from '../../buttons/Button_Blue';
@@ -21,25 +25,26 @@ import { ctaCards } from '../../../constant/CTACards';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import InquiryModal from '../../common/InquiryModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CTASection() {
     const { colorMode } = useColorMode();
-    const bgColor = useColorModeValue('white', 'gray.900');
+    const bgColor = useColorModeValue('gray.50', 'gray.900');
     const headingColor = useColorModeValue('gray.800', 'white');
     const accentColor = useColorModeValue('orange.500', 'orange.300');
     const textColor = useColorModeValue('gray.600', 'gray.300');
-    const boxBg = useColorModeValue('gray.50', 'gray.800');
+    const boxBg = useColorModeValue('white', 'gray.800');
     const iconColor = useColorModeValue('gray.600', 'gray.300');
-    const borderColor = useColorModeValue('gray.100', 'gray.700');
+    const borderColor = useColorModeValue('gray.200', 'gray.700');
 
     const headingRef = useRef(null);
     const cardsGridRef = useRef(null);
     const ctaBoxRef = useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
-        // Heading animation
         gsap.fromTo(headingRef.current,
             { opacity: 0, y: 30 },
             {
@@ -54,7 +59,6 @@ export default function CTASection() {
             }
         );
 
-        // Cards grid container animation
         gsap.fromTo(cardsGridRef.current,
             { opacity: 0 },
             {
@@ -68,7 +72,6 @@ export default function CTASection() {
             }
         );
 
-        // Bottom CTA box animation
         const ctaBox = ctaBoxRef.current;
         if (ctaBox) {
             gsap.fromTo(ctaBox,
@@ -92,6 +95,27 @@ export default function CTASection() {
         };
     }, [colorMode, borderColor]);
 
+    const benefits = [
+        {
+            icon: FaRocket,
+            title: "最短1週間で初稿",
+            description: "ご相談から最短1週間で初稿を提出。スピードと品質を両立します。",
+            color: "orange.500"
+        },
+        {
+            icon: FaChartLine,
+            title: "成約率重視の設計",
+            description: "心理学ベースで「行動につながる」導線を設計し、成約率を高めます。",
+            color: "green.500"
+        },
+        {
+            icon: FaUsers,
+            title: "柔軟な対応",
+            description: "修正や追加対応にも柔軟に対応。お客様のご要望に寄り添います。",
+            color: "blue.500"
+        }
+    ];
+
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
             <Container maxW="7xl">
@@ -100,21 +124,21 @@ export default function CTASection() {
                         ref={headingRef}
                         spacing={4} 
                         textAlign="center" 
-                        maxW="2xl" 
+                        maxW="3xl" 
                         mx="auto"
                     >
                         <Heading 
                             size="xl"
                             color={headingColor}
                         >
-                            ビジネスの効率化を
+                            あなたのビジョンを
                             <Text as="span" color={accentColor}>
-                                今すぐ
+                                カタチに
                             </Text>
-                            始めましょう
+                            しませんか？
                         </Heading>
                         <Text fontSize="xl" color={textColor}>
-                            導入から運用まで、専任のサポートチームが全面的にサポートいたします
+                            "売れる設計"からはじめるLP制作で、ビジネスの成長を加速させます
                         </Text>
                     </VStack>
 
@@ -124,13 +148,37 @@ export default function CTASection() {
                         spacing={8}
                         width="full"
                     >
-                        {ctaCards.map((card, index) => (
-                            <CTACard 
-                                key={card.title} 
-                                card={card} 
-                                colorMode={colorMode}
-                                index={index}
-                            />
+                        {benefits.map((benefit, index) => (
+                            <Box
+                                key={index}
+                                p={8}
+                                bg={boxBg}
+                                borderRadius="xl"
+                                border="1px"
+                                borderColor={borderColor}
+                                textAlign="center"
+                                boxShadow="0 4px 20px rgba(0,0,0,0.08)"
+                                _hover={{
+                                    transform: 'translateY(-4px)',
+                                    shadow: '0 20px 40px rgba(0,0,0,0.12)',
+                                    transition: 'all 0.3s ease',
+                                }}
+                            >
+                                <VStack spacing={4}>
+                                    <Icon 
+                                        as={benefit.icon} 
+                                        w={12} 
+                                        h={12} 
+                                        color={benefit.color}
+                                    />
+                                    <Heading size="md" color={headingColor}>
+                                        {benefit.title}
+                                    </Heading>
+                                    <Text color={textColor} lineHeight="1.6">
+                                        {benefit.description}
+                                    </Text>
+                                </VStack>
+                            </Box>
                         ))}
                     </SimpleGrid>
 
@@ -143,26 +191,41 @@ export default function CTASection() {
                         textAlign="center"
                         borderWidth="1px"
                         borderColor={borderColor}
+                        boxShadow="0 4px 20px rgba(0,0,0,0.08)"
                         style={{ 
                             willChange: 'transform',
                             transform: 'translateY(0)'
                         }}
                     >
-                        <VStack spacing={4}>
-                            <HStack spacing={2} color={iconColor}>
-                                <Icon as={FaClock} />
-                                <Text>初期設定からご利用開始まで最短3日</Text>
-                            </HStack>
+                        <VStack spacing={6}>
+                            <Text fontSize="lg" fontWeight="bold" color={headingColor}>
+                                まずは無料相談から始めましょう
+                            </Text>
+                            <Text color={textColor}>
+                                ご予算やご要望について、丁寧にヒアリングいたします
+                            </Text>
                             <Flex
                                 gap={4}
                                 flexWrap="wrap"
                                 justify="center"
                             >
-                                <Button_Orange href="/contact">
-                                    お問い合わせ
-                                </Button_Orange>
-                                <Button_Blue href="/faq">
-                                    よくある質問
+                                <Button
+                                    size="lg"
+                                    colorScheme="orange"
+                                    px={8}
+                                    fontSize="md"
+                                    fontWeight="bold"
+                                    onClick={onOpen}
+                                    _hover={{
+                                        transform: "translateY(-2px)",
+                                        boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+                                    }}
+                                >
+                                    無料相談を申し込む
+                                </Button>
+                                <InquiryModal isOpen={isOpen} onClose={onClose} />
+                                <Button_Blue href="/pricing">
+                                    料金詳細を見る
                                 </Button_Blue>
                             </Flex>
                         </VStack>
