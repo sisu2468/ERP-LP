@@ -14,8 +14,18 @@ import {
     Text,
     useColorMode,
     useColorModeValue,
+    useDisclosure,
 } from '@chakra-ui/react';
-import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin, FaMapMarkerAlt, FaPhone, FaTwitter } from 'react-icons/fa';
+import {
+    FaEnvelope,
+    FaFacebook,
+    FaInstagram,
+    FaLinkedin,
+    FaMapMarkerAlt,
+    FaPhone,
+    FaTwitter,
+} from 'react-icons/fa';
+import InquiryModal from './common/InquiryModal';
 
 export default function Footer() {
     const { colorMode } = useColorMode();
@@ -26,6 +36,7 @@ export default function Footer() {
     const linkColor = useColorModeValue('gray.600', 'gray.300');
     const iconColor = useColorModeValue('gray.600', 'gray.400');
     const dividerColor = useColorModeValue('gray.200', 'gray.700');
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Box bg={bgColor} py={10} borderTop={`1px solid ${borderColor}`} transition="background-color 0.2s">
@@ -67,7 +78,7 @@ export default function Footer() {
                         <Link href="/company" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>会社概要</Link>
                         <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>プライバシーポリシー</Link>
                         <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>利用規約</Link>
-                        <Link href="/contact" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>お問い合わせ</Link>
+                        <Link onClick={onOpen} fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }} cursor="pointer">お問い合わせ</Link>
                     </Stack>
 
                     {/* <Stack spacing={4} textAlign='left'>
@@ -115,6 +126,8 @@ export default function Footer() {
                     />
                 </Flex>
             </Container>
+            
+            <InquiryModal isOpen={isOpen} onClose={onClose} />
         </Box>
     );
 } 
