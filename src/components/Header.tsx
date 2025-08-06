@@ -34,7 +34,6 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Japanese name regex: kanji, hiragana, katakana, full-width space
   const jpNameRegex = /^[\u3000\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uFF66-\uFF9F\s]+$/;
