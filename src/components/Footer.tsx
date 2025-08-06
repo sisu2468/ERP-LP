@@ -14,10 +14,17 @@ import {
     Text,
     useColorMode,
     useColorModeValue,
-    Button,
     useDisclosure,
 } from '@chakra-ui/react';
-import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin, FaMapMarkerAlt, FaPhone, FaTwitter } from 'react-icons/fa';
+import {
+    FaEnvelope,
+    FaFacebook,
+    FaInstagram,
+    FaLinkedin,
+    FaMapMarkerAlt,
+    FaPhone,
+    FaTwitter,
+} from 'react-icons/fa';
 import InquiryModal from './common/InquiryModal';
 
 export default function Footer() {
@@ -71,21 +78,7 @@ export default function Footer() {
                         <Link href="/company" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>会社概要</Link>
                         <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>プライバシーポリシー</Link>
                         <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>利用規約</Link>
-                        <Button
-                            display="flex"
-                            justifyContent="flex-start"
-                            variant="link"
-                            fontSize="sm"
-                            fontWeight="light"
-                            color={linkColor}
-                            _hover={{ color: 'orange.500', textDecoration: 'none' }}
-                            onClick={onOpen}
-                            p={0}
-                            h="auto"
-                            textDecoration='none'
-                        >
-                            お問い合わせ
-                        </Button>
+                        <Link onClick={onOpen} fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }} cursor="pointer">お問い合わせ</Link>
                     </Stack>
                     <InquiryModal isOpen={isOpen} onClose={onClose} />
 
@@ -134,6 +127,8 @@ export default function Footer() {
                     />
                 </Flex>
             </Container>
+            
+            <InquiryModal isOpen={isOpen} onClose={onClose} />
         </Box>
     );
 } 

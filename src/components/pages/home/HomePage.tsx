@@ -6,10 +6,9 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import CTASection from "./CTASection";
 import FAQ from "./faq/FAQ";
-import FeatureDetailsSection from "./FeatureDetailsSection";
-import FlowChart from "./flowchart/FlowChart";
 import Hero from "./Hero";
-import ServiceIntroSection from "./ServiceIntroSection";
+import ProblemSection from "./ProblemSection";
+import BasicFlowSection from "./BasicFlowSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,14 +34,14 @@ export default function HomePage() {
             );
         });
     }, []);
+    
     return (
         <Box>
             <Hero />
-            <ServiceIntroSection />
-            <FeatureDetailsSection />
-            <FlowChart />
+            <ProblemSection />
+            <BasicFlowSection />
             <CTASection />
-            <FAQ />
+            {/* <FAQ /> */}
         </Box>
     )
 }

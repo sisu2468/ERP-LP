@@ -18,6 +18,7 @@ import {
   useColorMode,
   useColorModeValue
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
 interface InquiryModalProps {
@@ -66,113 +67,147 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
-      <ModalOverlay />
-      <ModalContent borderRadius="lg" border="2px" borderColor={borderColor} p={1} bg={modalBg}>
-        <ModalHeader fontWeight="bold" fontSize="xl" pb={2} color={labelColor}>
-          お問い合わせ
-        </ModalHeader>
-        <ModalCloseButton color={labelColor} />
-        <ModalBody>
-          {submitted ? (
-            <Box textAlign="center" py={8}>
-              <Text fontWeight="bold" fontSize="lg" mb={2} color={labelColor}>送信が完了しました</Text>
-              <Text fontSize="sm" color={textColor}>ご意見ありがとうございます。</Text>
-            </Box>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <FormControl isRequired isInvalid={isNameError} mb={4}>
-                <HStack mb={1}>
-                  <FormLabel htmlFor="name" mb={0} fontWeight="bold" color={labelColor}>名前</FormLabel>
-                  <Tag size="sm" colorScheme="orange">必須</Tag>
-                </HStack>
-                <Input
-                  id="name"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+    <>
+      {/* Modal for all screen sizes */}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
+        <ModalOverlay />
+        <ModalContent borderRadius="lg" border="2px" borderColor={borderColor} p={1} bg={modalBg}>
+          <ModalHeader fontWeight="bold" fontSize="xl" pb={2} color={labelColor}>
+            お問い合わせ
+          </ModalHeader>
+          <ModalCloseButton color={labelColor} />
+          <ModalBody>
+            {submitted ? (
+              <Box textAlign="center" py={8}>
+                <Text fontWeight="bold" fontSize="lg" mb={2} color={labelColor}>送信が完了しました</Text>
+                <Text fontSize="sm" color={textColor}>ご意見ありがとうございます。</Text>
+              </Box>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <FormControl isRequired isInvalid={isNameError} mb={4}>
+                  <HStack mb={1}>
+                    <FormLabel htmlFor="name" mb={0} fontWeight="bold" color={labelColor}>名前</FormLabel>
+                    <Tag size="sm" colorScheme="orange">必須</Tag>
+                  </HStack>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    borderRadius="2xl"
+                    bg={bgInput}
+                    color={textColor}
+                  />
+                  <FormErrorMessage>
+                    {form.name === '' ? '名前は必須です' : '日本語で入力してください（漢字・ひらがな・カタカナ）'}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl mb={4}>
+                  <FormLabel htmlFor="company" fontWeight="bold" color={labelColor}>会社名</FormLabel>
+                  <Input
+                    id="company"
+                    name="company"
+                    value={form.company || ''}
+                    onChange={handleChange}
+                    borderRadius="2xl"
+                    bg={bgInput}
+                    color={textColor}
+                  />
+                </FormControl>
+                <FormControl isRequired isInvalid={isEmailError} mb={4}>
+                  <HStack mb={1}>
+                    <FormLabel htmlFor="email" mb={0} fontWeight="bold" color={labelColor}>メールアドレス</FormLabel>
+                    <Tag size="sm" colorScheme="orange">必須</Tag>
+                  </HStack>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    borderRadius="2xl"
+                    bg={bgInput}
+                    color={textColor}
+                  />
+                  <FormErrorMessage>
+                    {form.email === '' ? 'メールアドレスは必須です' : '正しいメールアドレスを入力してください'}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl isRequired isInvalid={isContentError} mb={4}>
+                  <HStack mb={1}>
+                    <FormLabel htmlFor="content" mb={0} fontWeight="bold" color={labelColor}>お問い合わせ内容</FormLabel>
+                    <Tag size="sm" colorScheme="orange">必須</Tag>
+                  </HStack>
+                  <Textarea
+                    id="content"
+                    name="content"
+                    value={form.content}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    borderRadius="2xl"
+                    bg={bgInput}
+                    color={textColor}
+                    minH="80px"
+                  />
+                  <FormErrorMessage>お問い合わせ内容は必須です</FormErrorMessage>
+                </FormControl>
+                <ChakraButton
+                  type="submit"
+                  colorScheme="orange"
                   borderRadius="2xl"
-                  bg={bgInput}
-                  color={textColor}
-                />
-                <FormErrorMessage>
-                  {form.name === '' ? '名前は必須です' : '日本語で入力してください（漢字・ひらがな・カタカナ）'}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl mb={4}>
-                <FormLabel htmlFor="company" fontWeight="bold" color={labelColor}>会社名</FormLabel>
-                <Input
-                  id="company"
-                  name="company"
-                  value={form.company || ''}
-                  onChange={handleChange}
-                  borderRadius="2xl"
-                  bg={bgInput}
-                  color={textColor}
-                />
-              </FormControl>
-              <FormControl isRequired isInvalid={isEmailError} mb={4}>
-                <HStack mb={1}>
-                  <FormLabel htmlFor="email" mb={0} fontWeight="bold" color={labelColor}>メールアドレス</FormLabel>
-                  <Tag size="sm" colorScheme="orange">必須</Tag>
-                </HStack>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  borderRadius="2xl"
-                  bg={bgInput}
-                  color={textColor}
-                />
-                <FormErrorMessage>
-                  {form.email === '' ? 'メールアドレスは必須です' : '正しいメールアドレスを入力してください'}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isRequired isInvalid={isContentError} mb={4}>
-                <HStack mb={1}>
-                  <FormLabel htmlFor="content" mb={0} fontWeight="bold" color={labelColor}>お問い合わせ内容</FormLabel>
-                  <Tag size="sm" colorScheme="orange">必須</Tag>
-                </HStack>
-                <Textarea
-                  id="content"
-                  name="content"
-                  value={form.content}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  borderRadius="2xl"
-                  bg={bgInput}
-                  color={textColor}
-                  minH="80px"
-                />
-                <FormErrorMessage>お問い合わせ内容は必須です</FormErrorMessage>
-              </FormControl>
-              <ChakraButton
-                type="submit"
-                colorScheme="orange"
-                borderRadius="2xl"
-                w="100%"
-                fontWeight="bold"
-                isLoading={submitting}
-                mb={2}
-                size="lg"
-                fontSize="md"
-                px={8}
-                _hover={{
-                  transform: "translateY(-2px)",
-                  boxShadow: "lg",
-                  bg: colorMode === 'light' ? 'orange.500' : 'orange.400',
-                }}
-              >
-                送信
-              </ChakraButton>
-            </form>
-          )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+                  w="100%"
+                  fontWeight="bold"
+                  isLoading={submitting}
+                  mb={2}
+                  size="lg"
+                  fontSize="md"
+                  px={8}
+                  _hover={{
+                    transform: "translateY(-2px)",
+                    boxShadow: "lg",
+                    bg: colorMode === 'light' ? 'orange.500' : 'orange.400',
+                  }}
+                >
+                  送信
+                </ChakraButton>
+              </form>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* SAINTA Text Animation - only on large screens */}
+      {/* {isOpen && (
+        <Box
+          className="hidden lg:block"
+          as={motion.div}
+          initial={{ y: "100vh", opacity: 0 }}
+          animate={{ y: "0", opacity: 1 }}
+          exit={{ y: "100vh", opacity: 0 }}
+          position="fixed"
+          right="calc(50% - 350px)"
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex={1500}
+          pointerEvents="none"
+          userSelect="none"
+        >
+          <Box
+            fontSize="6xl"
+            fontWeight="bold"
+            color={colorMode === 'light' ? 'gray.300' : 'gray.600'}
+            opacity={0.4}
+            letterSpacing="widest"
+            lineHeight={1}
+            fontFamily="Montserrat, Arial, sans-serif"
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+          >
+            SAINTA
+          </Box>
+        </Box>
+      )} */}
+    </>
   );
 } 

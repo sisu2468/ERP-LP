@@ -32,6 +32,7 @@ export default function Header() {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -121,29 +122,43 @@ export default function Header() {
 
           <HStack spacing="8" display={{ base: 'none', md: 'none', lg: 'none', xl: 'flex' }}>
             {navItems.map((item) => (
-              item.title === 'お問い合わせ' ? (
-                <Button
-                  key={item.path}
-                  variant="ghost"
-                  className="nav-item"
-                  px="3"
-                  py="2"
-                  fontSize="sm"
-                  fontWeight="medium"
-                  color={colorMode === 'light' ? 'gray.600' : 'white'}
-                  borderBottom="2px"
-                  borderColor="transparent"
-                  _hover={{
-                    color: colorMode === 'light' ? 'gray.900' : 'white',
-                    borderColor: 'orange.500',
-                  }}
-                  onClick={onOpen}
-                >
-                  {item.title}
-                </Button>
-              ) : (
-                <Menu key={item.path}>
-                  {item.subMenu ? (
+              <Menu key={item.path}>
+                {item.subMenu ? (
+                  <Header_MenuButton pathname={pathname} item={item}>
+                    <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
+                      {item.title}
+                      <Icon
+                        as={ChevronDownIcon}
+                        ml={1}
+                        h={4}
+                        w={4}
+                        color={colorMode === 'light' ? 'gray.600' : 'white'}
+                      />
+                    </Flex>
+                  </Header_MenuButton>
+                ) : item.title === 'お問い合わせ' ? (
+                  <Button
+                    variant="ghost"
+                    className="nav-item"
+                    px="3"
+                    py="2"
+                    fontSize="sm"
+                    fontWeight="medium"
+                    color={colorMode === 'light' ? 'gray.600' : 'white'}
+                    borderBottom="2px"
+                    borderColor="transparent"
+                    _hover={{
+                      color: 'orange.500',
+                      borderColor: 'orange.500',
+                    }}
+                    onClick={onOpen}
+                  >
+                    <Flex gap={1} alignItems='center'>
+                      {item.title}
+                    </Flex>
+                  </Button>
+                ) : (
+                  <Link href={item.path}>
                     <Header_MenuButton pathname={pathname} item={item}>
                       <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
                         {item.title}
@@ -156,53 +171,45 @@ export default function Header() {
                         />
                       </Flex>
                     </Header_MenuButton>
-                  ) : (
-                    <Link href={item.path}>
-                      <Header_MenuButton pathname={pathname} item={item}>
-                        <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
-                          {item.title}
-                        </Flex>
-                      </Header_MenuButton>
-                    </Link>
-                  )}
-                  {item.subMenu && (
-                    <MenuList
-                      py="2"
-                      boxShadow="lg"
-                      border="1px"
-                      borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
-                      bg={colorMode === 'light' ? 'white' : 'gray.800'}
-                    >
-                      {item.subMenu.map((subItem) => (
-                        <MenuItem
-                          key={subItem.path}
-                          _hover={{
-                            bg: colorMode === 'light' ? 'gray.50' : 'gray.700'
-                          }}
-                        >
-                          <SLink href={subItem.path}>
-                            <Box>
-                              <Text
-                                fontSize="sm"
-                                fontWeight="medium"
-                                color={colorMode === 'light' ? 'gray.800' : 'white'}
-                              >
-                                {subItem.title}
-                              </Text>
-                              <Text
-                                fontSize="xs"
-                                color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
-                              >
-                                {subItem.description}
-                              </Text>
-                            </Box>
-                          </SLink>
-                        </MenuItem>
-                      ))}
-                    </MenuList>
-                  )}
-                </Menu>
-              )
+                  </Link>
+                )}
+                {item.subMenu && (
+                  <MenuList
+                    py="2"
+                    boxShadow="lg"
+                    border="1px"
+                    borderColor={colorMode === 'light' ? 'gray.100' : 'gray.700'}
+                    bg={colorMode === 'light' ? 'white' : 'gray.800'}
+                  >
+                    {item.subMenu.map((subItem) => (
+                      <MenuItem
+                        key={subItem.path}
+                        _hover={{
+                          bg: colorMode === 'light' ? 'gray.50' : 'gray.700'
+                        }}
+                      >
+                        <SLink href={subItem.path}>
+                          <Box>
+                            <Text
+                              fontSize="sm"
+                              fontWeight="medium"
+                              color={colorMode === 'light' ? 'gray.800' : 'white'}
+                            >
+                              {subItem.title}
+                            </Text>
+                            <Text
+                              fontSize="xs"
+                              color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
+                            >
+                              {subItem.description}
+                            </Text>
+                          </Box>
+                        </SLink>
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                )}
+              </Menu>
             ))}
           </HStack>
 
@@ -241,32 +248,20 @@ export default function Header() {
           {navItems.map((item) => (
             <Box key={item.path}>
               {item.title === 'お問い合わせ' ? (
-                <Box
+                <Button
+                  w="full"
+                  justifyContent="flex-start"
                   px="4"
                   py="3"
+                  fontSize="sm"
+                  fontWeight="medium"
+                  bgColor={colorMode === 'light' ? 'white' : 'gray.800'}
                   _hover={{ bg: colorMode === 'light' ? 'gray.50' : 'gray.700' }}
-                  color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
-                  cursor="pointer"
+                  color={colorMode === 'light' ? 'gray.800' : 'gray.400'}
                   onClick={onOpen}
                 >
-                  <Flex justify="space-between" align="center">
-                    <Box>
-                      <Text
-                        fontSize="sm"
-                        fontWeight="medium"
-                        color={colorMode === 'light' ? 'gray.800' : 'white'}
-                      >
-                        {item.title}
-                      </Text>
-                      <Text
-                        fontSize="xs"
-                        color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
-                      >
-                        {item.description}
-                      </Text>
-                    </Box>
-                  </Flex>
-                </Box>
+                  {item.title}
+                </Button>
               ) : (
                 <SLink href={item.subMenu ? '#' : item.path}>
                   <Box
@@ -339,7 +334,8 @@ export default function Header() {
           ))}
         </Box>
       </Box>
+
       <InquiryModal isOpen={isOpen} onClose={onClose} />
-    </Box>
+    </Box >
   );
 } 
