@@ -161,14 +161,7 @@ export default function Header() {
                     <Header_MenuButton pathname={pathname} item={item}>
                       <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
                         {item.title}
-                        <Icon
-                          as={ChevronDownIcon}
-                          ml={1}
-                          h={4}
-                          w={4}
-                          color={colorMode === 'light' ? 'gray.600' : 'white'}
-                        />
-                      </Flex>
+                       </Flex>
                     </Header_MenuButton>
                   </Link>
                 )}
