@@ -36,7 +36,7 @@ export const navItems: NavItem[] = [
     //             path: '/sainta-connect',
     //             description: '専門家マッチングプラットフォーム',
     //         },
-    //     ],
+    //         ],
     // },
     // {
     //     title: 'プラン・料金',
@@ -55,7 +55,7 @@ export const navItems: NavItem[] = [
     },
     {
         title: 'お問い合わせ',
-        path: '/contact',
+        path: '#',
         description: '相談・無料トライアル申し込み',
     },
 ];

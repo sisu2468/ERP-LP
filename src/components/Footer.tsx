@@ -80,6 +80,7 @@ export default function Footer() {
                         <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>利用規約</Link>
                         <Link onClick={onOpen} fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }} cursor="pointer">お問い合わせ</Link>
                     </Stack>
+                    <InquiryModal isOpen={isOpen} onClose={onClose} />
 
                     {/* <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>

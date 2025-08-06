@@ -11,7 +11,6 @@ import {
   IconButton,
   Link,
   Menu,
-  MenuButton,
   MenuItem,
   MenuList,
   Text,
@@ -35,6 +34,11 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Japanese name regex: kanji, hiragana, katakana, full-width space
+  const jpNameRegex = /^[\u3000\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uFF66-\uFF9F\s]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleMenuClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -158,6 +162,13 @@ export default function Header() {
                     <Header_MenuButton pathname={pathname} item={item}>
                       <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
                         {item.title}
+                        <Icon
+                          as={ChevronDownIcon}
+                          ml={1}
+                          h={4}
+                          w={4}
+                          color={colorMode === 'light' ? 'gray.600' : 'white'}
+                        />
                       </Flex>
                     </Header_MenuButton>
                   </Link>
