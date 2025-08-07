@@ -59,7 +59,7 @@ export default function LoadingAnimation({
         >
           <Box
             as="object"
-            data="/sainta.svg"
+            data="/svg/svg1.svg"
             type="image/svg+xml"
             width="100%"
             height="100%"
