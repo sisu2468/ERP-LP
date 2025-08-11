@@ -38,11 +38,11 @@ export const navItems: NavItem[] = [
     //         },
     //         ],
     // },
-    {
-        title: 'プラン・料金',
-        path: '/pricing',
-        description: '料金体系と導入プラン',
-    },
+    // {
+    //     title: 'プラン・料金',
+    //     path: '/pricing',
+    //     description: '料金体系と導入プラン',
+    // },
     // {
     //     title: 'お役立ち情報',
     //     path: '/resources',
