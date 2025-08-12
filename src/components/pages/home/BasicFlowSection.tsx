@@ -5,17 +5,16 @@ import {
     Text,
     VStack,
     HStack,
-    Icon,
     useColorMode,
     useColorModeValue,
     SimpleGrid,
     Alert,
     AlertIcon,
 } from '@chakra-ui/react';
-import { FaComments, FaCode, FaRocket } from 'react-icons/fa';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,22 +83,19 @@ export default function BasicFlowSection() {
 
     const steps = [
         {
-            icon: FaComments,
+            icon: "/svg/svg2.svg",
             title: "無料相談",
             description: "まずはオンラインでの無料相談からスタート。ご予算、ご希望、現在の状況やお悩みについて丁寧にヒアリングを行い、ご要望の複雑さを踏まえたお見積もりをご案内いたします。",
-            color: "blue.500"
         },
         {
-            icon: FaCode,
+            icon: "/svg/svg3.svg",
             title: "開発開始",
             description: "お支払いが確認でき次第、制作を開始いたします。LP・Webアプリともに、お客様のご希望に沿った形で進行し、進捗はSlackやメールなど、ご希望の連絡手段で定期的にご報告いたします。",
-            color: "green.500"
         },
         {
-            icon: FaRocket,
+            icon: "/svg/svg4.svg",
             title: "公開・デプロイ",
             description: "制作が完了次第、公開作業までしっかり対応いたします。ドメイン設定やホスティング、SEO対策などもすべてお任せください。あなたのビジョンを、世界へ。私たちがカタチにします。",
-            color: "purple.500"
         }
     ];
 
@@ -162,14 +158,24 @@ export default function BasicFlowSection() {
                                         {index + 1}
                                     </Box>
 
-                                    <Icon 
-                                        as={step.icon} 
-                                        w={12} 
-                                        h={12} 
-                                        color={step.color}
+                                    <Box
+                                        position="relative"
                                         mt={4}
-                                    />
-
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                    >
+                                        <Image
+                                            src={step.icon}
+                                            alt={step.title}
+                                            width={320}
+                                            height={180}
+                                            style={{
+                                                filter: colorMode === 'dark' ? 'brightness(0) invert(1)' : 'none',
+                                                opacity: 0.8
+                                            }}
+                                        />
+                                    </Box>
                                     <Heading
                                         as="h3"
                                         size="lg"
