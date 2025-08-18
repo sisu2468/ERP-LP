@@ -1,20 +1,20 @@
 import {
+    Alert,
+    AlertIcon,
     Box,
     Container,
     Heading,
-    Text,
-    VStack,
     HStack,
+    SimpleGrid,
+    Text,
     useColorMode,
     useColorModeValue,
-    SimpleGrid,
-    Alert,
-    AlertIcon,
+    VStack,
 } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
