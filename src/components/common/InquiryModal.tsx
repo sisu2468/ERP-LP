@@ -18,7 +18,6 @@ import {
   useColorMode,
   useColorModeValue
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
 interface InquiryModalProps {
@@ -34,6 +33,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
   const [touched, setTouched] = useState<{ name: boolean; email: boolean; content: boolean }>({ name: false, email: false, content: false });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { colorMode } = useColorMode();
   const isNameError = touched.name && (!form.name || !jpNameRegex.test(form.name));
   const isEmailError = touched.email && (!form.email || !emailRegex.test(form.email));
@@ -57,13 +57,33 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
     setTouched({ name: true, email: true, content: true });
     if (!form.name || !jpNameRegex.test(form.name) || !form.email || !emailRegex.test(form.email) || !form.content) return;
     setSubmitting(true);
-    // TODO: Send to API
-    setTimeout(() => {
+    setError(null);
+    
+    try {
+      const response = await fetch('https://erp-lp-backend.vercel.app/api/inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+      
+      const result = await response.json();
+      
+      if (result.ok) {
+        setSubmitted(true);
+        setForm({ name: '', email: '', content: '', company: '' });
+        setTouched({ name: false, email: false, content: false });
+      } else {
+        console.error('Inquiry submission failed:', result.message);
+        setError(result.message || '送信に失敗しました');
+      }
+    } catch (error) {
+      console.error('Inquiry submission error:', error);
+      setError('送信に失敗しました。しばらく時間をおいて再度お試しください。');
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-      setForm({ name: '', email: '', content: '', company: '' });
-      setTouched({ name: false, email: false, content: false });
-    }, 1200);
+    }
   };
 
   return (
@@ -73,8 +93,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
         <ModalOverlay />
         <ModalContent borderRadius="lg" border="2px" borderColor={borderColor} p={1} bg={modalBg}>
           <ModalHeader fontWeight="bold" fontSize="xl" pb={2} color={labelColor}>
-            お問い合わせ
-          </ModalHeader>
+            お問い合わせ          </ModalHeader>
           <ModalCloseButton color={labelColor} />
           <ModalBody>
             {submitted ? (
@@ -153,6 +172,11 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                   />
                   <FormErrorMessage>お問い合わせ内容は必須です</FormErrorMessage>
                 </FormControl>
+                {error && (
+                  <Box mb={4} p={3} bg="red.50" border="1px" borderColor="red.200" borderRadius="md">
+                    <Text color="red.600" fontSize="sm">{error}</Text>
+                  </Box>
+                )}
                 <ChakraButton
                   type="submit"
                   colorScheme="orange"
