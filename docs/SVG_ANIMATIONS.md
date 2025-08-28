@@ -1,43 +1,43 @@
-# SVG Animations Implementation Guide
+# SVGアニメーション実装ガイド
 
-This document explains how to use the SVG animation system implemented for the Sainta ERP landing page.
+このドキュメントでは、サインタERPランディングページで実装されているSVGアニメーションシステムの使用方法について説明します。
 
-## Overview
+## 概要
 
-The SVG animation system consists of three main components:
+SVGアニメーションシステムは、以下の3つの主要コンポーネントで構成されています：
 
-1. **LoadingAnimation** - Full-screen loading animation with SVG
-2. **LoadingManager** - Manages image preloading and loading timing
-3. **SVGAnimation** - Reusable component for animated SVGs in content sections
+1. **LoadingAnimation** - SVGを使用したフルスクリーンローディングアニメーション
+2. **LoadingManager** - 画像のプリロードとローディングタイミングの管理
+3. **SVGAnimation** - コンテンツセクションで使用する再利用可能なSVGアニメーションコンポーネント
 
-## Components
+## コンポーネント
 
 ### 1. LoadingAnimation (`src/components/common/LoadingAnimation.tsx`)
 
-Displays a full-screen loading animation using the main SVG file.
+メインSVGファイルを使用したフルスクリーンローディングアニメーションを表示します。
 
 **Props:**
-- `onLoadingComplete?: () => void` - Callback when loading finishes
-- `duration?: number` - Loading duration in milliseconds (default: 3500)
+- `onLoadingComplete?: () => void` - ローディング完了時のコールバック
+- `duration?: number` - ローディング時間（ミリ秒、デフォルト: 3500）
 
-**Usage:**
+**使用方法:**
 ```tsx
 <LoadingAnimation 
-  onLoadingComplete={() => console.log('Loading complete!')}
+  onLoadingComplete={() => console.log('ローディング完了！')}
   duration={3000}
 />
 ```
 
 ### 2. LoadingManager (`src/components/common/LoadingManager.tsx`)
 
-Manages the overall loading experience, including image preloading.
+画像のプリロードを含む全体的なローディング体験を管理します。
 
 **Props:**
-- `children: React.ReactNode` - Content to display after loading
-- `imageUrls?: string[]` - Array of image URLs to preload
-- `minLoadingTime?: number` - Minimum loading time in milliseconds (default: 2000)
+- `children: React.ReactNode` - ローディング後に表示するコンテンツ
+- `imageUrls?: string[]` - プリロードする画像URLの配列
+- `minLoadingTime?: number` - 最小ローディング時間（ミリ秒、デフォルト: 2000）
 
-**Usage:**
+**使用方法:**
 ```tsx
 <LoadingManager 
   imageUrls={['/hero/woman_half.png', '/other-image.jpg']}
@@ -49,23 +49,23 @@ Manages the overall loading experience, including image preloading.
 
 ### 3. SVGAnimation (`src/components/common/SVGAnimation.tsx`)
 
-Reusable component for displaying animated SVGs in content sections.
+コンテンツセクションでアニメーション付きSVGを表示するための再利用可能なコンポーネントです。
 
 **Props:**
-- `svgPath: string` - Path to the SVG file
-- `alt?: string` - Alt text for accessibility
-- `width?: string | number` - Width of the SVG container
-- `height?: string | number` - Height of the SVG container
-- `animationType?: 'fadeIn' | 'slideIn' | 'scaleIn' | 'draw'` - Animation type
-- `duration?: number` - Animation duration in milliseconds
-- `delay?: number` - Animation delay in milliseconds
-- `trigger?: 'onMount' | 'onScroll' | 'onHover'` - When to trigger animation
+- `svgPath: string` - SVGファイルのパス
+- `alt?: string` - アクセシビリティのためのaltテキスト
+- `width?: string | number` - SVGコンテナの幅
+- `height?: string | number` - SVGコンテナの高さ
+- `animationType?: 'fadeIn' | 'slideIn' | 'scaleIn' | 'draw'` - アニメーションタイプ
+- `duration?: number` - アニメーション時間（ミリ秒）
+- `delay?: number` - アニメーション遅延時間（ミリ秒）
+- `trigger?: 'onMount' | 'onScroll' | 'onHover'` - アニメーションのトリガータイミング
 
-**Usage:**
+**使用方法:**
 ```tsx
 <SVGAnimation
   svgPath="/svg/my-animation.svg"
-  alt="My animated icon"
+  alt="マイアニメーションアイコン"
   animationType="scaleIn"
   duration={1200}
   delay={200}
@@ -73,22 +73,22 @@ Reusable component for displaying animated SVGs in content sections.
 />
 ```
 
-## Feature Cards with SVG
+## SVG付き機能カード
 
 ### FeatureCardWithSVG (`src/components/pages/home/FeatureCardWithSVG.tsx`)
 
-A complete feature card component that includes SVG animations.
+SVGアニメーションを含む完全な機能カードコンポーネントです。
 
 **Props:**
-- `title: string` - Feature title
-- `description: string` - Feature description
-- `svgPath?: string` - Path to SVG animation
-- `svgAlt?: string` - Alt text for SVG
-- `features: string[]` - List of feature points
-- `animationDelay?: number` - Delay for staggered animations
-- `icon?: React.ElementType` - Icon component
+- `title: string` - 機能タイトル
+- `description: string` - 機能説明
+- `svgPath?: string` - SVGアニメーションのパス
+- `svgAlt?: string` - SVGのaltテキスト
+- `features: string[]` - 機能ポイントのリスト
+- `animationDelay?: number` - 段階的アニメーションの遅延時間
+- `icon?: React.ElementType` - アイコンコンポーネント
 
-**Usage:**
+**使用方法:**
 ```tsx
 <FeatureCardWithSVG
   title="会計・請求管理"
@@ -105,13 +105,13 @@ A complete feature card component that includes SVG animations.
 />
 ```
 
-## SVG File Structure
+## SVGファイル構造
 
-Place your SVG animation files in the `public/svg/` directory:
+SVGアニメーションファイルは `public/svg/` ディレクトリに配置してください：
 
 ```
 public/
-├── sainta.svg              # Main loading animation
+├── sainta.svg              # メインローディングアニメーション
 └── svg/
     ├── accounting-animation.svg
     ├── finance-animation.svg
@@ -119,67 +119,67 @@ public/
     └── your-custom-animation.svg
 ```
 
-## Creating Custom SVG Animations
+## カスタムSVGアニメーションの作成
 
-### Basic SVG Animation Structure
+### 基本的なSVGアニメーション構造
 
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
   <defs>
-    <!-- Define gradients, filters, etc. -->
+    <!-- グラデーション、フィルターなどを定義 -->
   </defs>
   
-  <!-- Animated elements -->
+  <!-- アニメーション要素 -->
   <circle cx="100" cy="100" r="20" fill="#3182ce">
     <animate attributeName="r" values="20;25;20" dur="2s" repeatCount="indefinite"/>
   </circle>
 </svg>
 ```
 
-### Animation Techniques
+### アニメーション技法
 
-1. **Opacity Animation:**
+1. **透明度アニメーション:**
 ```svg
 <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
 ```
 
-2. **Scale Animation:**
+2. **スケールアニメーション:**
 ```svg
 <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="2s" repeatCount="indefinite"/>
 ```
 
-3. **Path Drawing:**
+3. **パス描画:**
 ```svg
 <path d="M10 10 L100 100" stroke="#000" stroke-width="2">
   <animate attributeName="stroke-dasharray" values="0,100;100,0" dur="2s"/>
 </path>
 ```
 
-4. **Color Transitions:**
+4. **色の変化:**
 ```svg
 <animate attributeName="fill" values="#3182ce;#38a169;#3182ce" dur="3s" repeatCount="indefinite"/>
 ```
 
-## Integration Examples
+## 統合例
 
-### 1. Adding to Existing Sections
+### 1. 既存セクションへの追加
 
-Replace the existing `ServiceIntroSection` with `ServiceIntroSectionWithSVG`:
+既存の `ServiceIntroSection` を `ServiceIntroSectionWithSVG` に置き換えます：
 
 ```tsx
-// In HomePage.tsx
+// HomePage.tsxで
 import ServiceIntroSectionWithSVG from './ServiceIntroSectionWithSVG';
 
-// Replace
+// 置き換え前
 <ServiceIntroSection />
 
-// With
+// 置き換え後
 <ServiceIntroSectionWithSVG />
 ```
 
-### 2. Adding New Sections
+### 2. 新しいセクションの追加
 
-Create new sections using the SVG animation components:
+SVGアニメーションコンポーネントを使用して新しいセクションを作成します：
 
 ```tsx
 import FeatureCardWithSVG from './FeatureCardWithSVG';
@@ -193,7 +193,7 @@ const newFeatures = [
   }
 ];
 
-// In your component
+// コンポーネント内で
 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
   {newFeatures.map((feature, index) => (
     <FeatureCardWithSVG
@@ -205,41 +205,41 @@ const newFeatures = [
 </SimpleGrid>
 ```
 
-## Best Practices
+## ベストプラクティス
 
-1. **Performance:** Keep SVG files under 50KB for optimal loading
-2. **Accessibility:** Always include alt text for SVGs
-3. **Responsive:** Use viewBox and percentage-based dimensions
-4. **Animation Timing:** Use staggered delays for multiple elements
-5. **Color Mode:** Consider dark/light mode compatibility
+1. **パフォーマンス:** 最適なローディングのため、SVGファイルは50KB以下に保つ
+2. **アクセシビリティ:** SVGには必ずaltテキストを含める
+3. **レスポンシブ:** viewBoxとパーセンテージベースの寸法を使用
+4. **アニメーションタイミング:** 複数の要素には段階的な遅延を使用
+5. **カラーモード:** ダーク/ライトモードの互換性を考慮
 
-## Customization
+## カスタマイズ
 
-### Changing Loading Animation
+### ローディングアニメーションの変更
 
-Replace the `sainta.svg` file in the `public/` directory with your custom loading animation.
+`public/` ディレクトリの `sainta.svg` ファイルをカスタムローディングアニメーションに置き換えます。
 
-### Modifying Animation Styles
+### アニメーションスタイルの変更
 
-Edit the `SVGAnimation` component to add new animation types or modify existing ones.
+`SVGAnimation` コンポーネントを編集して、新しいアニメーションタイプを追加したり、既存のものを変更したりします。
 
-### Adding New Triggers
+### 新しいトリガーの追加
 
-Extend the `trigger` prop in `SVGAnimation` to support new trigger types like `onClick` or `onFocus`.
+`SVGAnimation` の `trigger` プロパティを拡張して、`onClick` や `onFocus` などの新しいトリガータイプをサポートします。
 
-## Troubleshooting
+## トラブルシューティング
 
-### SVG Not Loading
-- Check file path is correct
-- Ensure SVG file is in the `public/` directory
-- Verify SVG syntax is valid
+### SVGが読み込まれない
+- ファイルパスが正しいか確認
+- SVGファイルが `public/` ディレクトリにあるか確認
+- SVGの構文が有効か確認
 
-### Animation Not Playing
-- Check if `trigger` prop is set correctly
-- Verify `duration` and `delay` values
-- Ensure SVG has proper animation elements
+### アニメーションが再生されない
+- `trigger` プロパティが正しく設定されているか確認
+- `duration` と `delay` の値を確認
+- SVGに適切なアニメーション要素があるか確認
 
-### Performance Issues
-- Optimize SVG file size
-- Reduce number of animated elements
-- Use `will-change` CSS property for complex animations 
+### パフォーマンスの問題
+- SVGファイルサイズを最適化
+- アニメーション要素の数を減らす
+- 複雑なアニメーションには `will-change` CSSプロパティを使用 
