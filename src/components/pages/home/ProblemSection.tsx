@@ -166,30 +166,63 @@ export default function ProblemSection() {
                         textAlign="center"
                         boxShadow="0 4px 20px rgba(0,0,0,0.08)"
                     >
-                        <VStack spacing={6}>
-                            <HStack spacing={3} color={accentColor}>
-                                <Icon as={FaExclamationTriangle} w={6} h={6} />
-                                <Text fontWeight="bold" fontSize="lg">
-                                    成果が出ないLPには、共通する"ある問題"があります。
+                        <VStack spacing={12} align="stretch">
+                            {/* Top Section - Problem Statement */}
+                            <Box>
+                                <Text 
+                                    fontSize="2xl" 
+                                    fontWeight="bold" 
+                                    color={accentColor}
+                                    textAlign="center"
+                                >
+                                    どれだけ綺麗でも、「心に届かないLP」では成果は生まれません。
                                 </Text>
-                            </HStack>
-                            
-                            <Text fontSize="lg" color={textColor} lineHeight="1.8">
-                                それは、「見た目」だけに頼った設計。
-                                <br />
-                                誰に・何を・どう伝えるかが設計されていなければ、
-                                <br />
-                                どれだけデザインが整っていても、成果にはつながりません。
-                            </Text>
+                            </Box>
 
-                            <HStack spacing={3} color="green.500">
-                                <Icon as={FaCheckCircle} w={6} h={6} />
-                                <Text fontWeight="bold" fontSize="lg">
-                                    私たちは、そんな悩みを抱える方のために、
-                                    <br />
-                                    "売れる設計"からはじめるLP制作をご提案しています。
+                            {/* Middle Section - Core Philosophy */}
+                            <Box>
+                                <VStack spacing={2} align="center">
+                                    <Text 
+                                        fontSize="xl" 
+                                        color={textColor} 
+                                        lineHeight="1.8"
+                                        fontWeight="medium"
+                                        textAlign="center"
+                                    >
+                                        人はデザインに動かされるのではなく、
+                                    </Text>
+                                    <Text 
+                                        fontSize="xl" 
+                                        color={textColor} 
+                                        lineHeight="1.8"
+                                        fontWeight="medium"
+                                        textAlign="center"
+                                        pl={8}
+                                    >
+                                        <Text as="span" color={accentColor} fontWeight="bold">
+                                            "自分ごと"
+                                        </Text>
+                                        として響くストーリーに動かされます。
+                                    </Text>
+                                </VStack>
+                            </Box>
+
+                            {/* Bottom Section - Solution Statement */}
+                            <Box>
+                                <Text 
+                                    fontSize="xl" 
+                                    color={textColor} 
+                                    lineHeight="1.8"
+                                    fontWeight="medium"
+                                    textAlign="center"
+                                >
+                                    だから私たちは、
+                                    <Text as="span" color={accentColor} fontWeight="bold">
+                                        「誰に・何を・どう伝えるか」
+                                    </Text>
+                                    という人の心を動かす設計から始めます。
                                 </Text>
-                            </HStack>
+                            </Box>
                         </VStack>
                     </Box>
                 </VStack>
