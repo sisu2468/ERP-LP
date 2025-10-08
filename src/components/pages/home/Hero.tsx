@@ -4,51 +4,93 @@ import {
     Box,
     Button,
     Container,
-    Flex,
     Heading,
-    Image,
-    Link,
-    Stack,
     Text,
     VStack,
     HStack,
-    Icon,
-    useColorMode,
-    useColorModeValue,
+    SimpleGrid,
     keyframes,
+    useDisclosure,
 } from '@chakra-ui/react';
-import { FaTrophy, FaMoneyBillWave, FaBolt, FaArrowRight } from 'react-icons/fa';
-import { useEffect, useRef } from 'react';
+import { FaArrowRight, FaEnvelope } from 'react-icons/fa';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import Image from 'next/image';
+import Link from 'next/link';
+import InquiryModal from '@/components/common/InquiryModal';
 
-// Animation keyframes
 const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(1deg); }
+`;
+
+const rotate = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 `;
 
 const pulse = keyframes`
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
 `;
 
 export default function Hero() {
-    const { colorMode } = useColorMode();
     const heroRef = useRef(null);
+    const titleRef = useRef(null);
+    const imageRef = useRef(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         const hero = heroRef.current;
-        if (hero) {
+        const title = titleRef.current;
+        const image = imageRef.current;
+        
+        if (hero && title) {
             gsap.fromTo(hero,
-                { opacity: 0, y: 50 },
+                { opacity: 0 },
                 {
                     opacity: 1,
-                    y: 0,
+                    duration: 1,
+                    ease: "power2.out"
+                }
+            );
+
+            gsap.fromTo(title,
+                { opacity: 0, x: -30 },
+                {
+                    opacity: 1,
+                    x: 0,
                     duration: 1.2,
+                    delay: 0.3,
                     ease: "power3.out"
                 }
             );
+
+            if (image) {
+                gsap.fromTo(image,
+                    { opacity: 0, x: 30, scale: 0.9 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        scale: 1,
+                        duration: 1.2,
+                        delay: 0.5,
+                        ease: "power3.out"
+                    }
+                );
+            }
         }
+
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePosition({
+                x: (e.clientX / window.innerWidth - 0.5) * 30,
+                y: (e.clientY / window.innerHeight - 0.5) * 30,
+            });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
     return (
@@ -59,313 +101,209 @@ export default function Hero() {
             minH="100vh"
             display="flex"
             alignItems="center"
-            bg="white"
-            _before={{
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: `
-                    linear-gradient(45deg, rgba(255, 138, 0, 0.02) 25%, transparent 25%), 
-                    linear-gradient(-45deg, rgba(255, 138, 0, 0.02) 25%, transparent 25%), 
-                    linear-gradient(45deg, transparent 75%, rgba(255, 138, 0, 0.02) 75%), 
-                    linear-gradient(-45deg, transparent 75%, rgba(255, 138, 0, 0.02) 75%)
-                `,
-                backgroundSize: '40px 40px',
-                backgroundPosition: '0 0, 0 20px, 20px -20px, -20px 0px',
-                pointerEvents: 'none',
-            }}
+            bg="#fafafa"
         >
-            {/* Animated background elements */}
+            {/* SVG Triangle Gradients - サインタ Orange */}
             <Box
                 position="absolute"
-                top="10%"
-                left="10%"
-                w="200px"
-                h="200px"
-                borderRadius="full"
-                bg="rgba(66, 153, 225, 0.05)"
-                animation={`${float} 6s ease-in-out infinite`}
-                filter="blur(40px)"
-            />
+                top="-10%"
+                right="-5%"
+                w="600px"
+                h="600px"
+                opacity={0.4}
+                transform={`translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`}
+                transition="transform 0.3s ease-out"
+            >
+                <svg width="100%" height="100%" viewBox="0 0 600 600">
+                    <defs>
+                        <linearGradient id="orangeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#e08e46" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="#f4a460" stopOpacity="0.1" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="300,50 550,450 50,450" fill="url(#orangeGrad1)" />
+                </svg>
+            </Box>
+
             <Box
                 position="absolute"
-                bottom="20%"
-                right="15%"
-                w="150px"
-                h="150px"
-                borderRadius="full"
-                bg="rgba(236, 72, 153, 0.05)"
-                animation={`${float} 8s ease-in-out infinite reverse`}
-                filter="blur(30px)"
-            />
+                bottom="-15%"
+                left="-10%"
+                w="500px"
+                h="500px"
+                opacity={0.3}
+                animation={`${rotate} 60s linear infinite`}
+            >
+                <svg width="100%" height="100%" viewBox="0 0 500 500">
+                    <defs>
+                        <linearGradient id="orangeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#e08e46" stopOpacity="0.2" />
+                            <stop offset="100%" stopColor="#ffc478" stopOpacity="0.05" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="250" cy="250" r="200" fill="url(#orangeGrad2)" />
+                </svg>
+            </Box>
+
+            <Box
+                position="absolute"
+                top="30%"
+                left="15%"
+                w="300px"
+                h="300px"
+                opacity={0.25}
+                transform={`translate(${-mousePosition.x * 0.3}px, ${-mousePosition.y * 0.3}px)`}
+                transition="transform 0.3s ease-out"
+            >
+                <svg width="100%" height="100%" viewBox="0 0 300 300">
+                    <defs>
+                        <linearGradient id="orangeGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#e08e46" stopOpacity="0.25" />
+                            <stop offset="100%" stopColor="#f4a460" stopOpacity="0.08" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="150,20 280,140 150,280 20,140" fill="url(#orangeGrad3)" />
+                </svg>
+            </Box>
 
             <Container maxW="8xl" position="relative" zIndex={2}>
-                <VStack spacing={16} textAlign="center" py={20}>
-                    {/* Main Catchphrase */}
-                    <VStack spacing={8} maxW="5xl">
-                        <VStack spacing={6}>
+                <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={16} alignItems="center" py={{ base: 20, md: 28 }}>
+                    {/* Left Column - Content */}
+                    <VStack align="flex-start" spacing={10} ref={titleRef}>
+                        <VStack align="flex-start" spacing={6}>
                             <Heading
                                 as="h1"
-                                fontSize={{ base: "4xl", md: "5xl", lg: "6xl", xl: "7xl" }}
-                                fontWeight="900"
-                                lineHeight="0.9"
-                                color="gray.800"
-                                letterSpacing="tight"
-                                textShadow="0 4px 20px rgba(0,0,0,0.1)"
+                                fontSize={{ base: "48px", md: "64px", lg: "72px", xl: "84px" }}
+                                fontWeight="700"
+                                lineHeight="1.1"
+                                letterSpacing="-0.03em"
+                                color="#111111"
                             >
-                                <Text
-                                    bgGradient="linear(to-r, #FFCC99, #FFB366)"
-                                    bgClip="text"
-                                    display="inline"
-                                >
-                                    設計する。
-                                </Text>
-                                <Text
-                                    bgGradient="linear(to-r, #FFB366, #FFA366)"
-                                    bgClip="text"
-                                    display="inline"
-                                    mx={4}
-                                >
-                                    魅せる。
-                                </Text>
-                                <Text
-                                    bgGradient="linear(to-r, #FFA366, #FF9966)"
-                                    bgClip="text"
-                                    display="inline"
-                                >
-                                    勝たせる。
+                                無駄な作業から、
+                                <br />
+                                <Text as="span" color="#e08e46">
+                                    解放される。
                                 </Text>
                             </Heading>
 
                             <Text
-                                fontSize={{ base: "xl", lg: "2xl", xl: "3xl" }}
-                                color="gray.600"
-                                lineHeight="1.4"
-                                fontWeight="300"
-                                textShadow="0 2px 10px rgba(0,0,0,0.1)"
-                                maxW="3xl"
+                                fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+                                color="#6e6e73"
+                                lineHeight="1.6"
+                                maxW="600px"
                             >
-                                あなたのビジョン、カタチに。
+                                LP制作も、データ管理も、すべてを一つに。
+                                <br />
+                                カスタマイズされた仕組みで、
+                                <Text as="span" fontWeight="700" color="#111111">
+                                    本当に大切な仕事だけに集中
+                                </Text>
+                                できる環境を。
                             </Text>
                         </VStack>
-                    </VStack>
 
-                    {/* Feature Points */}
-                    <VStack spacing={10} maxW="6xl" mx="auto">
-                        <HStack spacing={8} align="flex-start" flexWrap="wrap" justify="center">
-                            <Box
-                                p={8}
-                                bg="rgba(255, 255, 255, 0.8)"
-                                borderRadius="2xl"
-                                border="1px solid"
-                                borderColor="rgba(0, 0, 0, 0.1)"
-                                backdropFilter="blur(10px)"
-                                maxW="350px"
-                                minH="290px"
-                                boxShadow="0 10px 30px rgba(0,0,0,0.1)"
+                        <HStack spacing={4} pt={2}>
+                            <Button
+                                size="lg"
+                                h="56px"
+                                px={8}
+                                bg="#e08e46"
+                                color="white"
+                                fontWeight="700"
+                                borderRadius="lg"
+                                leftIcon={<FaEnvelope />}
+                                onClick={onOpen}
                                 _hover={{
-                                    transform: 'translateY(-8px)',
-                                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                                    transition: 'all 0.3s ease',
+                                    bg: '#d17d35',
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: '0 8px 24px rgba(224, 142, 70, 0.35)',
                                 }}
+                                _active={{
+                                    transform: 'translateY(0)',
+                                }}
+                                transition="all 0.2s"
                             >
-                                <VStack spacing={4} align="flex-start">
-                                    <HStack spacing={4}>
-                                        <Box
-                                            p={3}
-                                            borderRadius="xl"
-                                            bgGradient="linear(to-r, #FFCC99, #FFB366)"
-                                            boxShadow="0 8px 20px rgba(255, 204, 153, 0.3)"
-                                        >
-                                            <Icon as={FaTrophy} w={6} h={6} color="white" />
-                                        </Box>
-                                        <Text fontWeight="bold" fontSize="xl" color="gray.800">
-                                            🥇 成約率重視の構成設計
-                                        </Text>
-                                    </HStack>
-                                    <Text color="gray.600" lineHeight="1.8" fontSize="md">
-                                        アメリカやヨーロッパのデザイン技術を活かし、心理学ベースで「行動につながる」導線を設計。ユーザーの心を動かし、成約率を高めるWebを提供します。
-                                    </Text>
-                                </VStack>
-                            </Box>
+                                お問い合わせ
+                            </Button>
+                            <Button
+                                as={Link}
+                                href="/pricing"
+                                size="lg"
+                                h="56px"
+                                px={8}
+                                bg="white"
+                                color="#111111"
+                                fontWeight="700"
+                                borderRadius="lg"
+                                border="2px solid"
+                                borderColor="#e5e7eb"
+                                rightIcon={<FaArrowRight />}
+                                _hover={{
+                                    borderColor: '#e08e46',
+                                    color: '#e08e46',
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.08)',
+                                }}
+                                _active={{
+                                    transform: 'translateY(0)',
+                                }}
+                                transition="all 0.2s"
+                            >
+                                料金プラン
+                            </Button>
+                        </HStack>
 
-                            <Box    
-                                p={8}
-                                bg="rgba(255, 255, 255, 0.8)"
-                                borderRadius="2xl"
-                                border="1px solid"
-                                borderColor="rgba(0, 0, 0, 0.1)"
-                                backdropFilter="blur(10px)"
-                                maxW="350px"
-                                minH="290px"
-                                boxShadow="0 10px 30px rgba(0,0,0,0.1)"
-                                _hover={{
-                                    transform: 'translateY(-8px)',
-                                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                                    transition: 'all 0.3s ease',
-                                }}
-                            >
-                                <VStack spacing={4} align="flex-start">
-                                    <HStack spacing={4}>
-                                        <Box
-                                            p={3}
-                                            borderRadius="xl"
-                                            bgGradient="linear(to-r, #FFB366, #FFA366)"
-                                            boxShadow="0 8px 20px rgba(255, 179, 102, 0.3)"
-                                        >
-                                            <Icon as={FaMoneyBillWave} w={6} h={6} color="white" />
-                                        </Box>
-                                        <Text fontWeight="bold" fontSize="xl" color="gray.800">
-                                            💰 適正価格で、高品質を。
-                                        </Text>
-                                    </HStack>
-                                    <Text color="gray.600" lineHeight="1.8" fontSize="md">
-                                        初期費用は抑えつつ、仕上がりには一切妥協なし。明瞭な料金体系と丁寧なヒアリングで、安心して任せられるパートナーを目指します。
-                                    </Text>
-                                </VStack>
-                            </Box>
-
-                            <Box
-                                p={8}
-                                bg="rgba(255, 255, 255, 0.8)"
-                                borderRadius="2xl"
-                                border="1px solid"
-                                borderColor="rgba(0, 0, 0, 0.1)"
-                                backdropFilter="blur(10px)"
-                                maxW="350px"
-                                minH="290px"
-                                boxShadow="0 10px 30px rgba(0,0,0,0.1)"
-                                _hover={{
-                                    transform: 'translateY(-8px)',
-                                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                                    transition: 'all 0.3s ease',
-                                }}
-                            >
-                                <VStack spacing={4} align="flex-start">
-                                    <HStack spacing={4}>
-                                        <Box
-                                            p={3}
-                                            borderRadius="xl"
-                                            bgGradient="linear(to-r, #FFA366, #FF9966)"
-                                            boxShadow="0 8px 20px rgba(255, 163, 102, 0.3)"
-                                        >
-                                            <Icon as={FaBolt} w={6} h={6} color="white" />
-                                        </Box>
-                                        <Text fontWeight="bold" fontSize="xl" color="gray.800">
-                                            ⚡ スピードと柔軟性
-                                        </Text>
-                                    </HStack>
-                                    <Text color="gray.600" lineHeight="1.8" fontSize="md">
-                                        ご相談から最短1週間で初稿を提出。やり取りはスムーズで、修正や追加対応にも柔軟に対応。スピードと丁寧さ、どちらも大切にしています。
-                                    </Text>
-                                </VStack>
-                            </Box>
+                        <HStack spacing={6} pt={6} opacity={0.7}>
+                            <Text fontSize="sm" color="#6e6e73" fontWeight="500">
+                                ✓ 無料相談・お見積もり
+                            </Text>
+                            <Text fontSize="sm" color="#6e6e73" fontWeight="500">
+                                ✓ 初回打ち合わせ無料
+                            </Text>
                         </HStack>
                     </VStack>
 
-                    {/* CTA Buttons */}
-                    <VStack spacing={6}>
-                        <Stack
-                            direction={{ base: "column", sm: "row" }}
-                            spacing={6}
-                            justify="center"
-                            w="full"
-                            maxW="md"
+                    {/* Right Column - Floating Transparent Image */}
+                    <Box
+                        ref={imageRef}
+                        position="relative"
+                        display={{ base: 'none', lg: 'flex' }}
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <Box
+                            position="relative"
+                            animation={`${float} 6s ease-in-out infinite`}
                         >
-                            <Link href="/contact" w="100%">
-                                <Button
-                                    size="lg"
-                                    bgGradient="linear(to-r, #FF8A00, #FF6B35)"
-                                    color="white"
-                                    px={10}
-                                    fontSize="lg"
-                                    w="100%"
-                                    fontWeight="bold"
-                                    h="70px"
-                                    borderRadius="xl"
-                                    boxShadow="0 10px 30px rgba(255, 138, 0, 0.4)"
-                                    _hover={{
-                                        transform: "translateY(-3px)",
-                                        boxShadow: "0 15px 40px rgba(255, 138, 0, 0.6)",
-                                        bgGradient: "linear(to-r, #FF6B35, #FF8A00)",
-                                    }}
-                                    _active={{
-                                        transform: "translateY(-1px)",
-                                    }}
-                                    transition="all 0.3s ease"
-                                >
-                                    無料相談
-                                    <Icon as={FaArrowRight} ml={2} />
-                                </Button>
-                            </Link>
-                            <Link href="/pricing" w="100%">
-                                <Button
-                                    w="100%"
-                                    size="lg"
-                                    variant="outline"
-                                    px={10}
-                                    fontSize="lg"
-                                    fontWeight="bold"
-                                    h="70px"
-                                    borderRadius="xl"
-                                    borderWidth="2px"
-                                    borderColor="gray.400"
-                                    color="gray.700"
-                                    bg="rgba(255, 255, 255, 0.8)"
-                                    backdropFilter="blur(10px)"
-                                    _hover={{
-                                        transform: "translateY(-3px)",
-                                        boxShadow: "0 15px 40px rgba(0, 0, 0, 0.1)",
-                                        bg: "rgba(255, 255, 255, 0.9)",
-                                    }}
-                                    _active={{
-                                        transform: "translateY(-1px)",
-                                    }}
-                                    transition="all 0.3s ease"
-                                >
-                                    料金詳細
-                                </Button>
-                            </Link>
-                        </Stack>
-                        
-                        <Text color="gray.500" fontSize="sm" fontWeight="300">
-                            ※ 初回相談は完全無料・義務なし
-                        </Text>
-                    </VStack>
-                </VStack>
+                            <Image
+                                src="/hero/basic-kinousei.png"
+                                alt="ビジネス基盤"
+                                width={600}
+                                height={400}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1))',
+                                }}
+                            />
+                            
+                            <Box
+                                position="absolute"
+                                top={-2}
+                                right={-2}
+                                w={3}
+                                h={3}
+                                borderRadius="full"
+                                bg="#e08e46"
+                                animation={`${pulse} 2s ease-in-out infinite`}
+                                boxShadow="0 0 20px #e08e46"
+                            />
+                        </Box>
+                    </Box>
+                </SimpleGrid>
             </Container>
 
-            {/* Scroll indicator */}
-            <Box
-                position="absolute"
-                bottom={8}
-                left="50%"
-                transform="translateX(-50%)"
-                animation={`${pulse} 2s ease-in-out infinite`}
-            >
-                <Box
-                    w="2px"
-                    h="40px"
-                    bg="rgba(0, 0, 0, 0.3)"
-                    borderRadius="full"
-                    position="relative"
-                    _after={{
-                        content: '""',
-                        position: 'absolute',
-                        bottom: 0,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        w: "8px",
-                        h: "8px",
-                        bg: "gray.600",
-                        borderRadius: "full",
-                        animation: `${float} 2s ease-in-out infinite`,
-                    }}
-                />
-            </Box>
+            <InquiryModal isOpen={isOpen} onClose={onClose} />
         </Box>
     );
-} 
+}

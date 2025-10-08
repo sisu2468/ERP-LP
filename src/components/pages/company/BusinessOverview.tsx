@@ -1,27 +1,19 @@
 'use client';
 
-import { Box, Circle, Container, Flex, Heading, Image, Text, useColorModeValue, VStack } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { Box, Container, Flex, Heading, Text, VStack, Badge, SimpleGrid, Icon } from "@chakra-ui/react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef } from "react";
+import { FaRocket, FaMicrochip, FaYenSign } from 'react-icons/fa';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const MotionCircle = motion(Circle);
-
 export default function BusinessOverview() {
     const headingRef = useRef(null);
     const textRef = useRef(null);
-    const circlesRef = useRef(null);
-
-    const bgColor = useColorModeValue('gray.100', 'gray.900');
-    const textColor = useColorModeValue('gray.700', 'gray.100');
-    const subheadingColor = useColorModeValue('gray.700', 'gray.100');
-    const circleColor = useColorModeValue('orange.150', 'orange.600');
-    const circleTextColor = useColorModeValue('white', 'white');
+    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -37,7 +29,7 @@ export default function BusinessOverview() {
                     duration: 0.8,
                     scrollTrigger: {
                         trigger: headingRef.current,
-                        start: "top 85%",
+                        start: "top 80%",
                         toggleActions: "play none none reverse"
                     }
                 }
@@ -56,201 +48,428 @@ export default function BusinessOverview() {
                     delay: 0.2,
                     scrollTrigger: {
                         trigger: textRef.current,
-                        start: "top 85%",
+                        start: "top 80%",
                         toggleActions: "play none none reverse"
                     }
                 }
             );
 
-            // Circles animation
-            gsap.fromTo(circlesRef.current,
-                {
-                    opacity: 0,
-                    scale: 0.8
-                },
-                {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 1,
-                    delay: 0.4,
-                    ease: "elastic.out(1, 0.5)",
-                    scrollTrigger: {
-                        trigger: circlesRef.current,
-                        start: "top 85%",
-                        toggleActions: "play none none reverse"
+            // Cards stagger animation
+            if (cardsRef.current.length > 0) {
+                gsap.fromTo(cardsRef.current,
+                    {
+                        opacity: 0,
+                        y: 40,
+                        scale: 0.95
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.6,
+                        stagger: 0.15,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: cardsRef.current[0],
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
                     }
-                }
-            );
+                );
+            }
         });
 
         return () => ctx.revert();
     }, []);
 
+    const values = [
+        {
+            icon: FaRocket,
+            title: "直感的な操作性",
+            description: "学習コストゼロで、すぐに使いこなせる",
+            color: "#e08e46"
+        },
+        {
+            icon: FaMicrochip,
+            title: "最先端テクノロジー",
+            description: "AIと自動化で、業務効率を最大化",
+            color: "#0891b2"
+        },
+        {
+            icon: FaYenSign,
+            title: "適正な価格設定",
+            description: "企業規模に合わせた柔軟なプラン",
+            color: "#059669"
+        }
+    ];
+
+    const businesses = [
+        {
+            name: "サインタ・コア",
+            tagline: "統合基幹業務システム",
+            description: "会計、在庫、販売、人事を一つのプラットフォームで管理。リアルタイムのデータ分析で、経営判断を加速させます。",
+            status: "開発中",
+            statusColor: "#f59e0b",
+            features: ["データ一元管理", "AI予測分析", "自動化ワークフロー"]
+        },
+        {
+            name: "サインタ・ラボ",
+            tagline: "カスタムウェブソリューション",
+            description: "企業の個性を最大限に引き出すウェブサイト制作。最新技術とデザイントレンドで、ブランド価値を向上させます。",
+            status: null,
+            statusColor: null,
+            features: ["レスポンシブデザイン", "SEO最適化", "高速パフォーマンス"]
+        },
+        {
+            name: "サインタ・コネクト",
+            tagline: "ワークフロー管理プラットフォーム",
+            description: "チーム間のコミュニケーションと業務プロセスを最適化。タスク管理から承認フローまで、すべてを可視化します。",
+            status: "ベータ版提供中",
+            statusColor: "#0891b2",
+            features: ["タスク自動化", "リアルタイム通知", "進捗可視化"]
+        }
+    ];
+
     return (
-        <Box py={20} bg={bgColor} overflow="hidden">
-            <Container maxW="8xl">
-                <VStack spacing={16} align="center" w="full">
-                    <VStack align="center" spacing={4} ref={headingRef} w="full">
+        <Box py={20} bg="#fafafa" overflow="hidden" position="relative">
+            {/* SVG Background Shapes */}
+            <Box
+                position="absolute"
+                top="10%"
+                right="5%"
+                opacity={0.1}
+                pointerEvents="none"
+                animation="rotate 60s linear infinite"
+                sx={{
+                    '@keyframes rotate': {
+                        '0%': { transform: 'rotate(0deg)' },
+                        '100%': { transform: 'rotate(360deg)' }
+                    }
+                }}
+            >
+                <svg width="300" height="300" viewBox="0 0 300 300" fill="none">
+                    <circle cx="150" cy="150" r="120" fill="url(#gradient1)" />
+                    <defs>
+                        <linearGradient id="gradient1" x1="30" y1="30" x2="270" y2="270">
+                            <stop offset="0%" stopColor="#e08e46" />
+                            <stop offset="100%" stopColor="#f59e0b" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </Box>
+
+            <Box
+                position="absolute"
+                bottom="5%"
+                left="10%"
+                opacity={0.08}
+                pointerEvents="none"
+                animation="float 8s ease-in-out infinite"
+                sx={{
+                    '@keyframes float': {
+                        '0%, 100%': { transform: 'translateY(0px)' },
+                        '50%': { transform: 'translateY(-30px)' }
+                    }
+                }}
+            >
+                <svg width="250" height="250" viewBox="0 0 250 250" fill="none">
+                    <polygon points="125,20 230,230 20,230" fill="url(#gradient2)" />
+                    <defs>
+                        <linearGradient id="gradient2" x1="20" y1="20" x2="230" y2="230">
+                            <stop offset="0%" stopColor="#e08e46" />
+                            <stop offset="100%" stopColor="#0891b2" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </Box>
+
+            <Box
+                position="absolute"
+                top="60%"
+                left="5%"
+                opacity={0.07}
+                pointerEvents="none"
+                animation="pulse 6s ease-in-out infinite"
+                sx={{
+                    '@keyframes pulse': {
+                        '0%, 100%': { opacity: 0.07, transform: 'scale(1)' },
+                        '50%': { opacity: 0.12, transform: 'scale(1.05)' }
+                    }
+                }}
+            >
+                <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+                    <rect x="40" y="40" width="100" height="100" transform="rotate(45 90 90)" fill="url(#gradient3)" />
+                    <defs>
+                        <linearGradient id="gradient3" x1="40" y1="40" x2="140" y2="140">
+                            <stop offset="0%" stopColor="#059669" />
+                            <stop offset="100%" stopColor="#0891b2" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </Box>
+
+            <Container maxW="7xl" position="relative" zIndex={1}>
+                <VStack spacing={20} align="center" w="full">
+                    <VStack align="center" spacing={6} ref={headingRef} w="full">
+                        <Badge
+                            px={4}
+                            py={2}
+                            borderRadius="full"
+                            fontSize="sm"
+                            fontWeight="600"
+                            bg="rgba(224, 142, 70, 0.1)"
+                            color="#e08e46"
+                            border="1px solid"
+                            borderColor="rgba(224, 142, 70, 0.2)"
+                        >
+                            私たちのミッション
+                        </Badge>
                         <Heading
                             as="h2"
-                            fontSize={{ base: "3xl", md: "4xl" }}
-                            fontWeight="bold"
-                            color="orange.500"
+                            fontSize={{ base: "3xl", md: "4xl", lg: "48px" }}
+                            fontWeight="700"
+                            color="#111111"
+                            letterSpacing="-0.02em"
                         >
                             事業概要
                         </Heading>
                         <Text
-                            fontSize={{ base: "xl", md: "2xl" }}
-                            fontWeight="bold"
-                            color="gray.500"
-                            letterSpacing="wider"
+                            fontSize={{ base: "lg", md: "xl" }}
+                            fontWeight="600"
+                            color="#6e6e73"
+                            letterSpacing="0.1em"
                         >
                             BUSINESS OVERVIEW
                         </Text>
                     </VStack>
 
-                    <Flex
-                        direction={{ base: "column", lg: "row" }}
-                        gap={{ base: 16, lg: 10 }}
-                        w="full"
-                        justify="space-between"
-                    >
+                    <VStack spacing={12} w="full">
                         <Box
                             ref={textRef}
-                            flex="1"
-                            maxW={{ lg: "50%" }}
+                            w="full"
                         >
-                            <Text
-                                fontSize={{ base: "lg", md: "xl" }}
-                                color={textColor}
-                                lineHeight="tall"
-                                mb={6}
-                            >
-                                デジタル化が急速に進む現代の日本において、多くの企業が複雑なテクノロジー導入の壁に直面しています。株式会社サインタは、この課題に対する革新的な解決策を提供します。
-                            </Text>
-                            <Text
-                                fontSize={{ base: "lg", md: "xl" }}
-                                color={textColor}
-                                lineHeight="tall"
-                                mb={6}
-                            >
-                                私たちは、テクノロジーをより使いやすく、理解しやすくすることで、企業の真の潜在能力を引き出します。日本の市場では、現行のERPシステムは限られた選択肢しか提供しておらず、多くの企業のニーズに応えられていません。
-                            </Text>
-                            <Text
-                                fontSize={{ base: "lg", md: "xl" }}
-                                color={textColor}
-                                lineHeight="tall"
-                            >
-                                サインタは、この市場の空白を埋めるソリューションを開発し、複雑さを犠牲にすることなく業務を簡素化します。これにより創出された時間的余裕は、従業員がより戦略的で創造的なタスクに専念できる環境へと変わります。私たちは、テクノロジーが人間の可能性を拡張し、ビジネスの持続的成長を実現する触媒となることを確信しています。
-                            </Text>
+                            <VStack spacing={6} align="flex-start">
+                                <Text
+                                    fontSize={{ base: "lg", md: "xl" }}
+                                    color="#111111"
+                                    lineHeight="1.8"
+                                    fontWeight="500"
+                                >
+                                    <Text as="span" color="#e08e46" fontWeight="700">
+                                        複雑さを、シンプルに。
+                                    </Text>
+                                    それが私たちの使命です。急速に変化するビジネス環境において、テクノロジーは企業の成長を加速させる最大の武器となります。
+                                </Text>
+                                <Text
+                                    fontSize={{ base: "lg", md: "xl" }}
+                                    color="#111111"
+                                    lineHeight="1.8"
+                                    fontWeight="500"
+                                >
+                                    しかし、多くの企業が
+                                    <Text as="span" color="#e08e46" fontWeight="700">
+                                        使いにくいシステム
+                                    </Text>
+                                    や
+                                    <Text as="span" color="#e08e46" fontWeight="700">
+                                        複雑な導入プロセス
+                                    </Text>
+                                    に悩まされています。サインタは、この課題を解決します。
+                                </Text>
+                                <Text
+                                    fontSize={{ base: "lg", md: "xl" }}
+                                    color="#111111"
+                                    lineHeight="1.8"
+                                    fontWeight="500"
+                                >
+                                    直感的なデザインと最新技術を組み合わせ、誰もが簡単に使える
+                                    <Text as="span" color="#e08e46" fontWeight="700">
+                                        次世代のビジネスツール
+                                    </Text>
+                                    を提供します。業務の自動化から戦略的な意思決定まで、すべてをサポートします。
+                                </Text>
+                            </VStack>
                         </Box>
 
-                        <Box
-                            ref={circlesRef}
-                            position="relative"
-                            flex="1"
-                            minH={{ base: "380px", sm: "400px", md: "450px" }}
-                            minW={{ base: "300px", sm: "350px", md: "450px" }}
-                            maxW={{ base: "100%", lg: "500px" }}
-                            mx="auto"
-                            mt={{ base: 8, lg: 0 }}
+                        {/* Values - Horizontal Row */}
+                        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} w="full">
+                            {values.map((value, index) => (
+                                <Box
+                                    key={index}
+                                    ref={(el) => { cardsRef.current[index] = el; }}
+                                    p={8}
+                                    bg="white"
+                                    borderRadius="2xl"
+                                    border="2px solid"
+                                    borderColor="#e5e7eb"
+                                    transition="all 0.3s"
+                                    _hover={{
+                                        borderColor: value.color,
+                                        transform: 'translateY(-4px)',
+                                        boxShadow: `0 12px 24px ${value.color}20`
+                                    }}
+                                >
+                                    <VStack spacing={4} align="center">
+                                        <Box
+                                            w={16}
+                                            h={16}
+                                            borderRadius="xl"
+                                            bg={`${value.color}15`}
+                                            display="flex"
+                                            alignItems="center"
+                                            justifyContent="center"
+                                            border="2px solid"
+                                            borderColor={`${value.color}30`}
+                                        >
+                                            <Icon as={value.icon} color={value.color} boxSize={8} />
+                                        </Box>
+                                        <VStack spacing={2} align="center">
+                                            <Heading
+                                                fontSize="xl"
+                                                color={value.color}
+                                                fontWeight="700"
+                                                textAlign="center"
+                                            >
+                                                {value.title}
+                                            </Heading>
+                                            <Text
+                                                fontSize="md"
+                                                color="#6e6e73"
+                                                fontWeight="500"
+                                                textAlign="center"
+                                            >
+                                                {value.description}
+                                            </Text>
+                                        </VStack>
+                                    </VStack>
+                                </Box>
+                            ))}
+                        </SimpleGrid>
+                    </VStack>
+
+                    {/* Business Products - Horizontal Layout */}
+                    <VStack spacing={16} w="full" pt={8}>
+                        <VStack spacing={4} align="center">
+                            <Heading
+                                fontSize={{ base: "3xl", md: "4xl", lg: "48px" }}
+                                fontWeight="800"
+                                color="#111111"
+                                letterSpacing="-0.03em"
+                            >
+                                私たちのソリューション
+                            </Heading>
+                            <Text
+                                fontSize={{ base: "md", md: "lg" }}
+                                color="#6e6e73"
+                                textAlign="center"
+                                maxW="2xl"
+                                lineHeight="1.7"
+                            >
+                                ビジネスの成長を加速させる、3つの革新的なプロダクト
+                            </Text>
+                        </VStack>
+
+                        <SimpleGrid
+                            columns={{ base: 1, md: 3 }}
+                            spacing={8}
+                            w="full"
                         >
-                            <MotionCircle
-                                position="absolute"
-                                size={{ base: "180px", sm: "200px", md: "220px" }}
-                                bg={circleColor}
-                                top={{ base: "-20px", md: "0" }}
-                                left="25%"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.3 }}
-                                style={{ mixBlendMode: 'multiply' }}
-                                display="flex"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="flex-start"
-                                pt={{ base: 8, md: 10 }}
-                                zIndex={2}
-                            >
-                                <Text
-                                    color={circleTextColor}
-                                    fontSize={{ base: "xl", md: "2xl" }}
-                                    fontWeight="bold"
-                                    textShadow="0 2px 4px rgba(0,0,0,0.3)"
+                            {businesses.map((business, index) => (
+                                <Box
+                                    key={index}
+                                    ref={(el) => {
+                                        if (el) cardsRef.current[values.length + index] = el;
+                                    }}
+                                    bg="white"
+                                    p={10}
+                                    borderRadius="2xl"
+                                    border="1px solid"
+                                    borderColor="#e5e7eb"
+                                    position="relative"
+                                    overflow="hidden"
+                                    _hover={{
+                                        borderColor: "#e08e46",
+                                        transform: "translateY(-8px)",
+                                        boxShadow: "0 20px 40px -12px rgba(224, 142, 70, 0.2)"
+                                    }}
+                                    transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+                                    h="full"
                                 >
-                                    使い勝手
-                                </Text>
-                            </MotionCircle>
+                                    {/* Status Badge */}
+                                    {business.status && (
+                                        <Box
+                                            position="absolute"
+                                            top={6}
+                                            right={6}
+                                            bg={business.statusColor}
+                                            color="white"
+                                            px={3}
+                                            py={1.5}
+                                            borderRadius="full"
+                                            fontSize="xs"
+                                            fontWeight="700"
+                                            letterSpacing="0.05em"
+                                        >
+                                            {business.status}
+                                        </Box>
+                                    )}
 
-                            <MotionCircle
-                                position="absolute"
-                                size={{ base: "180px", sm: "200px", md: "220px" }}
-                                bg={circleColor}
-                                bottom={{ base: "130px", md: "120px", lg: "230px", xl: "130px" }}
-                                left={{ base: "0", sm: "10%", md: "11%", lg: "13%", xl: "15%" }}
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.3 }}
-                                style={{ mixBlendMode: 'multiply' }}
-                                display="flex"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="flex-end"
-                                pb={{ base: 8, md: 10 }}
-                                zIndex={2}
-                            >
-                                <Text
-                                    color={circleTextColor}
-                                    fontSize={{ base: "xl", md: "2xl" }}
-                                    fontWeight="bold"
-                                    textShadow="0 2px 4px rgba(0,0,0,0.3)"
-                                >
-                                    最新技術
-                                </Text>
-                            </MotionCircle>
+                                    <VStack align="flex-start" spacing={6} h="full">
+                                        {/* Product Name */}
+                                        <VStack align="flex-start" spacing={2}>
+                                            <Text
+                                                fontSize="2xl"
+                                                fontWeight="800"
+                                                color="#111111"
+                                                lineHeight="1.2"
+                                            >
+                                                {business.name}
+                                            </Text>
+                                            <Text
+                                                fontSize="sm"
+                                                fontWeight="600"
+                                                color="#e08e46"
+                                                letterSpacing="0.02em"
+                                            >
+                                                {business.tagline}
+                                            </Text>
+                                        </VStack>
 
-                            <MotionCircle
-                                position="absolute"
-                                size={{ base: "180px", sm: "200px", md: "220px" }}
-                                bg={circleColor}
-                                bottom={{ base: "130px", md: "120px", lg: "230px", xl: "130px" }}
-                                right={{ base: "0", sm: "10%", md: "11%", lg: "13%", xl: "15%" }}
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.3 }}
-                                style={{ mixBlendMode: 'multiply' }}
-                                display="flex"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="flex-end"
-                                pb={{ base: 8, md: 10 }}
-                                zIndex={2}
-                            >
-                                <Text
-                                    color={circleTextColor}
-                                    fontSize={{ base: "xl", md: "2xl" }}
-                                    fontWeight="bold"
-                                    textShadow="0 2px 4px rgba(0,0,0,0.3)"
-                                >
-                                    コスト効率
-                                </Text>
-                            </MotionCircle>
+                                        {/* Description */}
+                                        <Text
+                                            color="#6e6e73"
+                                            lineHeight="1.8"
+                                            fontSize="md"
+                                            flex={1}
+                                        >
+                                            {business.description}
+                                        </Text>
 
-                            <Box
-                                position="absolute"
-                                top={{ base: "33%", md: "38%", lg: "32%", xl: "40%" }}
-                                left="50%"
-                                transform="translate(-50%, -50%)"
-                                zIndex={3}
-                                borderRadius="full"
-                                p={2}
-                            >
-                                <Image
-                                    src="/logos/sainta-hakuchou-white.png"
-                                    alt="Sainta Logo"
-                                    width={{ base: "35px", sm: "40px", md: "45px" }}
-                                    height={{ base: "30px", sm: "40px", md: "40px" }}
-                                />
-                            </Box>
-                        </Box>
-                    </Flex>
+                                        {/* Features */}
+                                        <VStack align="flex-start" spacing={3} w="full" pt={2}>
+                                            {business.features.map((feature, idx) => (
+                                                <Flex key={idx} align="center" gap={2}>
+                                                    <Box
+                                                        w="4px"
+                                                        h="4px"
+                                                        borderRadius="full"
+                                                        bg="#e08e46"
+                                                    />
+                                                    <Text
+                                                        fontSize="sm"
+                                                        color="#6e6e73"
+                                                        fontWeight="500"
+                                                    >
+                                                        {feature}
+                                                    </Text>
+                                                </Flex>
+                                            ))}
+                                        </VStack>
+                                    </VStack>
+                                </Box>
+                            ))}
+                        </SimpleGrid>
+                    </VStack>
                 </VStack>
             </Container>
         </Box>

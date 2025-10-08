@@ -9,6 +9,7 @@ import FAQ from "./faq/FAQ";
 import Hero from "./Hero";
 import ProblemSection from "./ProblemSection";
 import BasicFlowSection from "./BasicFlowSection";
+import TestimonialsSection from "./TestimonialsSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,7 @@ export default function HomePage() {
     return (
         <Box>
             <Hero />
+            <TestimonialsSection />
             <ProblemSection />
             <BasicFlowSection />
             <CTASection />
