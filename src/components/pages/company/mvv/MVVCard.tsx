@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, VStack, Heading, Text, useColorModeValue, Container } from "@chakra-ui/react";
+import { Box, VStack, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
@@ -78,88 +78,101 @@ export default function MVVCard({ title, titleEn, subtitle, subtitleEn, descript
     }, [accentColor, borderColor]);
 
     return (
-        <Box pt={16} transition="background-color 0.2s">
-            <Container maxW="8xl" w="full" h="full" px={0}>
+        <Box pt={16} transition="background-color 0.2s" w="full">
+            <Box
+                ref={cardRef}
+                bg={cardBg}
+                p={8}
+                h="full"
+                borderRadius="2xl"
+                boxShadow="xl"
+                borderWidth="1px"
+                borderColor={borderColor}
+                transition="all 0.3s"
+                position="relative"
+                style={{ willChange: 'transform' }}
+                {...props}
+            >
                 <Box
-                    ref={cardRef}
-                    bg={cardBg}
-                    p={8}
-                    h="full"
-                    borderRadius="2xl"
-                    boxShadow="xl"
-                    borderWidth="1px"
-                    borderColor={borderColor}
-                    transition="all 0.3s"
-                    position="relative"
-                    style={{ willChange: 'transform' }}
-                    {...props}
-                >
-                    <Box
-                        position="absolute"
-                        top={0}
-                        left={0}
-                        right={0}
-                        h={2}
-                        bg={accentColor}
-                        borderTopRadius="2xl"
-                    />
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    right={0}
+                    h={2}
+                    bg={accentColor}
+                    borderTopRadius="2xl"
+                />
 
-                    <VStack spacing={8} align="start">
+                <VStack spacing={8} align="start">
+                    <VStack spacing={2} align="start" w="full">
+                        <Heading
+                            as="h3"
+                            fontSize={{ base: "3xl", md: "4xl" }}
+                            bgGradient={`linear(to-r, ${accentColor}, ${useColorModeValue('orange.600', 'orange.400')})`}
+                            bgClip="text"
+                            sx={{
+                                wordBreak: 'keep-all',
+                                overflowWrap: 'anywhere',
+                                lineBreak: 'strict'
+                            }}
+                        >
+                            {title}
+                        </Heading>
+                        <Text
+                            fontSize="lg"
+                            color="gray.500"
+                            letterSpacing="wider"
+                            fontWeight="semibold"
+                        >
+                            {titleEn}
+                        </Text>
+                    </VStack>
+
+                    {subtitle && (
                         <VStack spacing={2} align="start" w="full">
                             <Heading
-                                as="h3"
-                                fontSize={{ base: "3xl", md: "4xl" }}
-                                bgGradient={`linear(to-r, ${accentColor}, ${useColorModeValue('orange.600', 'orange.400')})`}
-                                bgClip="text"
+                                as="h4"
+                                fontSize={{ base: "xl", md: "2xl" }}
+                                color={textColor}
+                                sx={{
+                                    wordBreak: 'keep-all',
+                                    overflowWrap: 'anywhere',
+                                    lineBreak: 'strict'
+                                }}
                             >
-                                {title}
+                                {subtitle}
                             </Heading>
-                            <Text
-                                fontSize="lg"
-                                color="gray.500"
-                                letterSpacing="wider"
-                                fontWeight="semibold"
-                            >
-                                {titleEn}
-                            </Text>
-                        </VStack>
-
-                        {subtitle && (
-                            <VStack spacing={2} align="start" w="full">
-                                <Heading
-                                    as="h4"
-                                    fontSize={{ base: "xl", md: "2xl" }}
-                                    color={textColor}
+                            {subtitleEn && (
+                                <Text 
+                                    fontSize="md" 
+                                    color={subTextColor}
+                                    letterSpacing="wide"
                                 >
-                                    {subtitle}
-                                </Heading>
-                                {subtitleEn && (
-                                    <Text 
-                                        fontSize="md" 
-                                        color={subTextColor}
-                                        letterSpacing="wide"
-                                    >
-                                        {subtitleEn}
-                                    </Text>
-                                )}
-                            </VStack>
-                        )}
+                                    {subtitleEn}
+                                </Text>
+                            )}
+                        </VStack>
+                    )}
 
-                        {description && (
-                            <Text
-                                color={subTextColor}
-                                fontSize={{ base: "md", md: "lg" }}
-                                lineHeight="tall"
-                                whiteSpace="pre-wrap"
-                            >
-                                {description}
-                            </Text>
-                        )}
+                    {description && (
+                        <Text
+                            color={subTextColor}
+                            fontSize={{ base: "md", md: "lg" }}
+                            lineHeight="tall"
+                            whiteSpace="pre-wrap"
+                            sx={{
+                                wordBreak: 'keep-all',
+                                overflowWrap: 'anywhere',
+                                lineBreak: 'strict'
+                            }}
+                        >
+                            {description}
+                        </Text>
+                    )}
 
-                        {children}
-                    </VStack>
-                </Box>
-            </Container>
+                    {children}
+                </VStack>
+            </Box>
         </Box>
     );
 } 

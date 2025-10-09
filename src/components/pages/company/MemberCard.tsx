@@ -4,6 +4,7 @@ import { Box, Flex, VStack, Avatar, Heading, Text, useColorModeValue, Icon, HSta
 import { gsap } from "gsap";
 import { useRef, useEffect } from "react";
 import { FaLinkedin, FaTwitter } from "react-icons/fa";
+import TranslatedText from '@/components/common/TranslatedText';
 
 interface MemberCardProps {
     name: string;
@@ -183,13 +184,15 @@ export default function MemberCard({ name, image, title, description1, descripti
                         align={{ base: "center", md: "start" }}
                         gap={2}
                     >
-                        <Heading 
-                            size="lg"
+                        <TranslatedText
+                            as={Heading}
+                            translationKey={name}
+                            staggerDelay={0.1}
+                            fontSize={{ base: "xl", md: "2xl" }}
                             color={textColor}
-                            fontWeight="bold"
-                        >
-                            {name}
-                        </Heading>
+                            fontWeight="700"
+                            textAlign={{ base: "center", md: "left" }}
+                        />
                         <Text
                             color={accentColor}
                             fontSize="md"
@@ -212,7 +215,9 @@ export default function MemberCard({ name, image, title, description1, descripti
                             lineHeight="tall"
                             color={descriptionColor}
                             sx={{
-                                'text-wrap': 'pretty'
+                                wordBreak: 'keep-all',
+                                overflowWrap: 'anywhere',
+                                lineBreak: 'strict'
                             }}
                         >
                             {description1}
@@ -222,7 +227,9 @@ export default function MemberCard({ name, image, title, description1, descripti
                             lineHeight="tall"
                             color={descriptionColor}
                             sx={{
-                                'text-wrap': 'pretty'
+                                wordBreak: 'keep-all',
+                                overflowWrap: 'anywhere',
+                                lineBreak: 'strict'
                             }}
                         >
                             {description2}

@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Box,
     Container,
@@ -22,6 +24,8 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,6 +45,7 @@ const shimmer = keyframes`
 `;
 
 export default function ProblemSection() {
+    const { t } = useLanguage(); // 理志：言語翻訳用フックを追加
     const headingRef = useRef(null);
     const problemsRef = useRef<HTMLDivElement>(null);
     const solutionRef = useRef(null);
@@ -105,47 +110,47 @@ export default function ProblemSection() {
     const problems = [
         { 
             icon: FaChartLine,
-            text: "コンバージョン率が低く、商品に興味を持ってもらえない",
-            highlight: "コンバージョン率が低く",
+            textKey: "problem.1.text",
+            highlightKey: "problem.1.highlight",
             color: "#dc2626",
             iconBg: "rgba(220, 38, 38, 0.1)",
-            tag: "集客",
+            tagKey: "problem.1.tag",
             tagColor: "#ef4444"
         },
         { 
             icon: FaBullhorn,
-            text: "ブランドの印象が弱く、「記憶に残る」存在になれない",
-            highlight: "記憶に残る",
+            textKey: "problem.2.text",
+            highlightKey: "problem.2.highlight",
             color: "#7c3aed",
             iconBg: "rgba(124, 58, 237, 0.1)",
-            tag: "ブランディング",
+            tagKey: "problem.2.tag",
             tagColor: "#8b5cf6"
         },
         { 
             icon: FaHandshake,
-            text: "新規顧客からのアポイントが安定的に獲得できない",
-            highlight: "安定的に獲得できない",
+            textKey: "problem.3.text",
+            highlightKey: "problem.3.highlight",
             color: "#ea580c",
             iconBg: "rgba(234, 88, 12, 0.1)",
-            tag: "営業",
+            tagKey: "problem.3.tag",
             tagColor: "#f97316"
         },
         { 
             icon: FaPalette,
-            text: "商品の魅力を効果的に伝えるLPが作れない",
-            highlight: "効果的に伝える",
+            textKey: "problem.4.text",
+            highlightKey: "problem.4.highlight",
             color: "#0891b2",
             iconBg: "rgba(8, 145, 178, 0.1)",
-            tag: "マーケティング",
+            tagKey: "problem.4.tag",
             tagColor: "#06b6d4"
         },
         { 
             icon: FaYenSign,
-            text: "高すぎる制作費で、適正価格のプロが見つからない",
-            highlight: "適正価格のプロが見つからない",
+            textKey: "problem.5.text",
+            highlightKey: "problem.5.highlight",
             color: "#059669",
             iconBg: "rgba(5, 150, 105, 0.1)",
-            tag: "コスト",
+            tagKey: "problem.5.tag",
             tagColor: "#10b981"
         }
     ];
@@ -191,7 +196,7 @@ export default function ProblemSection() {
                             border="1px solid"
                             borderColor="rgba(224, 142, 70, 0.2)"
                         >
-                            よくあるお悩み
+                            {t('problem.badge')}
                         </Badge>
                         <Heading
                             ref={headingRef}
@@ -202,13 +207,11 @@ export default function ProblemSection() {
                             letterSpacing="-0.02em"
                             lineHeight="1.2"
                         >
-                            ビジネスを進める中で、
+                            <TranslatedText as="span" translationKey="problem.heading.1" staggerDelay={0.1} />
                             <br />
-                            こんな
-                            <Text as="span" color="#e08e46">
-                                悩み
-                            </Text>
-                            はありませんか？
+                            <TranslatedText as="span" translationKey="problem.heading.2" staggerDelay={0.12} />
+                            <TranslatedText as="span" color="#e08e46" translationKey="problem.heading.3" staggerDelay={0.14} />
+                            <TranslatedText as="span" translationKey="problem.heading.4" staggerDelay={0.16} />
                         </Heading>
                     </VStack>
 
@@ -290,7 +293,7 @@ export default function ProblemSection() {
                                                 borderColor={`${problem.tagColor}30`}
                                                 textTransform="none"
                                             >
-                                                {problem.tag}
+                                                {t(problem.tagKey)}
                                             </Badge>
                                         </HStack>
                                         <Text
@@ -300,12 +303,12 @@ export default function ProblemSection() {
                                             fontWeight="500"
                                             pl={1}
                                         >
-                                            {problem.text.split(problem.highlight).map((part, i, arr) => (
+                                            {t(problem.textKey).split(t(problem.highlightKey)).map((part, i, arr) => (
                                                 i < arr.length - 1 ? (
                                                     <span key={i}>
                                                         {part}
                                                         <Text as="span" color={problem.color} fontWeight="700">
-                                                            {problem.highlight}
+                                                            {t(problem.highlightKey)}
                                                         </Text>
                                                     </span>
                                                 ) : part
@@ -352,10 +355,8 @@ export default function ProblemSection() {
                                     textAlign="center"
                                     lineHeight="1.3"
                                 >
-                                    その課題、
-                                    <Text as="span" color="#e08e46">
-                                        すべて解決できます
-                                    </Text>
+                                    <TranslatedText as="span" translationKey="problem.solution.heading.1" staggerDelay={0.1} />
+                                    <TranslatedText as="span" color="#e08e46" translationKey="problem.solution.heading.2" staggerDelay={0.12} />
                                 </Heading>
                             </HStack>
 
@@ -367,11 +368,9 @@ export default function ProblemSection() {
                                     fontWeight="400"
                                     textAlign="center"
                                 >
-                                    私たちは、単なる「綺麗なデザイン」ではなく
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        「成果につながる設計」
-                                    </Text>
-                                    を提供します。
+                                    <TranslatedText as="span" translationKey="problem.solution.text.1.1" staggerDelay={0.1} />
+                                    <TranslatedText as="span" color="#e08e46" fontWeight="700" translationKey="problem.solution.text.1.2" staggerDelay={0.12} />
+                                    <TranslatedText as="span" translationKey="problem.solution.text.1.3" staggerDelay={0.14} />
                                 </Text>
                                 <Text 
                                     fontSize={{ base: "md", md: "lg" }} 
@@ -380,15 +379,11 @@ export default function ProblemSection() {
                                     fontWeight="400"
                                     textAlign="center"
                                 >
-                                    心理学に基づいた導線設計で、訪問者を
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        「行動」
-                                    </Text>
-                                    に導き、
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        収益の最大化
-                                    </Text>
-                                    を実現します。
+                                    <TranslatedText as="span" translationKey="problem.solution.text.2.1" staggerDelay={0.1} />
+                                    <TranslatedText as="span" color="#e08e46" fontWeight="700" translationKey="problem.solution.text.2.2" staggerDelay={0.12} />
+                                    <TranslatedText as="span" translationKey="problem.solution.text.2.3" staggerDelay={0.14} />
+                                    <TranslatedText as="span" color="#e08e46" fontWeight="700" translationKey="problem.solution.text.2.4" staggerDelay={0.16} />
+                                    <TranslatedText as="span" translationKey="problem.solution.text.2.5" staggerDelay={0.18} />
                                 </Text>
                             </VStack>
                         </VStack>

@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Box,
     Container,
@@ -15,6 +17,8 @@ import { FaStar } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,6 +33,7 @@ const shimmer = keyframes`
 `;
 
 export default function TestimonialsSection() {
+    const { t } = useLanguage();
     const headingRef = useRef(null);
     const cardsRef = useRef(null);
     const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -67,36 +72,38 @@ export default function TestimonialsSection() {
         };
     }, []);
 
+    // 理志：証言データ - 翻訳キーを使用
     const testimonials = [
         {
-            quote: "NPOとして限られた予算の中、完全オーダーメイドのサイトを作っていただき、寄付者や支援者との繋がりが可視化できるようになりました。データ追跡機能のおかげで、一人ひとりに合わせた支援依頼ができ、寄付率が大幅に向上しました。",
-            name: "竜 礼奈",
-            role: "NPO法人代表",
+            quoteKey: "testimonials.1.quote",
+            nameKey: "testimonials.1.name",
+            roleKey: "testimonials.1.role",
             metrics: [
-                { label: "寄付率", value: "+240%" },
-                { label: "平均寄付額", value: "+140%" },
-                { label: "継続支援者", value: "+85%" }
+                { labelKey: "testimonials.1.metric1.label", valueKey: "testimonials.1.metric1.value" },
+                { labelKey: "testimonials.1.metric2.label", valueKey: "testimonials.1.metric2.value" },
+                { labelKey: "testimonials.1.metric3.label", valueKey: "testimonials.1.metric3.value" }
             ],
             color: "#e08e46"
         },
         {
-            quote: "今までいろいろなツールを使い分けていた業務が、一つのシステムに統合されました。毎日2時間かかっていた作業が15分に短縮され、本当に重要な仕事に集中できるようになりました。",
-            role: "スタートアップCTO",
+            quoteKey: "testimonials.2.quote",
+            nameKey: "testimonials.2.name",
+            roleKey: "testimonials.2.role",
             metrics: [
-                { label: "作業時間", value: "-55%" },
-                { label: "開発速度", value: "+120%" },
-                { label: "エラー率", value: "-78%" }
+                { labelKey: "testimonials.2.metric1.label", valueKey: "testimonials.2.metric1.value" },
+                { labelKey: "testimonials.2.metric2.label", valueKey: "testimonials.2.metric2.value" },
+                { labelKey: "testimonials.2.metric3.label", valueKey: "testimonials.2.metric3.value" }
             ],
             color: "#4facfe"
         },
         {
-            quote: "海外顧客向けに多言語対応のシステムを構築していただき、英語・フランス語・韓国語・日本語の切り替えがシームレスになりました。翻訳の手間が省けただけでなく、各言語でのデータ分析も可能になり、グローバル展開が加速しました。",
-            name: "石神 拓真",
-            role: "EC事業責任者",
+            quoteKey: "testimonials.3.quote",
+            nameKey: "testimonials.3.name",
+            roleKey: "testimonials.3.role",
             metrics: [
-                { label: "海外売上", value: "+240%" },
-                { label: "CV率", value: "+92%" },
-                { label: "顧客満足度", value: "4.8/5" }
+                { labelKey: "testimonials.3.metric1.label", valueKey: "testimonials.3.metric1.value" },
+                { labelKey: "testimonials.3.metric2.label", valueKey: "testimonials.3.metric2.value" },
+                { labelKey: "testimonials.3.metric3.label", valueKey: "testimonials.3.metric3.value" }
             ],
             color: "#f093fb"
         }
@@ -129,7 +136,7 @@ export default function TestimonialsSection() {
                 </svg>
             </Box>
 
-            <Container maxW="7xl" position="relative" zIndex={1}>
+            <Container maxW="8xl" position="relative" zIndex={1}>
                 <VStack spacing={16}>
                     <VStack spacing={6} textAlign="center" maxW="3xl" mx="auto" ref={headingRef}>
                         <Badge
@@ -143,7 +150,7 @@ export default function TestimonialsSection() {
                             border="1px solid"
                             borderColor="rgba(224, 142, 70, 0.2)"
                         >
-                            お客様の声
+                            {t('testimonials.badge')}
                         </Badge>
                         <Heading
                             as="h2"
@@ -153,24 +160,30 @@ export default function TestimonialsSection() {
                             letterSpacing="-0.02em"
                             lineHeight="1.1"
                         >
-                            導入企業の
-                            <Text as="span" color="#e08e46">
-                                成功事例
-                            </Text>
+                            <TranslatedText
+                                as="span"
+                                translationKey="testimonials.title.1"
+                            />
+                            <TranslatedText
+                                as="span"
+                                color="#e08e46"
+                                translationKey="testimonials.title.2"
+                                staggerDelay={0.1}
+                            />
                         </Heading>
                     </VStack>
 
                     <SimpleGrid
                         ref={cardsRef}
                         columns={{ base: 1, lg: 3 }}
-                        spacing={8}
+                        spacing={{ base: 6, md: 8 }}
                         w="full"
                     >
                         {testimonials.map((testimonial, index) => (
                             <Box
                                 key={index}
                                 position="relative"
-                                p={8}
+                                p={{ base: 8, md: 10 }}
                                 bg="white"
                                 borderRadius="2xl"
                                 border="2px solid"
@@ -184,8 +197,9 @@ export default function TestimonialsSection() {
                                 _hover={{
                                     transform: 'translateY(-8px) scale(1.02)',
                                 }}
+                                minH={{ base: "auto", md: "520px" }}
                             >
-                                <VStack spacing={6} align="flex-start">
+                                <VStack spacing={6} align="flex-start" h="full">
                                     {/* Rating Stars */}
                                     <HStack spacing={1}>
                                         {[...Array(5)].map((_, i) => (
@@ -198,53 +212,58 @@ export default function TestimonialsSection() {
                                         ))}
                                     </HStack>
 
-                                    {/* Quote */}
-                                    <Text
-                                        fontSize="md"
+                                    {/* 理志：引用文 */}
+                                    <TranslatedText
+                                        translationKey={testimonial.quoteKey}
+                                        fontSize={{ base: "md", md: "lg" }}
                                         color="#333333"
                                         lineHeight="1.8"
                                         fontWeight="400"
-                                    >
-                                        {testimonial.quote}
-                                    </Text>
+                                        flex="1"
+                                    />
 
-                                    {/* Metric Bubbles */}
-                                    <HStack spacing={3} flexWrap="wrap">
-                                        {testimonial.metrics.map((metric, i) => (
-                                            <Box
-                                                key={i}
-                                                px={3}
-                                                py={1.5}
-                                                bg={`${testimonial.color}15`}
-                                                borderRadius="full"
-                                                border="1px solid"
-                                                borderColor={`${testimonial.color}30`}
-                                            >
-                                                <HStack spacing={2}>
-                                                    <Text
-                                                        fontSize="xs"
-                                                        fontWeight="500"
-                                                        color="#6e6e73"
-                                                    >
-                                                        {metric.label}
-                                                    </Text>
-                                                    <Text
-                                                        fontSize="sm"
-                                                        fontWeight="700"
-                                                        color={testimonial.color}
-                                                    >
-                                                        {metric.value}
-                                                    </Text>
-                                                </HStack>
-                                            </Box>
-                                        ))}
-                                    </HStack>
+                                    {/* 理志：メトリックバブル */}
+                                    <Box w="full">
+                                        <HStack spacing={2} flexWrap="wrap" gap={2}>
+                                            {testimonial.metrics.map((metric, i) => (
+                                                <Box
+                                                    key={i}
+                                                    px={3}
+                                                    py={2}
+                                                    bg={`${testimonial.color}15`}
+                                                    borderRadius="full"
+                                                    border="1px solid"
+                                                    borderColor={`${testimonial.color}30`}
+                                                    flexShrink={0}
+                                                >
+                                                    <HStack spacing={2}>
+                                                        <Text
+                                                            fontSize="xs"
+                                                            fontWeight="500"
+                                                            color="#6e6e73"
+                                                            whiteSpace="nowrap"
+                                                        >
+                                                            {t(metric.labelKey)}
+                                                        </Text>
+                                                        <Text
+                                                            fontSize="sm"
+                                                            fontWeight="700"
+                                                            color={testimonial.color}
+                                                            whiteSpace="nowrap"
+                                                        >
+                                                            {t(metric.valueKey)}
+                                                        </Text>
+                                                    </HStack>
+                                                </Box>
+                                            ))}
+                                        </HStack>
+                                    </Box>
 
-                                    {/* Author Info */}
+                                    {/* 理志：著者情報 */}
                                     <HStack spacing={4} pt={4}>
                                         <Avatar
                                             size="md"
-                                            name={testimonial.name}
+                                            name={t(testimonial.nameKey)}
                                             bg={`${testimonial.color}20`}
                                             color={testimonial.color}
                                             border="2px solid"
@@ -256,14 +275,14 @@ export default function TestimonialsSection() {
                                                 fontWeight="700"
                                                 color="#111111"
                                             >
-                                                {testimonial.name}
+                                                {t(testimonial.nameKey)}
                                             </Text>
                                             <Text
                                                 fontSize="sm"
                                                 color="#6e6e73"
                                                 fontWeight="500"
                                             >
-                                                {testimonial.role}
+                                                {t(testimonial.roleKey)}
                                             </Text>
                                         </VStack>
                                     </HStack>

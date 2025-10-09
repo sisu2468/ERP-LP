@@ -18,6 +18,8 @@ import gsap from 'gsap';
 import Image from 'next/image';
 import Link from 'next/link';
 import InquiryModal from '@/components/common/InquiryModal';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -35,6 +37,7 @@ const pulse = keyframes`
 `;
 
 export default function Hero() {
+    const { t } = useLanguage();
     const heroRef = useRef(null);
     const titleRef = useRef(null);
     const imageRef = useRef(null);
@@ -168,7 +171,7 @@ export default function Hero() {
 
             <Container maxW="8xl" position="relative" zIndex={2}>
                 <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={16} alignItems="center" py={{ base: 20, md: 28 }}>
-                    {/* Left Column - Content */}
+                    {/* 理志：左カラム - コンテンツ */}
                     <VStack align="flex-start" spacing={10} ref={titleRef}>
                         <VStack align="flex-start" spacing={6}>
                             <Heading
@@ -179,11 +182,17 @@ export default function Hero() {
                                 letterSpacing="-0.03em"
                                 color="#111111"
                             >
-                                無駄な作業から、
+                                <TranslatedText
+                                    as="span"
+                                    translationKey="hero.title.1"
+                                />
                                 <br />
-                                <Text as="span" color="#e08e46">
-                                    解放される。
-                                </Text>
+                                <TranslatedText
+                                    as="span"
+                                    color="#e08e46"
+                                    translationKey="hero.title.2"
+                                    staggerDelay={0.1}
+                                />
                             </Heading>
 
                             <Text
@@ -192,17 +201,32 @@ export default function Hero() {
                                 lineHeight="1.6"
                                 maxW="600px"
                             >
-                                LP制作も、データ管理も、すべてを一つに。
+                                <TranslatedText
+                                    as="span"
+                                    translationKey="hero.subtitle.1"
+                                />
                                 <br />
-                                カスタマイズされた仕組みで、
-                                <Text as="span" fontWeight="700" color="#111111">
-                                    本当に大切な仕事だけに集中
-                                </Text>
-                                できる環境を。
+                                <TranslatedText
+                                    as="span"
+                                    translationKey="hero.subtitle.2"
+                                    staggerDelay={0.15}
+                                />
+                                <TranslatedText
+                                    as="span"
+                                    fontWeight="700"
+                                    color="#111111"
+                                    translationKey="hero.subtitle.3"
+                                    staggerDelay={0.2}
+                                />
+                                <TranslatedText
+                                    as="span"
+                                    translationKey="hero.subtitle.4"
+                                    staggerDelay={0.25}
+                                />
                             </Text>
                         </VStack>
 
-                        <HStack spacing={4} pt={2}>
+                        <HStack spacing={4} pt={2} flexWrap="wrap">
                             <Button
                                 size="lg"
                                 h="56px"
@@ -222,8 +246,11 @@ export default function Hero() {
                                     transform: 'translateY(0)',
                                 }}
                                 transition="all 0.2s"
+                                fontSize={{ base: "sm", md: "md" }}
+                                whiteSpace="normal"
+                                textAlign="center"
                             >
-                                お問い合わせ
+                                {t('hero.cta')}
                             </Button>
                             <Button
                                 as={Link}
@@ -248,8 +275,11 @@ export default function Hero() {
                                     transform: 'translateY(0)',
                                 }}
                                 transition="all 0.2s"
+                                fontSize={{ base: "sm", md: "md" }}
+                                whiteSpace="normal"
+                                textAlign="center"
                             >
-                                料金プラン
+                                {t('hero.demo')}
                             </Button>
                         </HStack>
 

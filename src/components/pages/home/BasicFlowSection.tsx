@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Box,
     Container,
@@ -11,10 +13,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function BasicFlowSection() {
+    const { t } = useLanguage(); // 理志：言語翻訳用フックを追加
     const headingRef = useRef(null);
     const stepsRef = useRef(null);
 
@@ -55,18 +60,18 @@ export default function BasicFlowSection() {
     const steps = [
         {
             icon: "/svg/svg2.svg",
-            title: "無料相談",
-            description: "まずはオンラインでの無料相談からスタート。ご予算、ご希望、現在の状況やお悩みについて丁寧にヒアリングを行い、ご要望の複雑さを踏まえたお見積もりをご案内いたします。",
+            titleKey: "basicflow.step1.title",
+            descriptionKey: "basicflow.step1.description",
         },
         {
             icon: "/svg/svg3.svg",
-            title: "開発開始",
-            description: "お支払いが確認でき次第、制作を開始いたします。LP・Webアプリともに、お客様のご希望に沿った形で進行し、進捗はSlackやメールなど、ご希望の連絡手段で定期的にご報告いたします。",
+            titleKey: "basicflow.step2.title",
+            descriptionKey: "basicflow.step2.description",
         },
         {
             icon: "/svg/svg4.svg",
-            title: "公開・デプロイ",
-            description: "制作が完了次第、公開作業までしっかり対応いたします。ドメイン設定やホスティング、SEO対策などもすべてお任せください。あなたのビジョンを、世界へ。私たちがカタチにします。",
+            titleKey: "basicflow.step3.title",
+            descriptionKey: "basicflow.step3.description",
         }
     ];
 
@@ -90,7 +95,7 @@ export default function BasicFlowSection() {
                             border="1px solid"
                             borderColor="rgba(224, 142, 70, 0.2)"
                         >
-                            シンプルな3ステップ
+                            {t('basicflow.badge')}
                         </Badge>
                         <Heading
                             ref={headingRef}
@@ -101,7 +106,7 @@ export default function BasicFlowSection() {
                             letterSpacing="-0.02em"
                             lineHeight="1.1"
                         >
-                            基本的な流れ
+                            <TranslatedText translationKey="basicflow.heading" staggerDelay={0.1} />
                         </Heading>
                     </VStack>
 
@@ -157,7 +162,7 @@ export default function BasicFlowSection() {
                                     >
                                         <Image
                                             src={step.icon}
-                                            alt={step.title}
+                                            alt={t(step.titleKey)}
                                             width={320}
                                             height={180}
                                         />
@@ -169,7 +174,7 @@ export default function BasicFlowSection() {
                                         fontWeight="700"
                                         color="#111111"
                                     >
-                                        {step.title}
+                                        <TranslatedText translationKey={step.titleKey} staggerDelay={0.1} />
                                     </Heading>
 
                                     <Text
@@ -177,7 +182,7 @@ export default function BasicFlowSection() {
                                         lineHeight="1.8"
                                         fontSize="md"
                                     >
-                                        {step.description}
+                                        <TranslatedText translationKey={step.descriptionKey} staggerDelay={0.05} />
                                     </Text>
                                 </VStack>
                             </Box>

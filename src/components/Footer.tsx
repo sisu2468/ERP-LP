@@ -26,9 +26,11 @@ import {
     FaTwitter,
 } from 'react-icons/fa';
 import InquiryModal from './common/InquiryModal';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Footer() {
     const { colorMode } = useColorMode();
+    const { t } = useLanguage();
     const bgColor = useColorModeValue('white', 'gray.900');
     const borderColor = useColorModeValue('#E0E0E0', 'gray.700');
     const headingColor = useColorModeValue('gray.900', 'white');
@@ -44,16 +46,16 @@ export default function Footer() {
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8} justifyContent="space-between">
                     <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
-                            株式会社サインタ
+                            {t('footer.company')}
                         </Text>
                         <HStack align="flex-start" textAlign='left' alignItems='flex-start' justifyContent='flex-start'>
                             <Icon as={FaMapMarkerAlt} mt={1} color={iconColor} />
                             <Flex flexDirection='column' alignItems='flex-start' justifyContent='flex-start'>
                                 <Text fontSize="sm" color={textColor}>
-                                    〒108-0073
+                                    {t('footer.address.postal')}
                                 </Text>
                                 <Text fontSize="sm" color={textColor}>
-                                    東京都港区三田１丁目3－40 6F
+                                    {t('footer.address.line')}
                                 </Text>
                             </Flex>
                         </HStack>
@@ -73,12 +75,12 @@ export default function Footer() {
 
                     <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
-                            会社情報
+                            {t('footer.section.company')}
                         </Text>
-                        <Link href="/company" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>会社概要</Link>
-                        <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>プライバシーポリシー</Link>
-                        <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>利用規約</Link>
-                        <Link onClick={onOpen} fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }} cursor="pointer">お問い合わせ</Link>
+                        <Link href="/company" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.about')}</Link>
+                        <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.privacy')}</Link>
+                        <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.terms')}</Link>
+                        <Link onClick={onOpen} fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }} cursor="pointer">{t('footer.link.contact')}</Link>
                     </Stack>
                     <InquiryModal isOpen={isOpen} onClose={onClose} />
 
@@ -93,7 +95,7 @@ export default function Footer() {
 
                     <Stack spacing={4} textAlign='left'>
                         <Text fontSize="lg" fontWeight="bold" color={headingColor}>
-                            SNS
+                            {t('footer.section.sns')}
                         </Text>
                         <HStack spacing={4} w={{ base: '100%', md: 'auto' }} justifyContent='flex-start' display='flex'>
                             <Link href="https://twitter.com" isExternal>
@@ -115,7 +117,7 @@ export default function Footer() {
                 <Divider my={8} borderColor={dividerColor} />
                 <Flex gap={4} justifyContent="center" alignItems="center">
                     <Text fontSize="sm" color={textColor}>
-                        © {new Date().getFullYear()} 株式会社サインタ. All rights reserved.
+                        {t('footer.copyright').replace('{year}', new Date().getFullYear().toString())}
                     </Text>
                     <Image
                         src={colorMode === 'light' ? "/logos/sainta-hakuchou.png" : "/logos/sainta-hakuchou-white.png"}

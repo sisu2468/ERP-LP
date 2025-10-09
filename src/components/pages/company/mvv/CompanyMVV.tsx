@@ -61,7 +61,7 @@ export default function CompanyMVV() {
 
     return (
         <Box py={16} bg={bgColor} transition="background-color 0.2s">
-            <Container maxW="8xl">
+            <Container maxW="7xl">
                 <VStack spacing={16}>
                     <Heading
                         ref={headingRef}
@@ -78,7 +78,9 @@ export default function CompanyMVV() {
                             <CompanyMission />
                             <CompanyVision />
                         </SimpleGrid>
-                        <CompanyValues />
+                        <Box mt={8}>
+                            <CompanyValues />
+                        </Box>
                     </Box>
                 </VStack>
             </Container>

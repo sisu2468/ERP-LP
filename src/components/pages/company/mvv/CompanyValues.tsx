@@ -8,45 +8,48 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { FiMinimize2 } from "react-icons/fi";
 import { RiDashboardLine, RiLightbulbFlashLine, RiShieldStarLine, RiTeamLine } from "react-icons/ri";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const values = [
-    {
-        title: "シンプルさ",
-        titleEn: "SIMPLICITY",
-        description: "誰もが直感的に使える仕組みを提供し、複雑なビジネス運営をシンプルにします。",
-        icon: FiMinimize2
-    },
-    {
-        title: "信頼性",
-        titleEn: "RELIABILITY",
-        description: "企業の基盤を⽀える存在として、常に顧客が安⼼して頼れるサポートを最優先する。",
-        icon: RiShieldStarLine
-    },
-    {
-        title: "⾰新性",
-        titleEn: "INNOVATION",
-        description: "階層を超えて最良のアイデアが⽣まれる⽂化を醸成し、新しい価値を創造し続ける。",
-        icon: RiLightbulbFlashLine
-    },
-    {
-        title: "接続性",
-        titleEn: "CONNECTIVITY",
-        description: "企業、パートナー、そして私たち⾃⾝が強く結びつき、共に成⻑するエコシステムを築く。",
-        icon: RiTeamLine
-    },
-    {
-        title: "透明性",
-        titleEn: "TRANSPARENCY",
-        description: "誠実なコミュニケーションと開かれた情報共有を通じて、揺るぎない信頼を構築する。",
-        icon: RiDashboardLine
-    }
-];
-
 export default function CompanyValues() {
+    const { t } = useLanguage();
+    
+    const values = [
+        {
+            title: t('mvv.value.1.title'),
+            titleEn: t('mvv.value.1.titleEn'),
+            description: t('mvv.value.1.desc'),
+            icon: FiMinimize2
+        },
+        {
+            title: t('mvv.value.2.title'),
+            titleEn: t('mvv.value.2.titleEn'),
+            description: t('mvv.value.2.desc'),
+            icon: RiShieldStarLine
+        },
+        {
+            title: t('mvv.value.3.title'),
+            titleEn: t('mvv.value.3.titleEn'),
+            description: t('mvv.value.3.desc'),
+            icon: RiLightbulbFlashLine
+        },
+        {
+            title: t('mvv.value.4.title'),
+            titleEn: t('mvv.value.4.titleEn'),
+            description: t('mvv.value.4.desc'),
+            icon: RiTeamLine
+        },
+        {
+            title: t('mvv.value.5.title'),
+            titleEn: t('mvv.value.5.titleEn'),
+            description: t('mvv.value.5.desc'),
+            icon: RiDashboardLine
+        }
+    ];
+    
     const valueRefs = useRef<(HTMLDivElement | null)[]>([]);
     const { colorMode } = useColorMode();
     const accentColor = useColorModeValue('orange.500', 'orange.300');
@@ -127,12 +130,13 @@ export default function CompanyValues() {
 
     return (
         <MVVCard
-            title="バリュー"
-            titleEn="VALUES"
+            title={t('mvv.values.title')}
+            titleEn={t('mvv.values.titleEn')}
         >
             <SimpleGrid 
                 w="full"
-                columns={{ base: 1, md: 2, lg: 3, xl: 5 }} 
+                maxW="100%"
+                columns={{ base: 1, md: 2, lg: 3 }} 
                 spacing={6} 
                 mt={8}
             >
@@ -149,6 +153,10 @@ export default function CompanyValues() {
                         position="relative"
                         transition="none"
                         style={{ willChange: 'transform' }}
+                        overflow="hidden"
+                        w="full"
+                        maxW="100%"
+                        minW={0}
                     >
                         <Box
                             position="absolute"
@@ -159,8 +167,8 @@ export default function CompanyValues() {
                             bg={accentColor}
                             borderTopRadius="2xl"
                         />
-                        <VStack align="start" spacing={6}>
-                            <Flex align="center" gap={4}>
+                        <VStack align="start" spacing={6} w="full" maxW="100%" minW={0}>
+                            <Flex align="center" gap={4} w="full" maxW="100%" minW={0}>
                                 <Flex
                                     w={12}
                                     h={12}
@@ -170,6 +178,7 @@ export default function CompanyValues() {
                                     align="center"
                                     justify="center"
                                     transition="all 0.3s"
+                                    flexShrink={0}
                                     _hover={{
                                         transform: 'scale(1.1)',
                                     }}
@@ -179,11 +188,18 @@ export default function CompanyValues() {
                                         boxSize={6}
                                     />
                                 </Flex>
-                                <VStack align="start" spacing={1}>
+                                <VStack align="start" spacing={1} flex={1} minW={0} maxW="100%">
                                     <Text 
                                         fontSize="xl" 
                                         fontWeight="bold" 
                                         color={textColor}
+                                        w="full"
+                                        maxW="100%"
+                                        sx={{
+                                            wordBreak: 'keep-all',
+                                            overflowWrap: 'anywhere',
+                                            lineBreak: 'strict'
+                                        }}
                                     >
                                         {value.title}
                                     </Text>
@@ -192,6 +208,13 @@ export default function CompanyValues() {
                                         color={accentColor}
                                         fontWeight="semibold"
                                         letterSpacing="wider"
+                                        w="full"
+                                        maxW="100%"
+                                        sx={{
+                                            wordBreak: 'keep-all',
+                                            overflowWrap: 'anywhere',
+                                            lineBreak: 'strict'
+                                        }}
                                     >
                                         {value.titleEn}
                                     </Text>
@@ -201,6 +224,13 @@ export default function CompanyValues() {
                                 fontSize="md" 
                                 color={textColor}
                                 lineHeight="1.8"
+                                w="full"
+                                maxW="100%"
+                                sx={{
+                                    wordBreak: 'keep-all',
+                                    overflowWrap: 'anywhere',
+                                    lineBreak: 'strict'
+                                }}
                             >
                                 {value.description}
                             </Text>

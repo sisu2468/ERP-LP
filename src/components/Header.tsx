@@ -24,7 +24,8 @@ import { useRef, useState } from 'react';
 import SLink from './SLink';
 import Header_MenuButton from './buttons/Header_MenuButton';
 import InquiryModal from './common/InquiryModal';
-import ThemeToggle from './common/ThemeToggle';
+import LanguageSwitcher from './common/LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Header() {
   const navRef = useRef<HTMLElement>(null);
@@ -34,10 +35,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
-
-  // Japanese name regex: kanji, hiragana, katakana, full-width space
-  const jpNameRegex = /^[\u3000\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uFF66-\uFF9F\s]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const { t } = useLanguage();
 
   const handleMenuClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -125,7 +123,7 @@ export default function Header() {
                 {item.subMenu ? (
                   <Header_MenuButton pathname={pathname} item={item}>
                     <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
-                      {item.title}
+                      {t(item.title)}
                       <Icon
                         as={ChevronDownIcon}
                         ml={1}
@@ -135,7 +133,7 @@ export default function Header() {
                       />
                     </Flex>
                   </Header_MenuButton>
-                ) : item.title === 'お問い合わせ' ? (
+                ) : item.title === 'nav.contact' ? (
                   <Button
                     variant="ghost"
                     className="nav-item"
@@ -153,14 +151,14 @@ export default function Header() {
                     onClick={onOpen}
                   >
                     <Flex gap={1} alignItems='center'>
-                      {item.title}
+                      {t(item.title)}
                     </Flex>
                   </Button>
                 ) : (
                   <Link href={item.path}>
                     <Header_MenuButton pathname={pathname} item={item}>
                       <Flex gap={1} alignItems='center' color={colorMode === 'light' ? 'gray.600' : 'white'}>
-                        {item.title}
+                        {t(item.title)}
                        </Flex>
                     </Header_MenuButton>
                   </Link>
@@ -187,13 +185,13 @@ export default function Header() {
                               fontWeight="medium"
                               color={colorMode === 'light' ? 'gray.800' : 'white'}
                             >
-                              {subItem.title}
+                              {t(subItem.title)}
                             </Text>
                             <Text
                               fontSize="xs"
                               color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
                             >
-                              {subItem.description}
+                              {t(subItem.description)}
                             </Text>
                           </Box>
                         </SLink>
@@ -206,7 +204,7 @@ export default function Header() {
           </HStack>
 
           <Flex gap={4} alignItems="center">
-            <ThemeToggle />
+            <LanguageSwitcher />
             <IconButton
               ref={hamburgerRef}
               display={{ lg: 'flex', xl: 'none' }}
@@ -239,7 +237,7 @@ export default function Header() {
         >
           {navItems.map((item) => (
             <Box key={item.path}>
-              {item.title === 'お問い合わせ' ? (
+              {item.title === 'nav.contact' ? (
                 <Button
                   w="full"
                   justifyContent="flex-start"
@@ -252,7 +250,7 @@ export default function Header() {
                   color={colorMode === 'light' ? 'gray.800' : 'gray.400'}
                   onClick={onOpen}
                 >
-                  {item.title}
+                  {t(item.title)}
                 </Button>
               ) : (
                 <SLink href={item.subMenu ? '#' : item.path}>
@@ -272,13 +270,13 @@ export default function Header() {
                           fontWeight="medium"
                           color={colorMode === 'light' ? 'gray.800' : 'white'}
                         >
-                          {item.title}
+                          {t(item.title)}
                         </Text>
                         <Text
                           fontSize="xs"
                           color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
                         >
-                          {item.description}
+                          {t(item.description)}
                         </Text>
                       </Box>
                       {item.subMenu && (
@@ -309,13 +307,13 @@ export default function Header() {
                           fontSize="sm"
                           color={colorMode === 'light' ? 'gray.800' : 'white'}
                         >
-                          {subItem.title}
+                          {t(subItem.title)}
                         </Text>
                         <Text
                           fontSize="xs"
                           color={colorMode === 'light' ? 'gray.500' : 'gray.400'}
                         >
-                          {subItem.description}
+                          {t(subItem.description)}
                         </Text>
                       </Box>
                     </Link>

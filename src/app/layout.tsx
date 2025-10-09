@@ -2,6 +2,7 @@ import ScrollButtons from "@/components/common/ScrollButtons";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LoadingManager from "@/components/common/LoadingManager";
+import LanguageWrapper from "@/components/common/LanguageWrapper";
 import { Box } from "@chakra-ui/react";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
@@ -44,19 +45,21 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <Providers>
-          <LoadingManager 
-            imageUrls={imagesToPreload}
-            minLoadingTime={3000}
-          >
-            <Box className="flex flex-col justify-between">
-              <Header />
-              <main className="flex-grow">
-                {children}
-              </main>
-              <ScrollButtons />
-              <Footer />
-            </Box>
-          </LoadingManager>
+          <LanguageWrapper>
+            <LoadingManager 
+              imageUrls={imagesToPreload}
+              minLoadingTime={3000}
+            >
+              <Box className="flex flex-col justify-between">
+                <Header />
+                <main className="flex-grow">
+                  {children}
+                </main>
+                <ScrollButtons />
+                <Footer />
+              </Box>
+            </LoadingManager>
+          </LanguageWrapper>
         </Providers>
       </body>
     </html>

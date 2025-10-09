@@ -1,15 +1,18 @@
 'use client';
 
 import MVVCard from "./MVVCard";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function CompanyMission() {
+    const { t } = useLanguage();
+    
     return (
         <MVVCard
-            title="ミッション"
-            titleEn="MISSION"
-            subtitle="テクノロジーが切り拓く、持続可能な未来"
-            subtitleEn="A SUSTAINABLE FUTURE WITH TECHNOLOGY"
-            description="テクノロジーと専⾨知識を融合し、⽇本の起業家と企業の成⻑を⽀援することで、持続可能で競争⼒のあるビジネス環境を実現します。私たちは、複雑なビジネス活動をシンプルに変え、本来のクリエイティビティに集中できる世界を創造します。"
+            title={t('mvv.mission.title')}
+            titleEn={t('mvv.mission.titleEn')}
+            subtitle={t('mvv.mission.subtitle')}
+            subtitleEn={t('mvv.mission.subtitleEn')}
+            description={t('mvv.mission.description')}
         />
     );
 }

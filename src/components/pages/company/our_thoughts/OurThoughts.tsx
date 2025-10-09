@@ -5,12 +5,15 @@ import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import InquiryModal from '@/components/common/InquiryModal';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
 export default function OurThoughts() {
+    const { t } = useLanguage();
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
     const quoteRef = useRef(null);
@@ -135,7 +138,7 @@ export default function OurThoughts() {
                     pointerEvents="none"
                 />
 
-                <Container maxW="7xl" position="relative" zIndex={1}>
+                <Container maxW="8xl" position="relative" zIndex={1}>
                     <VStack spacing={{ base: 16, md: 24 }} align="center" w="full">
                         {/* Main Heading - Balanced Size */}
                         <VStack ref={headingRef} spacing={6} align="center" w="full" py={{ base: 8, md: 12 }}>
@@ -191,19 +194,20 @@ export default function OurThoughts() {
                             lineHeight="1.8"
                             maxW="4xl"
                             fontWeight="500"
+                            sx={{
+                                wordBreak: 'keep-all',
+                                overflowWrap: 'anywhere',
+                                lineBreak: 'strict'
+                            }}
                         >
-                            私たちサインタは、テクノロジーの真の価値は
-                            <Text as="span" color="#e08e46" fontWeight="700">
-                                人間の可能性を解放すること
-                            </Text>
-                            にあると信じています。
+                            <TranslatedText as="span" translationKey="thoughts.quote" staggerDelay={0.1} />
                         </Text>
 
                         {/* Principle Box - Balanced */}
                         <Box
                             ref={principleRef}
                             w="full"
-                            maxW="5xl"
+                            maxW="6xl"
                             bg="linear-gradient(135deg, rgba(224, 142, 70, 0.08) 0%, rgba(224, 142, 70, 0.03) 100%)"
                             borderRadius="3xl"
                             p={{ base: 10, md: 16 }}
@@ -238,21 +242,28 @@ export default function OurThoughts() {
                                     textAlign="center"
                                     lineHeight="1.3"
                                     letterSpacing="-0.02em"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    具体的なことはテクノロジーに、
-                                    <br />
-                                    抽象的なことは人間に。
+                                    <TranslatedText as="span" translationKey="thoughts.principle.title" staggerDelay={0.1} />
                                 </Text>
                                 <Text
                                     fontSize={{ base: "lg", md: "xl" }}
                                     color="#6e6e73"
                                     textAlign="center"
                                     lineHeight="1.8"
-                                    maxW="3xl"
+                                    maxW="4xl"
                                     fontWeight="500"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    この原則のもと、企業の日常業務を効率化し、
-                                    イノベーションに集中できる環境を創造します。
+                                    <TranslatedText as="span" translationKey="thoughts.principle.subtitle" staggerDelay={0.12} />
                                 </Text>
                             </VStack>
                         </Box>
@@ -266,12 +277,13 @@ export default function OurThoughts() {
                                 lineHeight="1.8"
                                 fontWeight="500"
                                 textAlign="center"
+                                sx={{
+                                    wordBreak: 'keep-all',
+                                    overflowWrap: 'anywhere',
+                                    lineBreak: 'strict'
+                                }}
                             >
-                                日々の業務の煩雑さから解放された時、人は本来持っている
-                                <Text as="span" color="#e08e46" fontWeight="700">
-                                    創造性を発揮
-                                </Text>
-                                し、より大きな目標に向かって挑戦することができます。
+                                <TranslatedText as="span" translationKey="thoughts.text1" staggerDelay={0.1} />
                             </Text>
 
                             <Text
@@ -281,12 +293,13 @@ export default function OurThoughts() {
                                 lineHeight="1.8"
                                 fontWeight="500"
                                 textAlign="center"
+                                sx={{
+                                    wordBreak: 'keep-all',
+                                    overflowWrap: 'anywhere',
+                                    lineBreak: 'strict'
+                                }}
                             >
-                                経験豊富な起業家からこれから夢を追いかける方まで、すべてのビジネスパーソンに寄り添い、その挑戦を
-                                <Text as="span" color="#e08e46" fontWeight="700">
-                                    技術の力で支える
-                                </Text>
-                                ことが私たちの使命です。
+                                <TranslatedText as="span" translationKey="thoughts.text2" staggerDelay={0.12} />
                             </Text>
                         </VStack>
 
@@ -306,10 +319,13 @@ export default function OurThoughts() {
                                     textAlign="center"
                                     lineHeight="1.2"
                                     letterSpacing="-0.03em"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    私たちと共に、
-                                    <br />
-                                    新たな地平を切り拓きましょう。
+                                    <TranslatedText as="span" translationKey="thoughts.cta.title" staggerDelay={0.1} />
                                 </Heading>
                                 <Text
                                     fontSize={{ base: "lg", md: "xl" }}
@@ -318,8 +334,13 @@ export default function OurThoughts() {
                                     maxW="2xl"
                                     lineHeight="1.8"
                                     fontWeight="500"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    無料相談で、あなたのビジネスの可能性を一緒に探りませんか。
+                                    <TranslatedText as="span" translationKey="thoughts.cta.subtitle" staggerDelay={0.12} />
                                 </Text>
                             </VStack>
 
@@ -344,7 +365,7 @@ export default function OurThoughts() {
                                 }}
                                 transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                             >
-                                お問い合わせ
+                                {t('thoughts.cta.button')}
                             </Button>
 
                             <Text
@@ -353,7 +374,7 @@ export default function OurThoughts() {
                                 textAlign="center"
                                 fontWeight="500"
                             >
-                                ✓ 初回相談無料　✓ オンライン対応可　✓ 24時間以内に返信
+                                {t('thoughts.cta.benefits')}
                             </Text>
                         </VStack>
                     </VStack>

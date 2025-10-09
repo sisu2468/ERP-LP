@@ -21,65 +21,68 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { FiMonitor, FiUsers, FiZap, FiArrowRight, FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface InquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-// 理志：メインカテゴリーの定義
-const categories = [
-  {
-    id: 'request',
-    title: '制作のご依頼・相談',
-    description: 'Webサイト・LP・アプリの設計・開発、または見積もりを含む制作相談',
-    icon: FiMonitor,
-    color: '#e08e46',
-    bgColor: 'rgba(224, 142, 70, 0.08)',
-    borderColor: 'rgba(224, 142, 70, 0.2)',
-  },
-  {
-    id: 'partnership',
-    title: 'パートナー・協業のご相談',
-    description: '共同開発・業務提携・イベント協賛・紹介連携などのご相談',
-    icon: FiUsers,
-    color: '#0891b2',
-    bgColor: 'rgba(8, 145, 178, 0.08)',
-    borderColor: 'rgba(8, 145, 178, 0.2)',
-  },
-  {
-    id: 'beta',
-    title: 'βテスター・早期アクセス申請',
-    description: 'サインタの新サービス・AIツールを先行利用し、改善にご協力いただける方向け',
-    icon: FiZap,
-    color: '#059669',
-    bgColor: 'rgba(5, 150, 105, 0.08)',
-    borderColor: 'rgba(5, 150, 105, 0.2)',
-  },
-];
-
-// 理志：各カテゴリーのサブ選択肢を定義
-const subOptions = {
-  request: [
-    { id: 'web-design', title: 'Webサイト・LP制作' },
-    { id: 'web-application', title: 'Webアプリケーション制作' },
-    { id: 'other', title: 'その他' },
-  ],
-  partnership: [
-    { id: 'offering-services', title: 'サービス提供' },
-    { id: 'collaboration', title: '共同開発・協業' },
-    { id: 'other', title: 'その他' },
-  ],
-  beta: [
-    { id: 'erp-beta', title: 'ERP βテスティング・アクセス' },
-    { id: 'sainta-connect-beta', title: 'サインタ・コネクト βテスティング・アクセス' },
-  ],
-};
-
-const jpNameRegex = /^[\u3000\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uFF66-\uFF9F\s]+$/;
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
+  const { t } = useLanguage();
+  
+  // 理志：メインカテゴリーの定義
+  const categories = [
+    {
+      id: 'request',
+      titleKey: 'inquiry.category.request.title',
+      descKey: 'inquiry.category.request.desc',
+      icon: FiMonitor,
+      color: '#e08e46',
+      bgColor: 'rgba(224, 142, 70, 0.08)',
+      borderColor: 'rgba(224, 142, 70, 0.2)',
+    },
+    {
+      id: 'partnership',
+      titleKey: 'inquiry.category.partnership.title',
+      descKey: 'inquiry.category.partnership.desc',
+      icon: FiUsers,
+      color: '#0891b2',
+      bgColor: 'rgba(8, 145, 178, 0.08)',
+      borderColor: 'rgba(8, 145, 178, 0.2)',
+    },
+    {
+      id: 'beta',
+      titleKey: 'inquiry.category.beta.title',
+      descKey: 'inquiry.category.beta.desc',
+      icon: FiZap,
+      color: '#059669',
+      bgColor: 'rgba(5, 150, 105, 0.08)',
+      borderColor: 'rgba(5, 150, 105, 0.2)',
+    },
+  ];
+
+  // 理志：各カテゴリーのサブ選択肢を定義
+  const subOptions = {
+    request: [
+      { id: 'web-design', titleKey: 'inquiry.suboption.web-design' },
+      { id: 'web-application', titleKey: 'inquiry.suboption.web-application' },
+      { id: 'other', titleKey: 'inquiry.suboption.other' },
+    ],
+    partnership: [
+      { id: 'offering-services', titleKey: 'inquiry.suboption.offering-services' },
+      { id: 'collaboration', titleKey: 'inquiry.suboption.collaboration' },
+      { id: 'other', titleKey: 'inquiry.suboption.other' },
+    ],
+    beta: [
+      { id: 'erp-beta', titleKey: 'inquiry.suboption.erp-beta' },
+      { id: 'sainta-connect-beta', titleKey: 'inquiry.suboption.sainta-connect-beta' },
+    ],
+  };
+
+  const jpNameRegex = /^[\u3000\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uFF66-\uFF9F\s]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   // 理志：モーダルの状態管理
   // step: 1=メインカテゴリー選択, 2=サブカテゴリー選択, 3=フォーム入力, 4=送信完了
   const [step, setStep] = useState(1);
@@ -170,10 +173,10 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
     setError(null);
 
     // 理志：選択内容をわかりやすいラベルに変換
-    const categoryLabel = categories.find(c => c.id === selectedCategory)?.title || '';
-    const subOptionLabel = subOptions[selectedCategory as keyof typeof subOptions]?.find(
+    const categoryLabel = t(categories.find(c => c.id === selectedCategory)?.titleKey || '');
+    const subOptionLabel = t(subOptions[selectedCategory as keyof typeof subOptions]?.find(
       o => o.id === selectedSubOption
-    )?.title || '';
+    )?.titleKey || '');
     
     const fullName = `${form.lastName} ${form.firstName}`;
 
@@ -236,10 +239,10 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
           px={8}
           textAlign="center"
         >
-          {step === 1 && 'お問い合わせ'}
-          {step === 2 && currentCategory?.title}
-          {step === 3 && '詳細情報の入力'}
-          {step === 4 && '送信完了'}
+          {step === 1 && t('inquiry.title')}
+          {step === 2 && currentCategory && t(currentCategory.titleKey)}
+          {step === 3 && t('inquiry.step3.title')}
+          {step === 4 && t('inquiry.step4.title')}
         </ModalHeader>
         <ModalCloseButton 
           color="#6e6e73" 
@@ -260,7 +263,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                 textAlign="center"
                 lineHeight="1.7"
               >
-                ご用件をお選びください。目的に合ったフォームへご案内します。
+                {t('inquiry.step1.subtitle')}
               </Text>
 
               <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} w="full" pt={4}>
@@ -305,7 +308,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                         </HStack>
                         
                         <Text fontSize="lg" fontWeight="700" color="#111111" lineHeight="1.4">
-                          {category.title}
+                          {t(category.titleKey)}
                         </Text>
                       </VStack>
 
@@ -339,8 +342,8 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
               >
                 <Text fontSize="sm" color="#6e6e73" textAlign="center" lineHeight="1.8">
                   {hoveredCategory 
-                    ? categories.find(c => c.id === hoveredCategory)?.description
-                    : 'カードにカーソルを合わせると詳細が表示されます。'
+                    ? t(categories.find(c => c.id === hoveredCategory)?.descKey || '')
+                    : t('inquiry.step1.hover')
                   }
                 </Text>
               </Box>
@@ -359,11 +362,11 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                 color="#6e6e73"
                 _hover={{ bg: '#fafafa' }}
               >
-                戻る
+                {t('inquiry.form.back')}
               </Button>
 
               <Text fontSize={{ base: "md", md: "lg" }} color="#6e6e73" textAlign="center">
-                どちらに興味がありますか？
+                {t('inquiry.step2.subtitle')}
               </Text>
 
               <VStack spacing={4} w="full" pt={4}>
@@ -388,7 +391,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                   >
                     <HStack justify="space-between" w="full">
                       <Text fontSize="lg" fontWeight="600" color="#111111">
-                        {option.title}
+                        {t(option.titleKey)}
                       </Text>
                       <Icon as={FiArrowRight} boxSize={5} color={currentCategory?.color} />
                     </HStack>
@@ -420,16 +423,16 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                     <FormControl isRequired isInvalid={isLastNameError} flex={1}>
                       <HStack mb={2} spacing={2}>
                         <FormLabel htmlFor="lastName" mb={0} fontWeight="600" color="#111111" fontSize="sm">
-                          姓
+                          {t('inquiry.form.lastName.label')}
                         </FormLabel>
                         <Tag size="sm" bg="#fef2f2" color="#dc2626" border="1px solid" borderColor="#fecaca" fontWeight="600" fontSize="xs">
-                          必須
+                          {t('inquiry.form.required')}
                         </Tag>
                       </HStack>
                       <Input
                         id="lastName"
                         name="lastName"
-                        placeholder="山田"
+                        placeholder={t('inquiry.form.lastName.placeholder')}
                         value={form.lastName}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -444,23 +447,23 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                         _focus={{ borderColor: '#e08e46', boxShadow: '0 0 0 3px rgba(224, 142, 70, 0.1)' }}
                       />
                       <FormErrorMessage fontSize="sm" color="#dc2626">
-                        {form.lastName === '' ? '姓は必須です。' : '日本語で入力してください。'}
+                        {form.lastName === '' ? t('inquiry.error.lastName.required') : t('inquiry.error.lastName.invalid')}
                       </FormErrorMessage>
                     </FormControl>
 
                     <FormControl isRequired isInvalid={isFirstNameError} flex={1}>
                       <HStack mb={2} spacing={2}>
                         <FormLabel htmlFor="firstName" mb={0} fontWeight="600" color="#111111" fontSize="sm">
-                          名
+                          {t('inquiry.form.firstName.label')}
                         </FormLabel>
                         <Tag size="sm" bg="#fef2f2" color="#dc2626" border="1px solid" borderColor="#fecaca" fontWeight="600" fontSize="xs">
-                          必須
+                          {t('inquiry.form.required')}
                         </Tag>
                       </HStack>
                       <Input
                         id="firstName"
                         name="firstName"
-                        placeholder="太郎"
+                        placeholder={t('inquiry.form.firstName.placeholder')}
                         value={form.firstName}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -475,19 +478,19 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                         _focus={{ borderColor: '#e08e46', boxShadow: '0 0 0 3px rgba(224, 142, 70, 0.1)' }}
                       />
                       <FormErrorMessage fontSize="sm" color="#dc2626">
-                        {form.firstName === '' ? '名は必須です。' : '日本語で入力してください。'}
+                        {form.firstName === '' ? t('inquiry.error.firstName.required') : t('inquiry.error.firstName.invalid')}
                       </FormErrorMessage>
                     </FormControl>
                   </HStack>
 
                   <FormControl>
                     <FormLabel htmlFor="company" mb={2} fontWeight="600" color="#111111" fontSize="sm">
-                      会社名
+                      {t('inquiry.form.company.label')}
                     </FormLabel>
                     <Input
                       id="company"
                       name="company"
-                      placeholder="株式会社サインタ"
+                      placeholder={t('inquiry.form.company.placeholder')}
                       value={form.company}
                       onChange={handleChange}
                       borderRadius="lg"
@@ -505,17 +508,17 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                   <FormControl isRequired isInvalid={isEmailError}>
                     <HStack mb={2} spacing={2}>
                       <FormLabel htmlFor="email" mb={0} fontWeight="600" color="#111111" fontSize="sm">
-                        メールアドレス
+                        {t('inquiry.form.email.label')}
                       </FormLabel>
                       <Tag size="sm" bg="#fef2f2" color="#dc2626" border="1px solid" borderColor="#fecaca" fontWeight="600" fontSize="xs">
-                        必須
+                        {t('inquiry.form.required')}
                       </Tag>
                     </HStack>
                     <Input
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="example@sainta.co.jp"
+                      placeholder={t('inquiry.form.email.placeholder')}
                       value={form.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -530,18 +533,18 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                       _focus={{ borderColor: '#e08e46', boxShadow: '0 0 0 3px rgba(224, 142, 70, 0.1)' }}
                     />
                     <FormErrorMessage fontSize="sm" color="#dc2626">
-                      {form.email === '' ? 'メールアドレスは必須です。' : '正しいメールアドレスを入力してください。'}
+                      {form.email === '' ? t('inquiry.error.email.required') : t('inquiry.error.email.invalid')}
                     </FormErrorMessage>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel htmlFor="phone" mb={2} fontWeight="600" color="#111111" fontSize="sm">
-                      電話番号
+                      {t('inquiry.form.phone.label')}
                     </FormLabel>
                     <Input
                       id="phone"
                       name="phone"
-                      placeholder="03-1234-5678"
+                      placeholder={t('inquiry.form.phone.placeholder')}
                       value={form.phone}
                       onChange={handleChange}
                       borderRadius="lg"
@@ -559,16 +562,16 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                   <FormControl isRequired isInvalid={isContentError}>
                     <HStack mb={2} spacing={2}>
                       <FormLabel htmlFor="content" mb={0} fontWeight="600" color="#111111" fontSize="sm">
-                        お問い合わせ内容
+                        {t('inquiry.form.content.label')}
                       </FormLabel>
                       <Tag size="sm" bg="#fef2f2" color="#dc2626" border="1px solid" borderColor="#fecaca" fontWeight="600" fontSize="xs">
-                        必須
+                        {t('inquiry.form.required')}
                       </Tag>
                     </HStack>
                     <Textarea
                       id="content"
                       name="content"
-                      placeholder="お問い合わせ内容をご記入ください"
+                      placeholder={t('inquiry.form.content.placeholder')}
                       value={form.content}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -583,7 +586,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                       _focus={{ borderColor: '#e08e46', boxShadow: '0 0 0 3px rgba(224, 142, 70, 0.1)' }}
                     />
                     <FormErrorMessage fontSize="sm" color="#dc2626">
-                      お問い合わせ内容は必須です。
+                      {t('inquiry.error.content.required')}
                     </FormErrorMessage>
                   </FormControl>
 
@@ -614,7 +617,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                     _active={{ transform: 'translateY(0)' }}
                     transition="all 0.2s"
                   >
-                    送信する
+                    {t('inquiry.form.submit')}
                   </Button>
                 </VStack>
               </form>
@@ -637,12 +640,10 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
               </Box>
               <VStack spacing={2}>
                 <Text fontWeight="700" fontSize="2xl" color="#111111">
-                  送信が完了しました
+                  {t('inquiry.step4.success')}
                 </Text>
                 <Text fontSize="md" color="#6e6e73" lineHeight="1.8">
-                  お問い合わせありがとうございます。
-                  <br />
-                  担当者より2営業日以内にご連絡いたします。
+                  {t('inquiry.step4.message')}
                 </Text>
               </VStack>
               <Button
@@ -656,7 +657,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
                 mt={4}
                 _hover={{ bg: '#d17d35' }}
               >
-                閉じる
+                {t('inquiry.step4.close')}
               </Button>
             </VStack>
           )}

@@ -8,13 +8,15 @@ export default function Button_Blue({ children, href }: { children: React.ReactN
             size="lg"
             colorScheme="blue"
             variant="outline"
-            px={8}
-            fontSize="md"
+            px={{ base: 6, md: 8 }}
+            fontSize={{ base: "sm", md: "md" }}
             fontWeight="bold"
             _hover={{
                 transform: "translateY(-2px)",
                 boxShadow: "lg",
             }}
+            whiteSpace="normal"
+            textAlign="center"
         >
             {children}
         </Button>

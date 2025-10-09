@@ -4,25 +4,30 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from "react";
 import { FiCircle } from "react-icons/fi";
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function CompanyProfile() {
-    const sectionRef = useRef(null);
-    const cardRef = useRef(null);
-    const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+export const CompanyProfile = () => {
+  const { t } = useLanguage();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
-        // Heading animation
+        // Heading animation - matching home page pattern
         gsap.fromTo(sectionRef.current,
             {
                 opacity: 0,
-                y: 30
+                y: 60
             },
             {
                 opacity: 1,
                 y: 0,
-                duration: 0.8,
+                duration: 1,
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 80%",
@@ -31,44 +36,43 @@ export default function CompanyProfile() {
             }
         );
 
-        // Card animation
+        // Card animation - slide in from bottom with scale
         gsap.fromTo(cardRef.current,
             {
                 opacity: 0,
-                scale: 0.98,
-                y: 30
+                y: 60,
+                scale: 0.95
             },
             {
                 opacity: 1,
-                scale: 1,
                 y: 0,
+                scale: 1,
                 duration: 0.8,
-                delay: 0.2,
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: cardRef.current,
-                    start: "top 80%",
+                    start: "top 75%",
                     toggleActions: "play none none reverse"
                 }
             }
         );
 
-        // Items stagger animation
+        // Items stagger animation - slide in from bottom
         if (itemRefs.current.length > 0) {
             gsap.fromTo(itemRefs.current,
                 {
                     opacity: 0,
-                    x: -30
+                    y: 40
                 },
                 {
                     opacity: 1,
-                    x: 0,
+                    y: 0,
                     duration: 0.6,
-                    stagger: 0.12,
+                    stagger: 0.1,
                     ease: "power2.out",
                     scrollTrigger: {
                         trigger: cardRef.current,
-                        start: "top 75%",
+                        start: "top 70%",
                         toggleActions: "play none none reverse"
                     }
                 }
@@ -102,7 +106,7 @@ export default function CompanyProfile() {
                                 border="1px solid"
                                 borderColor="rgba(224, 142, 70, 0.2)"
                             >
-                                会社情報
+                                {t('company.badge')}
                             </Badge>
                             <Heading
                                 as="h2"
@@ -112,7 +116,7 @@ export default function CompanyProfile() {
                                 fontWeight="700"
                                 letterSpacing="-0.02em"
                             >
-                                会社概要
+                                <TranslatedText as="span" translationKey="company.heading" staggerDelay={0.1} />
                             </Heading>
                             <Text
                                 color="#6e6e73"
@@ -136,16 +140,16 @@ export default function CompanyProfile() {
                             boxShadow="0 4px 12px rgba(0, 0, 0, 0.05)"
                         >
                             {[
-                                { label: "会社名", content: <Text fontSize="lg" color="#111111" fontWeight="500">株式会社サインタ</Text> },
-                                { label: "所在地", content: <Text color="#111111" fontWeight="500">東京都港区三田１丁目3－40 6F</Text> },
+                                { label: t('company.name.label'), content: <Text fontSize="lg" color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.name.value')}</Text> },
+                                { label: t('company.location.label'), content: <Text color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.location.value')}</Text> },
                                 {
-                                    label: "代表", content: (
+                                    label: t('company.ceo.label'), content: (
                                         <VStack align="start" spacing={1}>
-                                            <Text color="#111111" fontWeight="500">サンタナム 理志 (CEO)</Text>
+                                            <Text color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.ceo.value')}</Text>
                                         </VStack>
                                     )
                                 },
-                                { label: "メンバー", content: <Text color="#111111" fontWeight="500">３名〜５名</Text> }
+                                { label: t('company.members.label'), content: <Text color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.members.value')}</Text> }
                             ].map((item, index) => (
                                 <HStack
                                     key={item.label}
@@ -197,13 +201,13 @@ export default function CompanyProfile() {
                                     color="#e08e46"
                                     fontSize="md"
                                 >
-                                    事業内容
+                                    {t('company.business.label')}
                                 </Text>
                                 <List spacing={4} flex="1">
                                     {[
-                                        "ERPソフトウェア『サインタ・コア』",
-                                        "カスタムウェブデザインサービス『サインタ・ラボ』",
-                                        "専⾨家ネットワーク・提携サービス『サインタ・コネクト』"
+                                        t('company.business.erp'),
+                                        t('company.business.lab'),
+                                        t('company.business.connect')
                                     ].map((service, index) => (
                                         <ListItem
                                             key={index}
@@ -212,6 +216,11 @@ export default function CompanyProfile() {
                                             transition="all 0.3s"
                                             color="#111111"
                                             fontWeight="500"
+                                            sx={{
+                                                wordBreak: 'keep-all',
+                                                overflowWrap: 'anywhere',
+                                                lineBreak: 'strict'
+                                            }}
                                             _hover={{
                                                 color: '#e08e46',
                                                 transform: 'translateX(8px)'

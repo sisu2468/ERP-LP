@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Box,
     Container,
@@ -21,10 +23,13 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import InquiryModal from '../../common/InquiryModal';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CTASection() {
+    const { t } = useLanguage(); // 理志：言語翻訳用フックを追加
     const headingRef = useRef(null);
     const cardsGridRef = useRef(null);
     const ctaBoxRef = useRef(null);
@@ -83,18 +88,18 @@ export default function CTASection() {
     const benefits = [
         {
             icon: FaRocket,
-            title: "最短1週間で初稿",
-            description: "ご相談から最短1週間で初稿を提出。スピードと品質を両立します。",
+            titleKey: "cta.benefit1.title",
+            descriptionKey: "cta.benefit1.description",
         },
         {
             icon: FaChartLine,
-            title: "成約率重視の設計",
-            description: "心理学ベースで「行動につながる」導線を設計し、成約率を高めます。",
+            titleKey: "cta.benefit2.title",
+            descriptionKey: "cta.benefit2.description",
         },
         {
             icon: FaUsers,
-            title: "柔軟な対応",
-            description: "修正や追加対応にも柔軟に対応。お客様のご要望に寄り添います。",
+            titleKey: "cta.benefit3.title",
+            descriptionKey: "cta.benefit3.description",
         }
     ];
 
@@ -121,14 +126,12 @@ export default function CTASection() {
                             letterSpacing="-0.02em"
                             lineHeight="1.1"
                         >
-                            あなたのビジョンを
-                            <Text as="span" color="#e08e46">
-                                カタチに
-                            </Text>
-                            しませんか？
+                            <TranslatedText translationKey="cta.heading.1" as="span" staggerDelay={0.1} />
+                            <TranslatedText translationKey="cta.heading.2" as="span" color="#e08e46" staggerDelay={0.12} />
+                            <TranslatedText translationKey="cta.heading.3" as="span" staggerDelay={0.14} />
                         </Heading>
                         <Text fontSize="xl" color="#6e6e73" lineHeight="1.6">
-                            "売れる設計"からはじめるLP制作で、ビジネスの成長を加速させます
+                            <TranslatedText translationKey="cta.subheading" staggerDelay={0.05} />
                         </Text>
                     </VStack>
 
@@ -174,10 +177,10 @@ export default function CTASection() {
                                         />
                                     </Box>
                                     <Heading size="md" color="#111111" fontWeight="700">
-                                        {benefit.title}
+                                        <TranslatedText translationKey={benefit.titleKey} staggerDelay={0.1} />
                                     </Heading>
                                     <Text color="#6e6e73" lineHeight="1.7" fontSize="md">
-                                        {benefit.description}
+                                        <TranslatedText translationKey={benefit.descriptionKey} staggerDelay={0.05} />
                                     </Text>
                                 </VStack>
                             </Box>
@@ -196,24 +199,25 @@ export default function CTASection() {
                     >
                         <VStack spacing={6}>
                             <Heading size="lg" fontWeight="700" color="#111111">
-                                まずは無料相談から始めましょう
+                                <TranslatedText translationKey="cta.final.heading" staggerDelay={0.1} />
                             </Heading>
                             <Text color="#6e6e73" fontSize="lg">
-                                ご予算やご要望について、丁寧にヒアリングいたします
+                                <TranslatedText translationKey="cta.final.subheading" staggerDelay={0.05} />
                             </Text>
                             <Flex
                                 gap={4}
                                 flexWrap="wrap"
                                 justify="center"
                                 pt={4}
+                                w="full"
                             >
                                 <Button
                                     size="lg"
                                     bg="#e08e46"
                                     color="white"
-                                    px={10}
+                                    px={{ base: 6, md: 10 }}
                                     h="56px"
-                                    fontSize="md"
+                                    fontSize={{ base: "sm", md: "md" }}
                                     fontWeight="600"
                                     borderRadius="full"
                                     onClick={onOpen}
@@ -227,12 +231,14 @@ export default function CTASection() {
                                         transform: "translateY(0)",
                                     }}
                                     transition="all 0.2s"
+                                    whiteSpace="normal"
+                                    textAlign="center"
                                 >
-                                    無料相談を申し込む
+                                    {t('cta.final.button1')}
                                 </Button>
                                 <InquiryModal isOpen={isOpen} onClose={onClose} />
                                 <Button_Blue href="/pricing">
-                                    料金詳細を見る
+                                    {t('cta.final.button2')}
                                 </Button_Blue>
                             </Flex>
                         </VStack>

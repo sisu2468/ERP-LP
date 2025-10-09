@@ -5,12 +5,15 @@ import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { FaRocket, FaMicrochip, FaYenSign } from 'react-icons/fa';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
 export default function BusinessOverview() {
+    const { t } = useLanguage();
     const headingRef = useRef(null);
     const textRef = useRef(null);
     const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -85,48 +88,48 @@ export default function BusinessOverview() {
     const values = [
         {
             icon: FaRocket,
-            title: "直感的な操作性",
-            description: "学習コストゼロで、すぐに使いこなせる",
+            title: t('business.value.1.title'),
+            description: t('business.value.1.desc'),
             color: "#e08e46"
         },
         {
             icon: FaMicrochip,
-            title: "最先端テクノロジー",
-            description: "AIと自動化で、業務効率を最大化",
+            title: t('business.value.2.title'),
+            description: t('business.value.2.desc'),
             color: "#0891b2"
         },
         {
             icon: FaYenSign,
-            title: "適正な価格設定",
-            description: "企業規模に合わせた柔軟なプラン",
+            title: t('business.value.3.title'),
+            description: t('business.value.3.desc'),
             color: "#059669"
         }
     ];
 
     const businesses = [
         {
-            name: "サインタ・コア",
-            tagline: "統合基幹業務システム",
-            description: "会計、在庫、販売、人事を一つのプラットフォームで管理。リアルタイムのデータ分析で、経営判断を加速させます。",
-            status: "開発中",
+            name: t('business.core.name'),
+            tagline: t('business.core.tagline'),
+            description: t('business.core.desc'),
+            status: t('business.core.status'),
             statusColor: "#f59e0b",
-            features: ["データ一元管理", "AI予測分析", "自動化ワークフロー"]
+            features: [t('business.core.feature.1'), t('business.core.feature.2'), t('business.core.feature.3')]
         },
         {
-            name: "サインタ・ラボ",
-            tagline: "カスタムウェブソリューション",
-            description: "企業の個性を最大限に引き出すウェブサイト制作。最新技術とデザイントレンドで、ブランド価値を向上させます。",
+            name: t('business.lab.name'),
+            tagline: t('business.lab.tagline'),
+            description: t('business.lab.desc'),
             status: null,
             statusColor: null,
-            features: ["レスポンシブデザイン", "SEO最適化", "高速パフォーマンス"]
+            features: [t('business.lab.feature.1'), t('business.lab.feature.2'), t('business.lab.feature.3')]
         },
         {
-            name: "サインタ・コネクト",
-            tagline: "ワークフロー管理プラットフォーム",
-            description: "チーム間のコミュニケーションと業務プロセスを最適化。タスク管理から承認フローまで、すべてを可視化します。",
-            status: "ベータ版提供中",
+            name: t('business.connect.name'),
+            tagline: t('business.connect.tagline'),
+            description: t('business.connect.desc'),
+            status: t('business.connect.status'),
             statusColor: "#0891b2",
-            features: ["タスク自動化", "リアルタイム通知", "進捗可視化"]
+            features: [t('business.connect.feature.1'), t('business.connect.feature.2'), t('business.connect.feature.3')]
         }
     ];
 
@@ -222,7 +225,7 @@ export default function BusinessOverview() {
                             border="1px solid"
                             borderColor="rgba(224, 142, 70, 0.2)"
                         >
-                            私たちのミッション
+                            {t('business.badge')}
                         </Badge>
                         <Heading
                             as="h2"
@@ -231,7 +234,7 @@ export default function BusinessOverview() {
                             color="#111111"
                             letterSpacing="-0.02em"
                         >
-                            事業概要
+                            <TranslatedText as="span" translationKey="business.heading" staggerDelay={0.1} />
                         </Heading>
                         <Text
                             fontSize={{ base: "lg", md: "xl" }}
@@ -239,7 +242,7 @@ export default function BusinessOverview() {
                             color="#6e6e73"
                             letterSpacing="0.1em"
                         >
-                            BUSINESS OVERVIEW
+                            {t('business.subheading')}
                         </Text>
                     </VStack>
 
@@ -254,39 +257,39 @@ export default function BusinessOverview() {
                                     color="#111111"
                                     lineHeight="1.8"
                                     fontWeight="500"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        複雑さを、シンプルに。
-                                    </Text>
-                                    それが私たちの使命です。急速に変化するビジネス環境において、テクノロジーは企業の成長を加速させる最大の武器となります。
+                                    <TranslatedText as="span" translationKey="business.mission.1" staggerDelay={0.1} />
                                 </Text>
                                 <Text
                                     fontSize={{ base: "lg", md: "xl" }}
                                     color="#111111"
                                     lineHeight="1.8"
                                     fontWeight="500"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    しかし、多くの企業が
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        使いにくいシステム
-                                    </Text>
-                                    や
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        複雑な導入プロセス
-                                    </Text>
-                                    に悩まされています。サインタは、この課題を解決します。
+                                    <TranslatedText as="span" translationKey="business.mission.2" staggerDelay={0.12} />
                                 </Text>
                                 <Text
                                     fontSize={{ base: "lg", md: "xl" }}
                                     color="#111111"
                                     lineHeight="1.8"
                                     fontWeight="500"
+                                    sx={{
+                                        wordBreak: 'keep-all',
+                                        overflowWrap: 'anywhere',
+                                        lineBreak: 'strict'
+                                    }}
                                 >
-                                    直感的なデザインと最新技術を組み合わせ、誰もが簡単に使える
-                                    <Text as="span" color="#e08e46" fontWeight="700">
-                                        次世代のビジネスツール
-                                    </Text>
-                                    を提供します。業務の自動化から戦略的な意思決定まで、すべてをサポートします。
+                                    <TranslatedText as="span" translationKey="business.mission.3" staggerDelay={0.14} />
                                 </Text>
                             </VStack>
                         </Box>
@@ -329,6 +332,11 @@ export default function BusinessOverview() {
                                                 color={value.color}
                                                 fontWeight="700"
                                                 textAlign="center"
+                                                sx={{
+                                                    wordBreak: 'keep-all',
+                                                    overflowWrap: 'anywhere',
+                                                    lineBreak: 'strict'
+                                                }}
                                             >
                                                 {value.title}
                                             </Heading>
@@ -337,6 +345,11 @@ export default function BusinessOverview() {
                                                 color="#6e6e73"
                                                 fontWeight="500"
                                                 textAlign="center"
+                                                sx={{
+                                                    wordBreak: 'keep-all',
+                                                    overflowWrap: 'anywhere',
+                                                    lineBreak: 'strict'
+                                                }}
                                             >
                                                 {value.description}
                                             </Text>
@@ -355,8 +368,13 @@ export default function BusinessOverview() {
                                 fontWeight="800"
                                 color="#111111"
                                 letterSpacing="-0.03em"
+                                sx={{
+                                    wordBreak: 'keep-all',
+                                    overflowWrap: 'anywhere',
+                                    lineBreak: 'strict'
+                                }}
                             >
-                                私たちのソリューション
+                                {t('business.solutions.heading')}
                             </Heading>
                             <Text
                                 fontSize={{ base: "md", md: "lg" }}
@@ -364,8 +382,13 @@ export default function BusinessOverview() {
                                 textAlign="center"
                                 maxW="2xl"
                                 lineHeight="1.7"
+                                sx={{
+                                    wordBreak: 'keep-all',
+                                    overflowWrap: 'anywhere',
+                                    lineBreak: 'strict'
+                                }}
                             >
-                                ビジネスの成長を加速させる、3つの革新的なプロダクト
+                                {t('business.solutions.subtitle')}
                             </Text>
                         </VStack>
 
@@ -422,6 +445,11 @@ export default function BusinessOverview() {
                                                 fontWeight="800"
                                                 color="#111111"
                                                 lineHeight="1.2"
+                                                sx={{
+                                                    wordBreak: 'keep-all',
+                                                    overflowWrap: 'anywhere',
+                                                    lineBreak: 'strict'
+                                                }}
                                             >
                                                 {business.name}
                                             </Text>
@@ -430,6 +458,11 @@ export default function BusinessOverview() {
                                                 fontWeight="600"
                                                 color="#e08e46"
                                                 letterSpacing="0.02em"
+                                                sx={{
+                                                    wordBreak: 'keep-all',
+                                                    overflowWrap: 'anywhere',
+                                                    lineBreak: 'strict'
+                                                }}
                                             >
                                                 {business.tagline}
                                             </Text>
@@ -441,6 +474,11 @@ export default function BusinessOverview() {
                                             lineHeight="1.8"
                                             fontSize="md"
                                             flex={1}
+                                            sx={{
+                                                wordBreak: 'keep-all',
+                                                overflowWrap: 'anywhere',
+                                                lineBreak: 'strict'
+                                            }}  
                                         >
                                             {business.description}
                                         </Text>
@@ -459,6 +497,11 @@ export default function BusinessOverview() {
                                                         fontSize="sm"
                                                         color="#6e6e73"
                                                         fontWeight="500"
+                                                        sx={{
+                                                            wordBreak: 'keep-all',
+                                                            overflowWrap: 'anywhere',
+                                                            lineBreak: 'strict'
+                                                        }}
                                                     >
                                                         {feature}
                                                     </Text>

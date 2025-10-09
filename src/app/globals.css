@@ -26,3 +26,31 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 理志：英語のテキスト折り返しを改善 */
+*[lang="en"], 
+*[lang="en"] * {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+}
+
+/* 理志：日本語と韓国語は単語を保持 - CJK文字の適切な折り返し */
+html[lang="ja"],
+html[lang="ja"] *,
+html[lang="ko"],
+html[lang="ko"] * {
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  line-break: strict !important;
+}
+
+/* 理志：ボタンとヘッディングのテキスト折り返し */
+button, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: anywhere !important;
+}
+
+/* 理志：段落とテキストブロックの折り返し */
+p, span, div {
+  overflow-wrap: anywhere !important;
+}

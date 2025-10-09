@@ -3,6 +3,13 @@
 import { Box, Container, Heading, Text, VStack, keyframes } from "@chakra-ui/react";
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
@@ -10,6 +17,7 @@ const float = keyframes`
 `;
 
 export default function CompanyHero() {
+    const { t } = useLanguage();
     const heroRef = useRef(null);
     const titleRef = useRef(null);
 
@@ -128,7 +136,7 @@ export default function CompanyHero() {
                             letterSpacing="-0.02em"
                             lineHeight="1.1"
                         >
-                            会社概要
+                            <TranslatedText as="span" translationKey="hero.company.title" staggerDelay={0.1} />
                         </Heading>
                         <Text
                             fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
@@ -137,7 +145,7 @@ export default function CompanyHero() {
                             fontWeight="600"
                             letterSpacing="0.1em"
                         >
-                            COMPANY OVERVIEW
+                            <TranslatedText as="span" translationKey="hero.company.subtitle" staggerDelay={0.12} />
                         </Text>
                     </VStack>
                     
@@ -149,11 +157,7 @@ export default function CompanyHero() {
                         lineHeight="1.8"
                         pt={4}
                     >
-                        テクノロジーの力で、
-                        <Text as="span" color="#e08e46" fontWeight="700">
-                            日本のビジネスの未来
-                        </Text>
-                        を創造する
+                        <TranslatedText as="span" translationKey="hero.company.tagline" staggerDelay={0.14} />
                     </Text>
                 </VStack>
             </Container>
