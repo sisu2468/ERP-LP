@@ -38,6 +38,7 @@ import {
 import { useLanguage } from '@/contexts/LanguageContext';
 import InquiryModal from '@/components/common/InquiryModal';
 import GravityChamber from './GravityChamber';
+import TranslatedText from '@/components/common/TranslatedText';
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -59,48 +60,48 @@ export default function LabSimulatorSection() {
 
   // 理志：プロジェクトタイプの選択肢（React Iconsでプロフェッショナルに）
   const projectTypes = [
-    { id: 'corporate', name: 'コーポレートサイト', icon: HiOfficeBuilding },
-    { id: 'ec', name: 'ECサイト', icon: HiShoppingCart },
-    { id: 'webapp', name: 'Webアプリケーション', icon: HiCog },
-    { id: 'mobile', name: 'モバイルアプリ（iOS/Android）', icon: HiDeviceMobile },
-    { id: 'management', name: '業務管理システム', icon: HiChartBar },
-    { id: 'lp', name: 'ランディングページ', icon: HiDocumentText },
-    { id: 'custom', name: 'その他・カスタム開発', icon: HiLightningBolt },
+    { id: 'corporate', name: t('lab.simulator.type.corporate'), icon: HiOfficeBuilding },
+    { id: 'ec', name: t('lab.simulator.type.ec'), icon: HiShoppingCart },
+    { id: 'webapp', name: t('lab.simulator.type.webapp'), icon: HiCog },
+    { id: 'mobile', name: t('lab.simulator.type.mobile'), icon: HiDeviceMobile },
+    { id: 'management', name: t('lab.simulator.type.management'), icon: HiChartBar },
+    { id: 'lp', name: t('lab.simulator.type.lp'), icon: HiDocumentText },
+    { id: 'custom', name: t('lab.simulator.type.custom'), icon: HiLightningBolt },
   ];
 
   // 理志：機能の選択肢（アイコンで視覚的に明確に）
   const features = [
-    { id: 'responsive', name: 'レスポンシブデザイン（スマホ対応）', icon: HiDeviceMobile, cost: 30000, days: 7, perPage: true },
-    { id: 'multilang', name: '多言語対応', icon: HiDocument, cost: 100000, days: 7, perLang: true },
-    { id: 'seo', name: 'SEO対策', icon: HiChartBar, cost: 100000, days: 2 },
-    { id: 'contact', name: 'お問い合わせフォーム', icon: HiDocumentText, cost: 30000, days: 3, needsBackend: true },
-    { id: 'auth', name: '会員登録・ログイン機能', icon: HiLockClosed, cost: 150000, days: 14, needsBackend: true, needsDb: true },
-    { id: 'payment', name: '決済機能', icon: HiCreditCard, cost: 200000, days: 14, needsBackend: true },
-    { id: 'booking', name: '予約システム', icon: HiLibrary, cost: 250000, days: 14, needsBackend: true, needsDb: true },
-    { id: 'dashboard', name: 'データ分析ダッシュボード', icon: HiChartBar, cost: 400000, days: 21, needsBackend: true, needsDb: true },
-    { id: 'api', name: 'API連携', icon: HiCloudUpload, cost: 100000, days: 14, needsBackend: true, perApi: true },
-    { id: 'cms', name: 'CMS（コンテンツ管理システム・ブログシステム）', icon: HiDocumentText, cost: 200000, days: 10.5, needsBackend: true, needsDb: true },
-    { id: 'realtime', name: 'リアルタイム通信機能', icon: HiLightningBolt, cost: 300000, days: 21, needsBackend: true },
-    { id: 'fileupload', name: 'ファイルアップロード機能', icon: HiCloudUpload, cost: 200000, days: 7, needsBackend: true, needsDb: true },
-    { id: 'notification', name: '通知システム', icon: HiUser, cost: 200000, days: 14, needsBackend: true },
-    { id: 'productmgmt', name: '商品管理機能', icon: HiShoppingCart, cost: 300000, days: 14, needsBackend: true, needsDb: true, ecOnly: true },
-    { id: 'inventory', name: '在庫管理システム', icon: HiLibrary, cost: 300000, days: 14, needsBackend: true, needsDb: true, ecOnly: true },
-    { id: 'coupon', name: 'クーポン・ポイントシステム', icon: HiCreditCard, cost: 225000, days: 14, needsBackend: true, needsDb: true, ecOnly: true },
+    { id: 'responsive', name: t('lab.simulator.feature.responsive'), icon: HiDeviceMobile, cost: 30000, days: 7, perPage: true },
+    { id: 'multilang', name: t('lab.simulator.feature.multilang'), icon: HiDocument, cost: 100000, days: 7, perLang: true },
+    { id: 'seo', name: t('lab.simulator.feature.seo'), icon: HiChartBar, cost: 100000, days: 2 },
+    { id: 'contact', name: t('lab.simulator.feature.contact'), icon: HiDocumentText, cost: 30000, days: 3, needsBackend: true },
+    { id: 'auth', name: t('lab.simulator.feature.auth'), icon: HiLockClosed, cost: 150000, days: 14, needsBackend: true, needsDb: true },
+    { id: 'payment', name: t('lab.simulator.feature.payment'), icon: HiCreditCard, cost: 200000, days: 14, needsBackend: true },
+    { id: 'booking', name: t('lab.simulator.feature.booking'), icon: HiLibrary, cost: 250000, days: 14, needsBackend: true, needsDb: true },
+    { id: 'dashboard', name: t('lab.simulator.feature.dashboard'), icon: HiChartBar, cost: 400000, days: 21, needsBackend: true, needsDb: true },
+    { id: 'api', name: t('lab.simulator.feature.api'), icon: HiCloudUpload, cost: 100000, days: 14, needsBackend: true, perApi: true },
+    { id: 'cms', name: t('lab.simulator.feature.cms'), icon: HiDocumentText, cost: 200000, days: 10.5, needsBackend: true, needsDb: true },
+    { id: 'realtime', name: t('lab.simulator.feature.realtime'), icon: HiLightningBolt, cost: 300000, days: 21, needsBackend: true },
+    { id: 'fileupload', name: t('lab.simulator.feature.fileupload'), icon: HiCloudUpload, cost: 200000, days: 7, needsBackend: true, needsDb: true },
+    { id: 'notification', name: t('lab.simulator.feature.notification'), icon: HiUser, cost: 200000, days: 14, needsBackend: true },
+    { id: 'productmgmt', name: t('lab.simulator.feature.productmgmt'), icon: HiShoppingCart, cost: 300000, days: 14, needsBackend: true, needsDb: true, ecOnly: true },
+    { id: 'inventory', name: t('lab.simulator.feature.inventory'), icon: HiLibrary, cost: 300000, days: 14, needsBackend: true, needsDb: true, ecOnly: true },
+    { id: 'coupon', name: t('lab.simulator.feature.coupon'), icon: HiCreditCard, cost: 225000, days: 14, needsBackend: true, needsDb: true, ecOnly: true },
   ];
 
   // 理志：ページ規模の選択肢（シンプルに）
   const pageScales = [
-    { id: 'small', name: '1-5ページ', desc: '1-5', icon: HiDocument },
-    { id: 'medium', name: '6-10ページ', desc: '6-10', icon: HiDocumentDuplicate },
-    { id: 'large', name: '11-20ページ', desc: '11-20', icon: HiLibrary },
-    { id: 'xlarge', name: '21ページ以上', desc: '21+', icon: HiDocumentText },
+    { id: 'small', name: t('lab.simulator.scale.pages.1'), desc: '1-5', icon: HiDocument },
+    { id: 'medium', name: t('lab.simulator.scale.pages.2'), desc: '6-10', icon: HiDocumentDuplicate },
+    { id: 'large', name: t('lab.simulator.scale.pages.3'), desc: '11-20', icon: HiLibrary },
+    { id: 'xlarge', name: t('lab.simulator.scale.pages.4'), desc: '21+', icon: HiDocumentText },
   ];
 
   // 理志：ユーザー規模の選択肢（明確に）
   const userScales = [
-    { id: 'low', name: '~100ユーザー', desc: '~100', icon: HiUser },
-    { id: 'medium', name: '~1,000ユーザー', desc: '~1,000', icon: HiUserGroup },
-    { id: 'high', name: '1,000+ユーザー', desc: '1,000+', icon: HiUsers },
+    { id: 'low', name: t('lab.simulator.scale.users.1'), desc: '~100', icon: HiUser },
+    { id: 'medium', name: t('lab.simulator.scale.users.2'), desc: '~1,000', icon: HiUserGroup },
+    { id: 'high', name: t('lab.simulator.scale.users.3'), desc: '1,000+', icon: HiUsers },
   ];
 
   // 理志：機能の選択/解除
@@ -241,7 +242,7 @@ export default function LabSimulatorSection() {
 
   return (
     <>
-      <Box py={{ base: 20, md: 32 }} bg="white" position="relative" overflow="hidden">
+      <Box id="simulator" py={{ base: 20, md: 32 }} bg="white" position="relative" overflow="hidden">
         <Container maxW="container.xl">
           <VStack spacing={{ base: 16, md: 20 }}>
             {/* ヘッダー */}
@@ -267,7 +268,7 @@ export default function LabSimulatorSection() {
                 lineHeight="1.1"
                 color="gray.900"
               >
-                {t('lab.simulator.title')}
+                <TranslatedText translationKey="lab.simulator.title" as="span" staggerDelay={0.05} />
               </Heading>
               <Text 
                 fontSize={{ base: 'lg', md: 'xl' }} 
@@ -276,7 +277,7 @@ export default function LabSimulatorSection() {
                 lineHeight="1.7"
                 fontWeight="400"
               >
-                {t('lab.simulator.subtitle')}
+                <TranslatedText translationKey="lab.simulator.subtitle" as="span" staggerDelay={0.03} />
               </Text>
             </VStack>
 
@@ -678,7 +679,7 @@ export default function LabSimulatorSection() {
                             </VStack>
                             <Box bg="gray.50" p={4} borderRadius="12px" border="1px solid" borderColor="gray.100">
                               <Text color="gray.600" textAlign="center" fontSize="sm" fontWeight="500">
-                                ※あくまで概算です。詳細はお問い合わせください。
+                                ※ あくまで概算です。詳細はお問い合わせください。
                               </Text>
                             </Box>
                             <HStack spacing={4} mt={6} flexWrap="wrap" justify="center">

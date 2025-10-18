@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,7 +89,7 @@ export default function LabFAQSection() {
               color="#111111"
               letterSpacing="-0.02em"
             >
-              {t('lab.faq.title')}
+              <TranslatedText translationKey="lab.faq.title" as="span" staggerDelay={0.05} />
             </Heading>
           </VStack>
 

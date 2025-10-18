@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import TranslatedText from '@/components/common/TranslatedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -122,7 +123,7 @@ export default function LabProcessSection() {
               color="#111111"
               letterSpacing="-0.02em"
             >
-              {t('lab.process.title')}
+              <TranslatedText translationKey="lab.process.title" as="span" staggerDelay={0.05} />
             </Heading>
           </VStack>
 

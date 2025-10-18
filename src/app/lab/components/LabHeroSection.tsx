@@ -242,6 +242,12 @@ export default function LabHeroSection() {
                     boxShadow: '0 10px 30px rgba(224, 142, 70, 0.2)',
                   }}
                   transition="all 0.3s"
+                  onClick={() => {
+                    const simulatorSection = document.getElementById('simulator');
+                    if (simulatorSection) {
+                      simulatorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }}
                 >
                   {t('lab.hero.cta.secondary')}
                 </Button>
