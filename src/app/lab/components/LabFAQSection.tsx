@@ -2,14 +2,19 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Box, Container, Heading, Text, VStack, useColorMode } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Box, Container, Heading, Text, VStack } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MotionBox = motion.create(Box);
 
 export default function LabFAQSection() {
   const { t } = useLanguage();
-  const { colorMode } = useColorMode();
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   // 理志：FAQ データ
   const faqs = [
@@ -25,135 +30,168 @@ export default function LabFAQSection() {
     { q: t('lab.faq.q10'), a: t('lab.faq.a10') },
   ];
 
+  // 理志：スクロールアニメーション
+  useEffect(() => {
+    if (sectionRef.current) {
+      gsap.fromTo(
+        sectionRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+            once: true,
+          },
+        }
+      );
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
     <Box
-      py={{ base: 16, md: 20, lg: 24 }}
-      bg={colorMode === 'light' ? 'gray.50' : 'gray.900'}
+      ref={sectionRef}
+      py={{ base: 20, md: 28 }}
+      bg="white"
+      position="relative"
+      overflow="hidden"
     >
-      <Container maxW="4xl">
-        <VStack spacing={{ base: 12, md: 16 }} align="stretch">
+      <Container maxW="5xl">
+        <VStack spacing={{ base: 16, md: 20 }} align="stretch">
           {/* 理志：セクションヘッダー */}
           <VStack spacing={4} textAlign="center">
             <Badge
-              colorScheme="orange"
-              px={4}
-              py={2}
+              px={6}
+              py={3}
               borderRadius="full"
               fontSize="sm"
-              fontWeight="bold"
+              fontWeight="700"
               textTransform="uppercase"
+              bg="#fafafa"
+              color="#e08e46"
+              border="2px"
+              borderColor="#e08e46"
             >
               {t('lab.faq.badge')}
             </Badge>
             <Heading
               as="h2"
-              fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}
-              fontWeight="bold"
-              color={colorMode === 'light' ? 'gray.900' : 'white'}
+              fontSize={{ base: '40px', md: '56px', lg: '64px' }}
+              fontWeight="700"
+              color="#111111"
+              letterSpacing="-0.02em"
             >
               {t('lab.faq.title')}
             </Heading>
           </VStack>
 
           {/* 理志：FAQアコーディオン */}
-          <MotionBox
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <Accordion allowMultiple>
-              {faqs.map((faq, index) => (
-                <AccordionItem
-                  key={index}
-                  border="none"
-                  mb={4}
-                  bg={colorMode === 'light' ? 'white' : 'gray.800'}
-                  borderRadius="xl"
-                  overflow="hidden"
-                  boxShadow="md"
-                >
-                  {({ isExpanded }) => (
-                    <>
-                      <AccordionButton
-                        p={{ base: 5, md: 6 }}
-                        _hover={{
-                          bg: colorMode === 'light' ? 'gray.50' : 'gray.700',
-                        }}
-                        transition="all 0.2s"
+          <Accordion allowMultiple>
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                border="none"
+                mb={4}
+                bg="#fafafa"
+                borderRadius="24px"
+                overflow="hidden"
+                _last={{ mb: 0 }}
+              >
+                {({ isExpanded }) => (
+                  <>
+                    <AccordionButton
+                      p={6}
+                      _hover={{
+                        bg: 'white',
+                      }}
+                      transition="all 0.3s"
+                      borderRadius="24px"
+                    >
+                      <Box
+                        flex="1"
+                        textAlign="left"
+                        display="flex"
+                        alignItems="center"
+                        gap={4}
                       >
                         <Box
-                          flex="1"
-                          textAlign="left"
+                          flexShrink={0}
+                          w="40px"
+                          h="40px"
+                          borderRadius="12px"
+                          bg={isExpanded ? '#e08e46' : 'white'}
                           display="flex"
                           alignItems="center"
-                          gap={4}
+                          justifyContent="center"
+                          color={isExpanded ? 'white' : '#e08e46'}
+                          fontWeight="700"
+                          fontSize="md"
+                          border="2px"
+                          borderColor={isExpanded ? '#e08e46' : '#e5e5e7'}
+                          transition="all 0.3s"
                         >
-                          <Box
-                            flexShrink={0}
-                            w="32px"
-                            h="32px"
-                            borderRadius="lg"
-                            bg="orange.500"
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                            color="white"
-                            fontWeight="bold"
-                            fontSize="sm"
-                          >
-                            Q
-                          </Box>
-                          <Text
-                            fontSize={{ base: 'md', md: 'lg' }}
-                            fontWeight="semibold"
-                            color={colorMode === 'light' ? 'gray.900' : 'white'}
-                            lineHeight="1.6"
-                          >
-                            {faq.q}
-                          </Text>
+                          Q
                         </Box>
-                        <Box
-                          ml={4}
-                          color="orange.500"
-                          fontSize="xl"
+                        <Text
+                          fontSize={{ base: 'md', md: 'lg' }}
+                          fontWeight="600"
+                          color="#111111"
+                          lineHeight="1.6"
                         >
-                          {isExpanded ? <MinusIcon /> : <AddIcon />}
-                        </Box>
-                      </AccordionButton>
-                      <AccordionPanel
-                        pb={6}
+                          {faq.q}
+                        </Text>
+                      </Box>
+                      <Box
+                        ml={4}
+                        color="#e08e46"
+                        fontSize="20px"
+                        transform={isExpanded ? 'rotate(180deg)' : 'rotate(0)'}
+                        transition="transform 0.3s"
+                      >
+                        {isExpanded ? <MinusIcon /> : <AddIcon />}
+                      </Box>
+                    </AccordionButton>
+                    <AccordionPanel
+                      pb={6}
+                      pt={0}
+                      px={6}
+                    >
+                      <Box
+                        pl={{ base: 0, md: '56px' }}
                         pt={2}
-                        px={{ base: 5, md: 6 }}
                       >
                         <Box
-                          pl={{ base: 0, md: '48px' }}
-                          pt={2}
+                          p={5}
+                          bg="white"
+                          borderRadius="20px"
+                          borderLeft="4px"
+                          borderColor="#e08e46"
+                          boxShadow="0 4px 20px rgba(0, 0, 0, 0.06)"
                         >
-                          <Box
-                            p={4}
-                            bg={colorMode === 'light' ? 'orange.50' : 'gray.700'}
-                            borderRadius="lg"
-                            borderLeft="4px"
-                            borderColor="orange.500"
+                          <Text
+                            fontSize={{ base: 'sm', md: 'md' }}
+                            color="#6e6e73"
+                            lineHeight="1.8"
+                            whiteSpace="pre-line"
                           >
-                            <Text
-                              fontSize={{ base: 'sm', md: 'md' }}
-                              color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
-                              lineHeight="1.8"
-                              whiteSpace="pre-line"
-                            >
-                              {faq.a}
-                            </Text>
-                          </Box>
+                            {faq.a}
+                          </Text>
                         </Box>
-                      </AccordionPanel>
-                    </>
-                  )}
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </MotionBox>
+                      </Box>
+                    </AccordionPanel>
+                  </>
+                )}
+              </AccordionItem>
+            ))}
+          </Accordion>
         </VStack>
       </Container>
     </Box>
