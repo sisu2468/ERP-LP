@@ -40,14 +40,24 @@ html[lang="ja"],
 html[lang="ja"] *,
 html[lang="ko"],
 html[lang="ko"] * {
-  word-break: keep-all !important;
+  word-break: normal !important;
   overflow-wrap: anywhere !important;
   line-break: strict !important;
+  word-wrap: break-word !important;
+}
+
+/* 理志：特に日本語の長いテキストブロックのための追加設定 */
+html[lang="ja"] p,
+html[lang="ja"] span,
+html[lang="ja"] div {
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
 }
 
 /* 理志：ボタンとヘッディングのテキスト折り返し */
 button, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: anywhere !important;
+  word-break: keep-all !important;
 }
 
 /* 理志：段落とテキストブロックの折り返し */
