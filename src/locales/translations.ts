@@ -335,6 +335,7 @@ export const translations = {
     // Lab Process
     'lab.process.badge': 'プロジェクトの進め方',
     'lab.process.title': 'プロジェクトの進め方',
+    'lab.process.subtitle': '透明性のあるプロセスで、安心してご依頼いただけます',
     'lab.process.step1.number': '01',
     'lab.process.step1.title': 'ヒアリング',
     'lab.process.step1.subtitle': 'まずはお話を聞かせてください',
@@ -769,6 +770,7 @@ export const translations = {
     // Lab Process
     'lab.process.badge': 'OUR PROCESS',
     'lab.process.title': 'How We Work',
+    'lab.process.subtitle': 'A transparent process you can trust',
     'lab.process.step1.number': '01',
     'lab.process.step1.title': 'Discovery',
     'lab.process.step1.subtitle': 'Let us hear your story',
@@ -1203,6 +1205,7 @@ export const translations = {
     // Lab Process
     'lab.process.badge': '프로젝트 진행 방식',
     'lab.process.title': '프로젝트 진행 방식',
+    'lab.process.subtitle': '투명한 프로세스로 안심하고 맡기실 수 있습니다',
     'lab.process.step1.number': '01',
     'lab.process.step1.title': '청취',
     'lab.process.step1.subtitle': '먼저 이야기를 들어주세요',

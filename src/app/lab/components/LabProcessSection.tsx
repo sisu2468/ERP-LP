@@ -1,24 +1,70 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Badge, Box, Container, Flex, Grid, Heading, Text, VStack } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Box, Container, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import TranslatedText from '@/components/common/TranslatedText';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
+
+const getSvgForStep = (stepNumber: number) => {
+  if (stepNumber <= 1) return '/svg/svg2.svg';
+  if (stepNumber <= 3) return '/svg/svg3.svg';
+  return '/svg/svg4.svg';
+};
+
+const AnimatedSvgDisplay = ({ activeStep }: { activeStep: number }) => {
+  const currentSvg = getSvgForStep(activeStep);
+  
+  return (
+    <AnimatePresence mode="wait">
+      <MotionBox
+        key={currentSvg}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        w="full"
+        h="full"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Image
+          src={currentSvg}
+          alt={`Process step ${activeStep + 1}`}
+          width={500}
+          height={500}
+          style={{ width: '100%', height: 'auto', maxWidth: '500px' }}
+          priority={activeStep < 2}
+        />
+      </MotionBox>
+    </AnimatePresence>
+  );
+};
 
 export default function LabProcessSection() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState<number>(0);
 
-  // 理志：プロセスステップデータ
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (latest) => {
+      const step = Math.floor(latest * 5);
+      setCurrentStep(Math.min(step, 4));
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress]);
+
   const steps = [
     {
       number: t('lab.process.step1.number'),
@@ -26,7 +72,7 @@ export default function LabProcessSection() {
       subtitle: t('lab.process.step1.subtitle'),
       content: t('lab.process.step1.content'),
       deliverable: t('lab.process.step1.deliverable'),
-      gradient: 'linear(to-br, orange.400, pink.400)',
+      color: '#e08e46',
     },
     {
       number: t('lab.process.step2.number'),
@@ -34,7 +80,7 @@ export default function LabProcessSection() {
       subtitle: t('lab.process.step2.subtitle'),
       content: t('lab.process.step2.content'),
       deliverable: t('lab.process.step2.deliverable'),
-      gradient: 'linear(to-br, orange.500, red.400)',
+      color: '#e08e46',
     },
     {
       number: t('lab.process.step3.number'),
@@ -42,7 +88,7 @@ export default function LabProcessSection() {
       subtitle: t('lab.process.step3.subtitle'),
       content: t('lab.process.step3.content'),
       deliverable: t('lab.process.step3.deliverable'),
-      gradient: 'linear(to-br, orange.400, yellow.500)',
+      color: '#e08e46',
     },
     {
       number: t('lab.process.step4.number'),
@@ -50,7 +96,7 @@ export default function LabProcessSection() {
       subtitle: t('lab.process.step4.subtitle'),
       content: t('lab.process.step4.content'),
       deliverable: t('lab.process.step4.deliverable'),
-      gradient: 'linear(to-br, orange.500, purple.400)',
+      color: '#e08e46',
     },
     {
       number: t('lab.process.step5.number'),
@@ -58,212 +104,283 @@ export default function LabProcessSection() {
       subtitle: t('lab.process.step5.subtitle'),
       content: t('lab.process.step5.content'),
       deliverable: t('lab.process.step5.deliverable'),
-      gradient: 'linear(to-br, orange.400, teal.400)',
+      color: '#e08e46',
     },
   ];
 
-  // 理志：スクロールアニメーション
-  useEffect(() => {
-    cardsRef.current.forEach((card, index) => {
-      if (!card) return;
-      
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 50, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-            once: true,
-          },
-        }
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
-
   return (
-    <Box
-      ref={sectionRef}
-      py={{ base: 20, md: 28 }}
-      bg="#fafafa"
-      position="relative"
-      overflow="hidden"
-    >
-      <Container maxW="7xl">
-        <VStack spacing={{ base: 16, md: 20 }} align="stretch">
-          {/* 理志：セクションヘッダー */}
-          <VStack spacing={4} textAlign="center">
-            <Badge
-              px={4}
-              py={2}
-              borderRadius="full"
-              fontSize="sm"
-              fontWeight="600"
-              bg="rgba(224, 142, 70, 0.1)"
-              color="#e08e46"
-              border="1px solid"
-              borderColor="rgba(224, 142, 70, 0.2)"
-            >
-              {t('lab.process.badge')}
-            </Badge>
-            <Heading
-              as="h2"
-              fontSize={{ base: '40px', md: '56px', lg: '64px' }}
-              fontWeight="700"
-              color="#111111"
-              letterSpacing="-0.02em"
-            >
-              <TranslatedText translationKey="lab.process.title" as="span" staggerDelay={0.05} />
-            </Heading>
-          </VStack>
+    <>
+      <Box
+        ref={sectionRef}
+        position="relative"
+        h="500vh"
+        bg="white"
+      >
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          opacity={0.03}
+          backgroundImage="radial-gradient(circle, #e08e46 1px, transparent 1px)"
+          backgroundSize="40px 40px"
+          pointerEvents="none"
+        />
 
-          {/* 理志：プロセスステップ - グリッド表示 */}
-          <Grid
-            templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
-            gap={8}
-          >
-            {steps.map((step, index) => (
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          bg="radial-gradient(circle at 50% 0%, rgba(224, 142, 70, 0.02), transparent 50%)"
+          pointerEvents="none"
+        />
+
+        <Box
+          position="sticky"
+          top={0}
+          h="100vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          zIndex={1}
+        >
+          <Container maxW="7xl" py={12}>
+            <VStack spacing={3} textAlign="center" mb={{ base: 6, lg: 10 }}>
+              <TranslatedText
+                translationKey="lab.process.subtitle"
+                fontSize={{ base: 'xs', md: 'sm' }}
+                fontWeight="600"
+                color="#e08e46"
+                textTransform="uppercase"
+                letterSpacing="0.15em"
+                staggerDelay={0}
+              />
+              <TranslatedText
+                translationKey="lab.process.title"
+                as="h2"
+                fontSize={{ base: '32px', md: '40px', lg: '48px' }}
+                fontWeight="700"
+                color="#111111"
+                letterSpacing="-0.02em"
+                staggerDelay={0.1}
+              />
+            </VStack>
+
+            <Flex
+              direction={{ base: 'column', lg: 'row' }}
+              gap={{ base: 8, lg: 16 }}
+              align="center"
+              justify="center"
+              minH={{ base: 'auto', lg: '70vh' }}
+            >
               <Box
-                key={index}
-                ref={el => { cardsRef.current[index] = el; }}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                display={{ base: 'none', lg: 'flex' }}
+                flexDirection="column"
+                alignItems="center"
+                gap={8}
+                position="relative"
               >
                 <Box
-                  p={8}
-                  bg="white"
-                  borderRadius="30px"
-                  border="1px"
-                  borderColor={hoveredIndex === index ? '#e08e46' : '#e5e5e7'}
-                  position="relative"
-                  overflow="hidden"
-                  h="full"
-                  transform={hoveredIndex === index ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)'}
-                  boxShadow={hoveredIndex === index ? '0 24px 70px rgba(224, 142, 70, 0.2)' : '0 4px 20px rgba(0, 0, 0, 0.05)'}
-                  transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
-                  cursor="pointer"
+                  position="absolute"
+                  left="50%"
+                  top={0}
+                  bottom={0}
+                  w="3px"
+                  bg="#f0f0f0"
+                  transform="translateX(-50%)"
+                  borderRadius="full"
                 >
-                  {/* 理志：グラデーション背景 - 拡大アニメーション */}
-                  <Box
+                  <MotionBox
                     position="absolute"
                     top={0}
                     left={0}
                     right={0}
-                    h={hoveredIndex === index ? '8px' : '6px'}
-                    bgGradient={step.gradient}
-                    transition="all 0.3s ease"
-                  />
-
-                  {/* 理志：背景グロー効果 */}
-                  <Box
-                    position="absolute"
-                    top="50%"
-                    left="50%"
-                    w="200px"
-                    h="200px"
+                    bg="linear-gradient(to bottom, #e08e46, #ff8c5a)"
                     borderRadius="full"
-                    bgGradient={step.gradient}
-                    opacity={hoveredIndex === index ? 0.1 : 0}
-                    transform="translate(-50%, -50%)"
-                    transition="opacity 0.4s ease"
-                    pointerEvents="none"
+                    boxShadow="0 0 12px rgba(224, 142, 70, 0.4)"
+                    style={{
+                      height: `${(currentStep / 4) * 100}%`
+                    }}
                   />
+                </Box>
 
-                  <VStack align="start" spacing={4} h="full" position="relative" zIndex={1}>
-                    {/* 理志：ステップ番号 - 回転アニメーション */}
-                    <Flex
-                      w="60px"
-                      h="60px"
-                      borderRadius="20px"
-                      bgGradient={step.gradient}
-                      align="center"
-                      justify="center"
-                      color="white"
-                      fontSize="28px"
-                      fontWeight="700"
-                      boxShadow={hoveredIndex === index ? '0 15px 40px rgba(224, 142, 70, 0.4)' : '0 10px 30px rgba(224, 142, 70, 0.3)'}
-                      transform={hoveredIndex === index ? 'rotate(360deg) scale(1.1)' : 'rotate(0deg) scale(1)'}
-                      transition="all 0.6s cubic-bezier(0.4, 0, 0.2, 1)"
-                    >
-                      {step.number}
-                    </Flex>
+                {steps.map((step, index) => (
+                  <Box key={index} position="relative">
+                    {currentStep === index && (
+                      <MotionBox
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        w="40px"
+                        h="40px"
+                        borderRadius="full"
+                        border="2px solid"
+                        borderColor="rgba(224, 142, 70, 0.3)"
+                        style={{
+                          transform: "translate(-50%, -50%)"
+                        }}
+                        animate={{
+                          scale: [1, 1.3, 1],
+                          opacity: [0.5, 0.2, 0.5],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    )}
+                    <MotionBox
+                      w="24px"
+                      h="24px"
+                      borderRadius="full"
+                      bg={currentStep >= index ? step.color : 'white'}
+                      border="3px solid"
+                      borderColor={currentStep >= index ? step.color : '#e5e7eb'}
+                      boxShadow={currentStep === index ? '0 0 0 6px rgba(224, 142, 70, 0.15)' : 'none'}
+                      position="relative"
+                      zIndex={2}
+                      animate={{
+                        scale: currentStep === index ? [1, 1.15, 1] : 1,
+                      }}
+                      transition={{
+                        duration: currentStep === index ? 2 : 0.3,
+                        repeat: currentStep === index ? Infinity : 0,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </Box>
+                ))}
+              </Box>
 
-                    {/* 理志：タイトル */}
+              <AnimatePresence mode="wait">
+                <MotionBox
+                  key={currentStep}
+                  flex={{ base: '1', lg: '0 0 45%' }}
+                  p={{ base: 6, md: 8, lg: 10 }}
+                  bg="white"
+                  borderRadius="24px"
+                  border="2px solid"
+                  borderColor="#e08e46"
+                  boxShadow="0 12px 40px -8px rgba(224, 142, 70, 0.2)"
+                  initial={{ opacity: 0, x: -40, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: 40, scale: 0.95 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  maxW={{ base: 'full', lg: '600px' }}
+                  position="relative"
+                >
+                  <MotionBox
+                    position="absolute"
+                    top={4}
+                    right={4}
+                    bg={steps[currentStep].color}
+                    color="white"
+                    px={4}
+                    py={2}
+                    borderRadius="full"
+                    fontSize="sm"
+                    fontWeight="700"
+                    boxShadow="0 4px 12px rgba(224, 142, 70, 0.3)"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
+                  >
+                    {currentStep + 1}/5
+                  </MotionBox>
+
+                  <VStack align="start" spacing={6}>
                     <Box>
                       <Heading
                         as="h3"
-                        fontSize="24px"
-                        fontWeight="700"
+                        fontSize={{ base: '28px', md: '32px', lg: '36px' }}
+                        fontWeight="600"
                         color="#111111"
                         mb={2}
+                        letterSpacing="-0.02em"
                       >
-                        {step.title}
+                        {steps[currentStep].title}
                       </Heading>
                       <Text
-                        fontSize="sm"
-                        color="#e08e46"
-                        fontWeight="600"
+                        fontSize="lg"
+                        color={steps[currentStep].color}
+                        fontWeight="500"
                       >
-                        {step.subtitle}
+                        {steps[currentStep].subtitle}
                       </Text>
                     </Box>
 
-                    {/* 理志：説明 */}
                     <Text
-                      fontSize="15px"
+                      fontSize={{ base: '16px', md: '17px' }}
                       color="#6e6e73"
-                      lineHeight="1.7"
-                      flex={1}
+                      lineHeight="1.8"
+                      fontWeight="400"
                     >
-                      {step.content}
+                      {steps[currentStep].content}
                     </Text>
 
-                    {/* 理志：成果物 - スライドインアニメーション */}
                     <Box
                       w="full"
-                      p={4}
-                      bg={hoveredIndex === index ? '#fff7ed' : '#fafafa'}
+                      p={5}
+                      bg="#fff7ed"
                       borderRadius="16px"
-                      borderLeft="4px"
-                      borderColor="#e08e46"
-                      transform={hoveredIndex === index ? 'translateX(0)' : 'translateX(-8px)'}
-                      opacity={hoveredIndex === index ? 1 : 0.9}
-                      transition="all 0.3s ease"
+                      border="1px solid"
+                      borderColor="rgba(224, 142, 70, 0.2)"
                     >
                       <Text
                         fontSize="xs"
                         color="#86868b"
                         fontWeight="600"
-                        mb={1}
+                        mb={2}
                         textTransform="uppercase"
+                        letterSpacing="0.08em"
                       >
                         成果物
                       </Text>
                       <Text
-                        fontSize="sm"
+                        fontSize="md"
                         color="#111111"
-                        fontWeight="500"
+                        fontWeight="600"
                       >
-                        {step.deliverable}
+                        {steps[currentStep].deliverable}
                       </Text>
                     </Box>
                   </VStack>
-                </Box>
+                </MotionBox>
+              </AnimatePresence>
+
+              <Box
+                flex={{ base: '1', lg: '0 0 40%' }}
+                p={{ base: 6, md: 8 }}
+                bg="#fafafa"
+                borderRadius="24px"
+                border="1px solid #f0f0f0"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                minH={{ base: '300px', md: '400px', lg: '500px' }}
+                maxW={{ base: 'full', lg: '550px' }}
+              >
+                <AnimatedSvgDisplay activeStep={currentStep} />
               </Box>
-            ))}
-          </Grid>
-        </VStack>
-      </Container>
-    </Box>
+            </Flex>
+
+            <Box textAlign="center" mt={{ base: 8, lg: 10 }}>
+              <Text
+                fontSize={{ base: 'xs', md: 'sm' }}
+                color="#86868b"
+                fontWeight="400"
+                letterSpacing="0.02em"
+              >
+                ※ スクロールしてプロセスを進めてください
+              </Text>
+            </Box>
+          </Container>
+        </Box>
+      </Box>
+    </>
   );
 }
