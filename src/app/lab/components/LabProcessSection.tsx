@@ -3,7 +3,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Badge, Box, Container, Flex, Grid, Heading, Text, VStack } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -15,6 +15,7 @@ export default function LabProcessSection() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // 理志：プロセスステップデータ
   const steps = [
@@ -102,16 +103,15 @@ export default function LabProcessSection() {
           {/* 理志：セクションヘッダー */}
           <VStack spacing={4} textAlign="center">
             <Badge
-              px={6}
-              py={3}
+              px={4}
+              py={2}
               borderRadius="full"
               fontSize="sm"
-              fontWeight="700"
-              textTransform="uppercase"
-              bg="white"
+              fontWeight="600"
+              bg="rgba(224, 142, 70, 0.1)"
               color="#e08e46"
-              border="2px"
-              borderColor="#e08e46"
+              border="1px solid"
+              borderColor="rgba(224, 142, 70, 0.2)"
             >
               {t('lab.process.badge')}
             </Badge>
@@ -135,36 +135,51 @@ export default function LabProcessSection() {
               <Box
                 key={index}
                 ref={el => { cardsRef.current[index] = el; }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
                 <Box
                   p={8}
                   bg="white"
                   borderRadius="30px"
                   border="1px"
-                  borderColor="#e5e5e7"
+                  borderColor={hoveredIndex === index ? '#e08e46' : '#e5e5e7'}
                   position="relative"
                   overflow="hidden"
                   h="full"
-                  _hover={{
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.12)',
-                    borderColor: '#e08e46',
-                  }}
+                  transform={hoveredIndex === index ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)'}
+                  boxShadow={hoveredIndex === index ? '0 24px 70px rgba(224, 142, 70, 0.2)' : '0 4px 20px rgba(0, 0, 0, 0.05)'}
                   transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
                   cursor="pointer"
                 >
-                  {/* 理志：グラデーション背景 */}
+                  {/* 理志：グラデーション背景 - 拡大アニメーション */}
                   <Box
                     position="absolute"
                     top={0}
                     left={0}
                     right={0}
-                    h="6px"
+                    h={hoveredIndex === index ? '8px' : '6px'}
                     bgGradient={step.gradient}
+                    transition="all 0.3s ease"
                   />
 
-                  <VStack align="start" spacing={4} h="full">
-                    {/* 理志：ステップ番号 */}
+                  {/* 理志：背景グロー効果 */}
+                  <Box
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    w="200px"
+                    h="200px"
+                    borderRadius="full"
+                    bgGradient={step.gradient}
+                    opacity={hoveredIndex === index ? 0.1 : 0}
+                    transform="translate(-50%, -50%)"
+                    transition="opacity 0.4s ease"
+                    pointerEvents="none"
+                  />
+
+                  <VStack align="start" spacing={4} h="full" position="relative" zIndex={1}>
+                    {/* 理志：ステップ番号 - 回転アニメーション */}
                     <Flex
                       w="60px"
                       h="60px"
@@ -175,7 +190,9 @@ export default function LabProcessSection() {
                       color="white"
                       fontSize="28px"
                       fontWeight="700"
-                      boxShadow="0 10px 30px rgba(224, 142, 70, 0.3)"
+                      boxShadow={hoveredIndex === index ? '0 15px 40px rgba(224, 142, 70, 0.4)' : '0 10px 30px rgba(224, 142, 70, 0.3)'}
+                      transform={hoveredIndex === index ? 'rotate(360deg) scale(1.1)' : 'rotate(0deg) scale(1)'}
+                      transition="all 0.6s cubic-bezier(0.4, 0, 0.2, 1)"
                     >
                       {step.number}
                     </Flex>
@@ -210,14 +227,17 @@ export default function LabProcessSection() {
                       {step.content}
                     </Text>
 
-                    {/* 理志：成果物 */}
+                    {/* 理志：成果物 - スライドインアニメーション */}
                     <Box
                       w="full"
                       p={4}
-                      bg="#fafafa"
+                      bg={hoveredIndex === index ? '#fff7ed' : '#fafafa'}
                       borderRadius="16px"
                       borderLeft="4px"
                       borderColor="#e08e46"
+                      transform={hoveredIndex === index ? 'translateX(0)' : 'translateX(-8px)'}
+                      opacity={hoveredIndex === index ? 1 : 0.9}
+                      transition="all 0.3s ease"
                     >
                       <Text
                         fontSize="xs"

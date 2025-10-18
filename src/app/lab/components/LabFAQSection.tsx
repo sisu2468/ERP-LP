@@ -69,16 +69,15 @@ export default function LabFAQSection() {
           {/* 理志：セクションヘッダー */}
           <VStack spacing={4} textAlign="center">
             <Badge
-              px={6}
-              py={3}
+              px={4}
+              py={2}
               borderRadius="full"
               fontSize="sm"
-              fontWeight="700"
-              textTransform="uppercase"
-              bg="#fafafa"
+              fontWeight="600"
+              bg="rgba(224, 142, 70, 0.1)"
               color="#e08e46"
-              border="2px"
-              borderColor="#e08e46"
+              border="1px solid"
+              borderColor="rgba(224, 142, 70, 0.2)"
             >
               {t('lab.faq.badge')}
             </Badge>
@@ -171,14 +170,13 @@ export default function LabFAQSection() {
                         <Box
                           p={5}
                           bg="white"
-                          borderRadius="20px"
-                          borderLeft="4px"
-                          borderColor="#e08e46"
-                          boxShadow="0 4px 20px rgba(0, 0, 0, 0.06)"
+                          borderRadius="16px"
+                          border="1px solid"
+                          borderColor="gray.100"
                         >
                           <Text
                             fontSize={{ base: 'sm', md: 'md' }}
-                            color="#6e6e73"
+                            color="gray.700"
                             lineHeight="1.8"
                             whiteSpace="pre-line"
                           >

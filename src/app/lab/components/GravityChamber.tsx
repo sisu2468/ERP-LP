@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Icon, keyframes } from '@chakra-ui/react';
 
 interface Tag {
@@ -12,67 +12,114 @@ interface GravityChamberProps {
   tags: Tag[];
 }
 
-// 理志：CSS Keyframesで物理シミュレーション風のアニメーション
+// 理志：モダンなフェードイン＆スライドアニメーション
+const fadeInUp = keyframes`
+  0% { 
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;
+
+const pulseGlow = keyframes`
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(224, 142, 70, 0.3),
+                0 0 40px rgba(224, 142, 70, 0.2),
+                0 0 60px rgba(224, 142, 70, 0.1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(224, 142, 70, 0.5),
+                0 0 60px rgba(224, 142, 70, 0.3),
+                0 0 90px rgba(224, 142, 70, 0.2);
+  }
+`;
+
 const float = keyframes`
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(10px, -20px) rotate(5deg); }
-  50% { transform: translate(-5px, 10px) rotate(-3deg); }
-  75% { transform: translate(-15px, -5px) rotate(7deg); }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 `;
 
-const bounce = keyframes`
-  0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-  60% { transform: translateY(0) rotate(180deg); opacity: 1; }
-  80% { transform: translateY(-20px) rotate(200deg); }
-  100% { transform: translateY(0) rotate(360deg); }
+// 理志：Stripe風のグラデーション背景
+const shimmer = keyframes`
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
 `;
 
-// 理志：各タグの物理演算風アニメーション
-const TagBall: React.FC<{ tag: Tag; index: number; total: number }> = ({ tag, index, total }) => {
-  const angle = (index / total) * Math.PI * 2;
-  const radius = 100;
-  const initialX = Math.cos(angle) * radius;
-  const initialZ = Math.sin(angle) * radius;
-  
-  // ランダムな遅延とアニメーション時間
-  const delay = index * 0.15;
-  const duration = 1.5 + Math.random() * 0.5;
+// 理志：各タグカード（Stripe/Apple風のクリーンなデザイン）
+const TagCard: React.FC<{ tag: Tag; index: number; total: number }> = ({ tag, index, total }) => {
+  const delay = index * 0.1;
 
   return (
     <Box
-      position="absolute"
-      left={`calc(50% + ${initialX}px)`}
-      top={`calc(50% + ${initialZ}px)`}
-      transform="translate(-50%, -50%)"
-      animation={`${bounce} ${duration}s ease-out ${delay}s forwards, ${float} 3s ease-in-out ${delay + duration}s infinite`}
-      zIndex={index}
+      animation={`${fadeInUp} 0.6s ease-out ${delay}s both, ${float} 3s ease-in-out ${delay + 0.6}s infinite`}
     >
       <Box
-        bg="orange.500"
-        borderRadius="full"
-        w="80px"
-        h="80px"
+        bg="white"
+        borderRadius="16px"
+        p={6}
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        gap={1}
+        gap={3}
+        border="1px solid"
+        borderColor="gray.200"
         shadow="lg"
-        border="3px solid"
-        borderColor="orange.400"
-        _hover={{ transform: 'scale(1.1)', transition: 'transform 0.2s' }}
+        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        _hover={{
+          transform: 'translateY(-8px) scale(1.05)',
+          shadow: '2xl',
+          borderColor: 'orange.400',
+        }}
+        position="relative"
+        overflow="hidden"
       >
-        <Icon as={tag.IconComponent} boxSize={6} color="white" />
+        {/* ホバー時のシマーエフェクト */}
         <Box
-          fontSize="9px"
-          fontWeight="bold"
-          color="white"
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          bgGradient="linear(to-r, transparent, rgba(224, 142, 70, 0.1), transparent)"
+          bgSize="1000px 100%"
+          animation={`${shimmer} 2s infinite`}
+          opacity={0}
+          transition="opacity 0.3s"
+          _groupHover={{ opacity: 1 }}
+        />
+        
+        {/* アイコン */}
+        <Box
+          p={3}
+          bg="orange.50"
+          borderRadius="12px"
+          transition="all 0.3s"
+          _groupHover={{
+            bg: 'orange.500',
+            transform: 'scale(1.1) rotate(5deg)',
+          }}
+        >
+          <Icon 
+            as={tag.IconComponent} 
+            boxSize={8} 
+            color="orange.500"
+            transition="color 0.3s"
+            _groupHover={{ color: 'white' }}
+          />
+        </Box>
+        
+        {/* テキスト */}
+        <Box
+          fontSize="13px"
+          fontWeight="600"
+          color="gray.800"
           textAlign="center"
-          px={1}
-          maxW="70px"
-          overflow="hidden"
-          textOverflow="ellipsis"
-          whiteSpace="nowrap"
+          letterSpacing="0.2px"
+          maxW="full"
         >
           {tag.text}
         </Box>
@@ -81,53 +128,92 @@ const TagBall: React.FC<{ tag: Tag; index: number; total: number }> = ({ tag, in
   );
 };
 
-// 理志：重力チャンバー - CSS/SVGベースの軽量版
+// 理志：重力チャンバー - Apple/Stripe風のモダンデザイン
 export default function GravityChamber({ tags }: GravityChamberProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <Box
       w="full"
       h="full"
-      bg="linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)"
+      bg="linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)"
       position="relative"
       overflow="hidden"
-      borderRadius="xl"
+      borderRadius="24px"
+      border="1px solid"
+      borderColor="gray.200"
+      p={8}
     >
-      {/* 背景グリッド */}
+      {/* 背景のグリッドパターン（Stripe風） */}
       <Box
         position="absolute"
         inset={0}
-        bgImage="linear-gradient(rgba(224, 142, 70, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(224, 142, 70, 0.1) 1px, transparent 1px)"
-        bgSize="20px 20px"
-        opacity={0.3}
+        bgImage="radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.03) 1px, transparent 0)"
+        bgSize="40px 40px"
+        opacity={0.6}
       />
 
-      {/* 中央の輝く球体 */}
+      {/* 中央のグローエフェクト */}
       <Box
         position="absolute"
         left="50%"
         top="50%"
         transform="translate(-50%, -50%)"
-        w="200px"
-        h="200px"
+        w="300px"
+        h="300px"
         borderRadius="full"
-        bg="radial-gradient(circle, rgba(224, 142, 70, 0.2) 0%, transparent 70%)"
-        animation={`${float} 4s ease-in-out infinite`}
+        bg="radial-gradient(circle, rgba(224, 142, 70, 0.08) 0%, transparent 70%)"
+        animation={`${pulseGlow} 4s ease-in-out infinite`}
+        filter="blur(40px)"
       />
 
-      {/* タグボール */}
-      {tags.map((tag, index) => (
-        <TagBall key={index} tag={tag} index={index} total={tags.length} />
-      ))}
+      {/* タグカードのグリッドレイアウト */}
+      <Box
+        position="relative"
+        zIndex={1}
+        display="grid"
+        gridTemplateColumns={{
+          base: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+          lg: `repeat(${Math.min(tags.length, 4)}, 1fr)`,
+        }}
+        gap={4}
+        w="full"
+        h="full"
+        alignItems="center"
+        justifyItems="center"
+      >
+        {mounted && tags.map((tag, index) => (
+          <TagCard key={index} tag={tag} index={index} total={tags.length} />
+        ))}
+      </Box>
 
-      {/* チャンバーの枠 */}
+      {/* 装飾的なコーナーエフェクト */}
       <Box
         position="absolute"
-        inset={4}
-        border="2px solid"
-        borderColor="orange.500"
-        borderRadius="xl"
-        opacity={0.3}
+        top={0}
+        left={0}
+        w="120px"
+        h="120px"
+        bgGradient="radial(circle at top left, orange.100, transparent)"
+        opacity={0.4}
+        pointerEvents="none"
+      />
+      <Box
+        position="absolute"
+        bottom={0}
+        right={0}
+        w="120px"
+        h="120px"
+        bgGradient="radial(circle at bottom right, orange.100, transparent)"
+        opacity={0.4}
+        pointerEvents="none"
       />
     </Box>
   );
 }
+

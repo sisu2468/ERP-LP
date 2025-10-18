@@ -38,13 +38,15 @@ export default function LabTestimonialsSection() {
           {/* 理志：セクションヘッダー */}
           <VStack spacing={4} textAlign="center">
             <Badge
-              colorScheme="orange"
               px={4}
               py={2}
               borderRadius="full"
               fontSize="sm"
-              fontWeight="bold"
-              textTransform="uppercase"
+              fontWeight="600"
+              bg="rgba(224, 142, 70, 0.1)"
+              color="#e08e46"
+              border="1px solid"
+              borderColor="rgba(224, 142, 70, 0.2)"
             >
               {t('lab.testimonials.badge')}
             </Badge>
