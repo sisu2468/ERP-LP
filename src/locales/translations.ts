@@ -6,7 +6,7 @@ export const translations = {
     'nav.services.desc': '提供サービス一覧',
     'nav.core': 'Sainta Core',
     'nav.core.desc': '基幹業務システム',
-    'nav.lab': 'Sainta Lab',
+    'nav.lab': 'サインタ・ラボ',
     'nav.lab.desc': 'カスタムWeb開発サービス',
     'nav.connect': 'Sainta Connect',
     'nav.connect.desc': '顧客管理システム',
