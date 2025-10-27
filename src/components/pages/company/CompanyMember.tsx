@@ -3,6 +3,7 @@
 import { Box, Container, Heading, Text, VStack, useColorModeValue } from "@chakra-ui/react";
 import MemberCard from "./MemberCard";
 import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -51,7 +52,7 @@ export default function CompanyMember() {
                             textAlign="center"
                             color={accentColor}
                         >
-                            {t('member.heading')}
+                            <TranslatedText as="span" translationKey="member.heading" staggerDelay={0.08} />
                         </Heading>
                     </VStack>
 

@@ -78,6 +78,7 @@ export default function Footer() {
                             {t('footer.section.company')}
                         </Text>
                         <Link href="/company" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.about')}</Link>
+                        <Link href="/philosophy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.philosophy')}</Link>
                         <Link href="/privacy" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.privacy')}</Link>
                         <Link href="/terms" fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }}>{t('footer.link.terms')}</Link>
                         <Link onClick={onOpen} fontSize="sm" color={linkColor} _hover={{ color: 'orange.500' }} cursor="pointer">{t('footer.link.contact')}</Link>

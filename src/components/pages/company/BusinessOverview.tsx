@@ -134,7 +134,7 @@ export default function BusinessOverview() {
     ];
 
     return (
-        <Box py={20} bg="#fafafa" overflow="hidden" position="relative">
+        <Box py={20} bg="white" overflow="hidden" position="relative">
             {/* SVG Background Shapes */}
             <Box
                 position="absolute"
@@ -246,51 +246,62 @@ export default function BusinessOverview() {
                         </Text>
                     </VStack>
 
-                    <VStack spacing={12} w="full">
+                    <VStack spacing={12} w="full" maxW="container.lg" mx="auto">
                         <Box
                             ref={textRef}
                             w="full"
                         >
                             <VStack spacing={6} align="flex-start">
                                 <Text
-                                    fontSize={{ base: "lg", md: "xl" }}
-                                    color="#111111"
-                                    lineHeight="1.8"
-                                    fontWeight="500"
+                                    fontSize={{ base: "md", md: "lg" }}
+                                    color="gray.700"
+                                    lineHeight="1.9"
+                                    fontWeight="400"
                                     sx={{
                                         wordBreak: 'keep-all',
                                         overflowWrap: 'anywhere',
                                         lineBreak: 'strict'
                                     }}
                                 >
-                                    <TranslatedText as="span" translationKey="business.mission.1" staggerDelay={0.1} />
+                                    {t('business.mission.1')}
                                 </Text>
                                 <Text
-                                    fontSize={{ base: "lg", md: "xl" }}
-                                    color="#111111"
-                                    lineHeight="1.8"
-                                    fontWeight="500"
+                                    fontSize={{ base: "md", md: "lg" }}
+                                    color="gray.700"
+                                    lineHeight="1.9"
+                                    fontWeight="400"
                                     sx={{
                                         wordBreak: 'keep-all',
                                         overflowWrap: 'anywhere',
                                         lineBreak: 'strict'
                                     }}
                                 >
-                                    <TranslatedText as="span" translationKey="business.mission.2" staggerDelay={0.12} />
+                                    {t('business.mission.2')}
                                 </Text>
-                                <Text
-                                    fontSize={{ base: "lg", md: "xl" }}
-                                    color="#111111"
-                                    lineHeight="1.8"
-                                    fontWeight="500"
-                                    sx={{
-                                        wordBreak: 'keep-all',
-                                        overflowWrap: 'anywhere',
-                                        lineBreak: 'strict'
-                                    }}
+
+                                {/* Quote with subtle left border - similar to philosophy page */}
+                                <Box
+                                    w="100%"
+                                    pl={6}
+                                    py={5}
+                                    borderLeft="5px solid"
+                                    borderColor="#E19C49"
+                                    my={4}
                                 >
-                                    <TranslatedText as="span" translationKey="business.mission.3" staggerDelay={0.14} />
-                                </Text>
+                                    <Text
+                                        fontWeight="600"
+                                        fontSize={{ base: "lg", md: "xl" }}
+                                        color="gray.900"
+                                        lineHeight="1.7"
+                                        sx={{
+                                            wordBreak: 'keep-all',
+                                            overflowWrap: 'anywhere',
+                                            lineBreak: 'strict'
+                                        }}
+                                    >
+                                        {t('business.mission.3')}
+                                    </Text>
+                                </Box>
                             </VStack>
                         </Box>
 

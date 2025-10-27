@@ -8,4 +8,6 @@ export interface MVVCardProps extends BoxProps {
     description?: string;
     setHeight?: boolean;
     children?: React.ReactNode;
+    titleKey?: string;
+    subtitleKey?: string;
 }

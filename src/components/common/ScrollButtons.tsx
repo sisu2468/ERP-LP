@@ -35,41 +35,59 @@ export default function ScrollButtons() {
     });
   };
 
+  const buttonStyle = {
+    bg: 'white',
+    color: '#e08e46',
+    border: '2px solid',
+    borderColor: '#e08e46',
+    borderRadius: '10px',
+    w: '48px',
+    h: '48px',
+    boxShadow: '0 4px 16px rgba(224, 142, 70, 0.15)',
+    _hover: {
+      bg: 'rgba(224, 142, 70, 0.05)',
+      borderColor: '#d17d3a',
+      boxShadow: '0 6px 24px rgba(224, 142, 70, 0.25)',
+    },
+    _active: {
+      transform: 'scale(0.95)',
+    },
+  };
+
   return (
     <VStack
       position="fixed"
-      bottom="4"
-      right="4"
+      bottom="32px"
+      right="32px"
       zIndex="tooltip"
-      spacing={2}
+      spacing={3}
       opacity={isVisible ? 1 : 0}
+      visibility={isVisible ? 'visible' : 'hidden'}
       transform={isVisible ? 'translateY(0)' : 'translateY(20px)'}
-      transition="all 0.3s ease-in-out"
+      transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
     >
       <IconButton
         aria-label="Scroll to top"
-        icon={<ChevronUpIcon />}
+        icon={<ChevronUpIcon boxSize={6} />}
         onClick={scrollToTop}
-        colorScheme="orange"
         size="lg"
-        borderRadius="full"
-        boxShadow="lg"
+        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        {...buttonStyle}
         _hover={{
-          transform: 'translateY(-2px)',
-          boxShadow: 'xl',
+          ...buttonStyle._hover,
+          transform: 'translateY(-3px)',
         }}
       />
       <IconButton
         aria-label="Scroll to bottom"
-        icon={<ChevronDownIcon />}
+        icon={<ChevronDownIcon boxSize={6} />}
         onClick={scrollToBottom}
-        colorScheme="orange"
         size="lg"
-        borderRadius="full"
-        boxShadow="lg"
+        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        {...buttonStyle}
         _hover={{
-          transform: 'translateY(2px)',
-          boxShadow: 'xl',
+          ...buttonStyle._hover,
+          transform: 'translateY(3px)',
         }}
       />
     </VStack>

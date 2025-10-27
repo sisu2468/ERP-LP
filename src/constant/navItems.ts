@@ -11,6 +11,11 @@ export const navItems: NavItem[] = [
         path: '/company',
         description: 'nav.company.desc',
     },
+    {
+        title: 'nav.philosophy',
+        path: '/philosophy',
+        description: 'nav.philosophy.desc',
+    },
     // {
     //     title: 'nav.career',
     //     path: '/career',

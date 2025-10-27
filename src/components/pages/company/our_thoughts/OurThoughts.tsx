@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Heading, Text, VStack, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Container, Heading, Text, VStack, Button, useDisclosure, Tooltip } from "@chakra-ui/react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
@@ -12,20 +12,67 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
+const InteractiveWord = ({ word, message }: { word: string; message: string }) => {
+    const { language } = useLanguage();
+    
+    return (
+        <Tooltip
+            label={message}
+            bg="white"
+            color="#e08e46"
+            fontSize="sm"
+            fontWeight="600"
+            px={4}
+            py={2}
+            borderRadius="md"
+            border="2px solid"
+            borderColor="#e08e46"
+            boxShadow="0 4px 12px rgba(224, 142, 70, 0.2)"
+            hasArrow
+            placement="bottom"
+            arrowShadowColor="rgba(224, 142, 70, 0.2)"
+        >
+            <Box
+                as="span"
+                color="#e08e46"
+                fontWeight="700"
+                cursor="pointer"
+                position="relative"
+                _after={{
+                    content: '""',
+                    position: 'absolute',
+                    bottom: '-2px',
+                    left: 0,
+                    right: 0,
+                    height: '2px',
+                    bg: '#e08e46',
+                    transform: 'scaleX(0)',
+                    transition: 'transform 0.3s ease'
+                }}
+                _hover={{
+                    _after: {
+                        transform: 'scaleX(1)'
+                    }
+                }}
+            >
+                {word}
+            </Box>
+        </Tooltip>
+    );
+};
+
 export default function OurThoughts() {
     const { t } = useLanguage();
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
     const quoteRef = useRef(null);
-    const textRefs = useRef<(HTMLDivElement | null)[]>([]);
     const ctaRef = useRef(null);
     const principleRef = useRef(null);
-    const [hoveredWord, setHoveredWord] = useState<string | null>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Heading animation
+
             gsap.fromTo(headingRef.current,
                 { opacity: 0, scale: 0.9, y: 60 },
                 {
@@ -42,7 +89,6 @@ export default function OurThoughts() {
                 }
             );
 
-            // Quote animation
             gsap.fromTo(quoteRef.current,
                 { opacity: 0, y: 40 },
                 {
@@ -58,7 +104,6 @@ export default function OurThoughts() {
                 }
             );
 
-            // Principle animation
             gsap.fromTo(principleRef.current,
                 { opacity: 0, scale: 0.95 },
                 {
@@ -73,25 +118,6 @@ export default function OurThoughts() {
                 }
             );
 
-            // Text stagger animation
-            if (textRefs.current.length > 0) {
-                gsap.fromTo(textRefs.current,
-                    { opacity: 0, y: 30 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.2,
-                        scrollTrigger: {
-                            trigger: textRefs.current[0],
-                            start: "top 80%",
-                            toggleActions: "play none none reverse"
-                        }
-                    }
-                );
-            }
-
-            // CTA animation
             gsap.fromTo(ctaRef.current,
                 { opacity: 0, y: 60 },
                 {
@@ -111,272 +137,144 @@ export default function OurThoughts() {
         return () => ctx.revert();
     }, []);
 
-    const interactiveWords = [
-        { text: "解放", color: "#e08e46", description: "無駄な作業からの解放" },
-        { text: "創造", color: "#0891b2", description: "新しい未来を想像" },
-        { text: "挑戦", color: "#059669", description: "新たな道を切り開く" }
-    ];
-
     return (
         <>
             <Box
                 ref={sectionRef}
-                bg="#ffffff"
-                py={{ base: 24, md: 32, lg: 40 }}
+                bg="gray.50"
+                py={{ base: 20, md: 28, lg: 32 }}
                 position="relative"
                 overflow="hidden"
             >
-                {/* Minimal Background Gradient */}
-                <Box
-                    position="absolute"
-                    top="0"
-                    left="50%"
-                    transform="translateX(-50%)"
-                    w="100%"
-                    h="50%"
-                    bgGradient="radial(circle at 50% 0%, rgba(224, 142, 70, 0.03), transparent 70%)"
-                    pointerEvents="none"
-                />
-
-                <Container maxW="8xl" position="relative" zIndex={1}>
-                    <VStack spacing={{ base: 16, md: 24 }} align="center" w="full">
-                        {/* Main Heading - Balanced Size */}
-                        <VStack ref={headingRef} spacing={6} align="center" w="full" py={{ base: 8, md: 12 }}>
+                <Container maxW={{ base: "container.md", lg: "container.lg" }} position="relative" zIndex={1} px={{ base: 8, md: 10, lg: 12 }}>
+                    <VStack spacing={{ base: 12, md: 16 }} align="flex-start" w="full">
+                        {/* Main Heading */}
+                        <Box ref={headingRef} w="full">
                             <Heading
-                                fontSize={{ base: "4xl", md: "5xl", lg: "64px" }}
+                                fontSize={{ base: "4xl", md: "5xl", lg: "56px" }}
                                 fontWeight="800"
                                 color="#111111"
                                 letterSpacing="-0.03em"
-                                textAlign="center"
                                 lineHeight="1.1"
                             >
-                                テクノロジーで
+                                <TranslatedText as="span" translationKey="thoughts.main.title" staggerDelay={0.05} />
                                 <br />
-                                {interactiveWords.map((word, idx) => (
-                                    <Text
-                                        key={idx}
-                                        as="span"
-                                        color={hoveredWord === word.text ? "#f4a460" : "#e08e46"}
-                                        cursor="pointer"
-                                        transition="all 0.3s"
-                                        onMouseEnter={() => setHoveredWord(word.text)}
-                                        onMouseLeave={() => setHoveredWord(null)}
-                                        display="inline-block"
-                                    >
-                                        {word.text}
-                                        {idx < interactiveWords.length - 1 && "、"}
-                                    </Text>
-                                ))}
-                                する。
+                                <InteractiveWord word={t('thoughts.main.liberate')} message={t('thoughts.tooltip.liberate')} />、
+                                <InteractiveWord word={t('thoughts.main.create')} message={t('thoughts.tooltip.create')} />、
+                                <InteractiveWord word={t('thoughts.main.challenge')} message={t('thoughts.tooltip.challenge')} />
+                                <TranslatedText as="span" translationKey="thoughts.main.suffix" staggerDelay={0.05} />
                             </Heading>
-                            
-                            {/* Hover Description */}
-                            <Box h="32px">
-                                {hoveredWord && (
-                                    <Text
-                                        fontSize={{ base: "md", md: "lg" }}
-                                        color="#6e6e73"
-                                        fontWeight="600"
-                                        textAlign="center"
-                                    >
-                                        {interactiveWords.find(w => w.text === hoveredWord)?.description}
-                                    </Text>
-                                )}
-                            </Box>
-                        </VStack>
+                        </Box>
 
-                        {/* Opening Statement */}
                         <Text
                             ref={quoteRef}
-                            fontSize={{ base: "xl", md: "2xl", lg: "28px" }}
+                            fontSize={{ base: "lg", md: "xl" }}
                             color="#111111"
-                            textAlign="center"
                             lineHeight="1.8"
-                            maxW="4xl"
                             fontWeight="500"
-                            sx={{
-                                wordBreak: 'keep-all',
-                                overflowWrap: 'anywhere',
-                                lineBreak: 'strict'
-                            }}
                         >
-                            <TranslatedText as="span" translationKey="thoughts.quote" staggerDelay={0.1} />
+                            {t('thoughts.quote')}
                         </Text>
 
-                        {/* Principle Box - Balanced */}
                         <Box
                             ref={principleRef}
                             w="full"
-                            maxW="6xl"
-                            bg="linear-gradient(135deg, rgba(224, 142, 70, 0.08) 0%, rgba(224, 142, 70, 0.03) 100%)"
-                            borderRadius="3xl"
-                            p={{ base: 10, md: 16 }}
-                            border="2px solid"
-                            borderColor="rgba(224, 142, 70, 0.15)"
-                            position="relative"
-                            overflow="hidden"
-                            _hover={{
-                                borderColor: "rgba(224, 142, 70, 0.3)",
-                                transform: "translateY(-4px)"
-                            }}
-                            transition="all 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
-                            boxShadow="0 4px 32px rgba(224, 142, 70, 0.08)"
+                            pl={6}
+                            py={5}
+                            borderLeft="5px solid"
+                            borderColor="#E19C49"
                         >
-                            {/* Decorative Circle */}
-                            <Box
-                                position="absolute"
-                                top="-40%"
-                                right="-15%"
-                                w="500px"
-                                h="500px"
-                                borderRadius="full"
-                                bg="radial-gradient(circle, rgba(224, 142, 70, 0.1), transparent 70%)"
-                                pointerEvents="none"
-                            />
-                            
-                            <VStack spacing={6} align="center" position="relative" zIndex={1}>
-                                <Text
-                                    fontSize={{ base: "3xl", md: "4xl", lg: "48px" }}
-                                    fontWeight="800"
-                                    color="#e08e46"
-                                    textAlign="center"
+                            <Text fontWeight="600" fontSize={{ base: "lg", md: "xl" }} color="gray.900" lineHeight="1.7">
+                                {t('thoughts.principle.title')}
+                            </Text>
+                        </Box>
+
+                        <VStack spacing={6} align="flex-start" w="full">
+                            <Text
+                                fontSize={{ base: "md", md: "lg" }}
+                                color="#111111"
+                                lineHeight="1.9"
+                            >
+                                {t('thoughts.principle.subtitle')}
+                            </Text>
+
+                            <Text
+                                fontSize={{ base: "md", md: "lg" }}
+                                color="#111111"
+                                lineHeight="1.9"
+                            >
+                                {t('thoughts.text1')}
+                            </Text>
+
+                            <Text
+                                fontSize={{ base: "md", md: "lg" }}
+                                color="#111111"
+                                lineHeight="1.9"
+                            >
+                                {t('thoughts.text2')}
+                            </Text>
+                        </VStack>
+
+                        {/* CTA Section */}
+                        <Box
+                            ref={ctaRef}
+                            w="full"
+                            pt={{ base: 8, md: 12 }}
+                        >
+                            <VStack spacing={6} align="flex-start" w="full">
+                                <Heading
+                                    fontSize={{ base: "2xl", md: "3xl", lg: "40px" }}
+                                    fontWeight="700"
+                                    color="#111111"
                                     lineHeight="1.3"
-                                    letterSpacing="-0.02em"
-                                    sx={{
-                                        wordBreak: 'keep-all',
-                                        overflowWrap: 'anywhere',
-                                        lineBreak: 'strict'
-                                    }}
                                 >
-                                    <TranslatedText as="span" translationKey="thoughts.principle.title" staggerDelay={0.1} />
-                                </Text>
+                                    {t('thoughts.cta.title')}
+                                </Heading>
                                 <Text
-                                    fontSize={{ base: "lg", md: "xl" }}
+                                    fontSize={{ base: "md", md: "lg" }}
                                     color="#6e6e73"
-                                    textAlign="center"
                                     lineHeight="1.8"
-                                    maxW="4xl"
-                                    fontWeight="500"
-                                    sx={{
-                                        wordBreak: 'keep-all',
-                                        overflowWrap: 'anywhere',
-                                        lineBreak: 'strict'
-                                    }}
                                 >
-                                    <TranslatedText as="span" translationKey="thoughts.principle.subtitle" staggerDelay={0.12} />
+                                    {t('thoughts.cta.subtitle')}
                                 </Text>
+
+                                <VStack spacing={10} align="center" w="full" pt={4}>
+                                    <Button
+                                        onClick={onOpen}
+                                        size="lg"
+                                        h="64px"
+                                        px={12}
+                                        bg="#e08e46"
+                                        color="white"
+                                        fontSize="lg"
+                                        fontWeight="700"
+                                        borderRadius="full"
+                                        boxShadow="0 4px 20px rgba(224, 142, 70, 0.3)"
+                                        _hover={{
+                                            bg: "#d17d3a",
+                                            transform: "translateY(-2px)",
+                                            boxShadow: "0 8px 30px rgba(224, 142, 70, 0.4)"
+                                        }}
+                                        _active={{
+                                            transform: "translateY(0px)"
+                                        }}
+                                        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                                    >
+                                        {t('thoughts.cta.button')}
+                                    </Button>
+
+                                    <Text
+                                        fontSize={{ base: "sm", md: "md" }}
+                                        color="#6e6e73"
+                                        textAlign="center"
+                                        fontWeight="500"
+                                    >
+                                        {t('thoughts.cta.benefits')}
+                                    </Text>
+                                </VStack>
                             </VStack>
                         </Box>
 
-                        {/* Main Content - Balanced */}
-                        <VStack spacing={10} align="center" w="full" maxW="4xl" py={{ base: 8, md: 12 }}>
-                            <Text
-                                ref={(el) => { textRefs.current[0] = el; }}
-                                fontSize={{ base: "xl", md: "2xl" }}
-                                color="#111111"
-                                lineHeight="1.8"
-                                fontWeight="500"
-                                textAlign="center"
-                                sx={{
-                                    wordBreak: 'keep-all',
-                                    overflowWrap: 'anywhere',
-                                    lineBreak: 'strict'
-                                }}
-                            >
-                                <TranslatedText as="span" translationKey="thoughts.text1" staggerDelay={0.1} />
-                            </Text>
-
-                            <Text
-                                ref={(el) => { textRefs.current[1] = el; }}
-                                fontSize={{ base: "xl", md: "2xl" }}
-                                color="#111111"
-                                lineHeight="1.8"
-                                fontWeight="500"
-                                textAlign="center"
-                                sx={{
-                                    wordBreak: 'keep-all',
-                                    overflowWrap: 'anywhere',
-                                    lineBreak: 'strict'
-                                }}
-                            >
-                                <TranslatedText as="span" translationKey="thoughts.text2" staggerDelay={0.12} />
-                            </Text>
-                        </VStack>
-
-                        {/* お問い合わせ CTA - Balanced */}
-                        <VStack
-                            ref={ctaRef}
-                            spacing={8}
-                            w="full"
-                            maxW="5xl"
-                            py={{ base: 16, md: 20 }}
-                        >
-                            <VStack spacing={5} align="center">
-                                <Heading
-                                    fontSize={{ base: "3xl", md: "4xl", lg: "56px" }}
-                                    fontWeight="800"
-                                    color="#111111"
-                                    textAlign="center"
-                                    lineHeight="1.2"
-                                    letterSpacing="-0.03em"
-                                    sx={{
-                                        wordBreak: 'keep-all',
-                                        overflowWrap: 'anywhere',
-                                        lineBreak: 'strict'
-                                    }}
-                                >
-                                    <TranslatedText as="span" translationKey="thoughts.cta.title" staggerDelay={0.1} />
-                                </Heading>
-                                <Text
-                                    fontSize={{ base: "lg", md: "xl" }}
-                                    color="#6e6e73"
-                                    textAlign="center"
-                                    maxW="2xl"
-                                    lineHeight="1.8"
-                                    fontWeight="500"
-                                    sx={{
-                                        wordBreak: 'keep-all',
-                                        overflowWrap: 'anywhere',
-                                        lineBreak: 'strict'
-                                    }}
-                                >
-                                    <TranslatedText as="span" translationKey="thoughts.cta.subtitle" staggerDelay={0.12} />
-                                </Text>
-                            </VStack>
-
-                            <Button
-                                onClick={onOpen}
-                                size="lg"
-                                h="72px"
-                                px={16}
-                                bg="#e08e46"
-                                color="white"
-                                fontSize="xl"
-                                fontWeight="700"
-                                borderRadius="full"
-                                boxShadow="0 6px 24px rgba(224, 142, 70, 0.3)"
-                                _hover={{
-                                    bg: "#d17d3a",
-                                    transform: "translateY(-4px)",
-                                    boxShadow: "0 12px 40px rgba(224, 142, 70, 0.4)"
-                                }}
-                                _active={{
-                                    transform: "translateY(-2px)"
-                                }}
-                                transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                            >
-                                {t('thoughts.cta.button')}
-                            </Button>
-
-                            <Text
-                                fontSize={{ base: "sm", md: "md" }}
-                                color="#6e6e73"
-                                textAlign="center"
-                                fontWeight="500"
-                            >
-                                {t('thoughts.cta.benefits')}
-                            </Text>
-                        </VStack>
                     </VStack>
                 </Container>
             </Box>

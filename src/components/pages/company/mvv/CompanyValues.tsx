@@ -131,6 +131,7 @@ export default function CompanyValues() {
     return (
         <MVVCard
             title={t('mvv.values.title')}
+            titleKey="mvv.values.title"
             titleEn={t('mvv.values.titleEn')}
         >
             <SimpleGrid 
@@ -144,12 +145,12 @@ export default function CompanyValues() {
                     <Box
                         key={index}
                         ref={(el) => { valueRefs.current[index] = el }}
-                        bg={cardBg}
-                        p={5}
-                        borderRadius="2xl"
-                        boxShadow="xl"
+                        bg="white"
+                        p={6}
+                        borderRadius="xl"
+                        boxShadow="sm"
                         borderWidth="1px"
-                        borderColor={borderColor}
+                        borderColor="gray.200"
                         position="relative"
                         transition="none"
                         style={{ willChange: 'transform' }}
@@ -163,36 +164,33 @@ export default function CompanyValues() {
                             top={0}
                             left={0}
                             right={0}
-                            h={2}
-                            bg={accentColor}
-                            borderTopRadius="2xl"
+                            h="3px"
+                            bg="#E19C49"
+                            borderTopRadius="xl"
                         />
-                        <VStack align="start" spacing={6} w="full" maxW="100%" minW={0}>
-                            <Flex align="center" gap={4} w="full" maxW="100%" minW={0}>
+                        <VStack align="start" spacing={4} w="full" maxW="100%" minW={0}>
+                            <Flex align="center" gap={3} w="full" maxW="100%" minW={0}>
                                 <Flex
-                                    w={12}
-                                    h={12}
-                                    bg={bgColor1}
-                                    color={accentColor}
-                                    borderRadius="xl"
+                                    w={10}
+                                    h={10}
+                                    bg="rgba(225, 156, 73, 0.1)"
+                                    color="#E19C49"
+                                    borderRadius="lg"
                                     align="center"
                                     justify="center"
                                     transition="all 0.3s"
                                     flexShrink={0}
-                                    _hover={{
-                                        transform: 'scale(1.1)',
-                                    }}
                                 >
-                                    <Icon 
-                                        as={value.icon} 
-                                        boxSize={6}
+                                    <Icon
+                                        as={value.icon}
+                                        boxSize={5}
                                     />
                                 </Flex>
                                 <VStack align="start" spacing={1} flex={1} minW={0} maxW="100%">
-                                    <Text 
-                                        fontSize="xl" 
-                                        fontWeight="bold" 
-                                        color={textColor}
+                                    <Text
+                                        fontSize="lg"
+                                        fontWeight="700"
+                                        color="gray.900"
                                         w="full"
                                         maxW="100%"
                                         sx={{
@@ -203,11 +201,11 @@ export default function CompanyValues() {
                                     >
                                         {value.title}
                                     </Text>
-                                    <Text 
-                                        fontSize="sm" 
-                                        color={accentColor}
-                                        fontWeight="semibold"
-                                        letterSpacing="wider"
+                                    <Text
+                                        fontSize="xs"
+                                        color="gray.500"
+                                        fontWeight="500"
+                                        letterSpacing="0.05em"
                                         w="full"
                                         maxW="100%"
                                         sx={{
@@ -220,9 +218,9 @@ export default function CompanyValues() {
                                     </Text>
                                 </VStack>
                             </Flex>
-                            <Text 
-                                fontSize="md" 
-                                color={textColor}
+                            <Text
+                                fontSize="sm"
+                                color="gray.700"
                                 lineHeight="1.8"
                                 w="full"
                                 maxW="100%"

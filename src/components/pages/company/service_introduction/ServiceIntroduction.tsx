@@ -1,11 +1,13 @@
 'use client';
 
-import { Box, Container, Flex, Heading, VStack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, VStack, Text, useColorModeValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { ServiceCard } from "./ServiceCard";
+import { useLanguage } from '@/contexts/LanguageContext';
+import TranslatedText from '@/components/common/TranslatedText';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +17,7 @@ const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
 
 export default function ServiceIntroduction() {
+    const { t } = useLanguage();
     const headingRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement>(null);
 
@@ -65,17 +68,16 @@ export default function ServiceIntroduction() {
                                 color="orange.500"
                                 letterSpacing="wide"
                             >
-                                事業紹介
+                                <TranslatedText as="span" translationKey="service.introduction.heading" staggerDelay={0.08} />
                             </Heading>
-                            <Heading
-                                as="h3"
-                                fontSize={{ base: "xl", md: "2xl" }}
-                                fontWeight="bold"
-                                color="gray.500"
-                                letterSpacing="wider"
+                            <Text
+                                color="#6e6e73"
+                                fontSize={{ base: "lg", md: "xl" }}
+                                letterSpacing="0.1em"
+                                fontWeight="600"
                             >
-                                SERVICE INTRODUCTION
-                            </Heading>
+                                {t('service.introduction.subheading')}
+                            </Text>
                         </VStack>
                     </motion.div>
 

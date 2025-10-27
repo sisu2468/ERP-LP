@@ -5,12 +5,13 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { MVVCardProps } from "@/constant/MVVCard";
+import TranslatedText from '@/components/common/TranslatedText';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function MVVCard({ title, titleEn, subtitle, subtitleEn, description, children, setHeight, ...props }: MVVCardProps) {
+export default function MVVCard({ title, titleEn, subtitle, subtitleEn, description, children, setHeight, titleKey, subtitleKey, ...props }: MVVCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const cardBg = useColorModeValue('white', 'gray.800');
     const borderColor = useColorModeValue('gray.200', 'gray.700');
@@ -78,16 +79,16 @@ export default function MVVCard({ title, titleEn, subtitle, subtitleEn, descript
     }, [accentColor, borderColor]);
 
     return (
-        <Box pt={16} transition="background-color 0.2s" w="full">
+        <Box transition="background-color 0.2s" w="full">
             <Box
                 ref={cardRef}
-                bg={cardBg}
-                p={8}
+                bg="white"
+                p={{ base: 8, md: 10 }}
                 h="full"
-                borderRadius="2xl"
-                boxShadow="xl"
+                borderRadius="xl"
+                boxShadow="sm"
                 borderWidth="1px"
-                borderColor={borderColor}
+                borderColor="gray.200"
                 transition="all 0.3s"
                 position="relative"
                 style={{ willChange: 'transform' }}
@@ -98,31 +99,36 @@ export default function MVVCard({ title, titleEn, subtitle, subtitleEn, descript
                     top={0}
                     left={0}
                     right={0}
-                    h={2}
-                    bg={accentColor}
-                    borderTopRadius="2xl"
+                    h="4px"
+                    bg="#E19C49"
+                    borderTopRadius="xl"
                 />
 
-                <VStack spacing={8} align="start">
+                <VStack spacing={6} align="start">
                     <VStack spacing={2} align="start" w="full">
                         <Heading
                             as="h3"
-                            fontSize={{ base: "3xl", md: "4xl" }}
-                            bgGradient={`linear(to-r, ${accentColor}, ${useColorModeValue('orange.600', 'orange.400')})`}
-                            bgClip="text"
+                            fontSize={{ base: "2xl", md: "3xl" }}
+                            color="gray.900"
+                            fontWeight="700"
+                            letterSpacing="-0.02em"
                             sx={{
                                 wordBreak: 'keep-all',
                                 overflowWrap: 'anywhere',
                                 lineBreak: 'strict'
                             }}
                         >
-                            {title}
+                            {titleKey ? (
+                                <TranslatedText as="span" translationKey={titleKey} staggerDelay={0.08} />
+                            ) : (
+                                title
+                            )}
                         </Heading>
                         <Text
-                            fontSize="lg"
+                            fontSize="md"
                             color="gray.500"
-                            letterSpacing="wider"
-                            fontWeight="semibold"
+                            letterSpacing="0.05em"
+                            fontWeight="500"
                         >
                             {titleEn}
                         </Text>
@@ -132,21 +138,27 @@ export default function MVVCard({ title, titleEn, subtitle, subtitleEn, descript
                         <VStack spacing={2} align="start" w="full">
                             <Heading
                                 as="h4"
-                                fontSize={{ base: "xl", md: "2xl" }}
-                                color={textColor}
+                                fontSize={{ base: "lg", md: "xl" }}
+                                color="gray.800"
+                                fontWeight="600"
                                 sx={{
                                     wordBreak: 'keep-all',
                                     overflowWrap: 'anywhere',
                                     lineBreak: 'strict'
                                 }}
                             >
-                                {subtitle}
+                                {subtitleKey ? (
+                                    <TranslatedText as="span" translationKey={subtitleKey} staggerDelay={0.06} />
+                                ) : (
+                                    subtitle
+                                )}
                             </Heading>
                             {subtitleEn && (
-                                <Text 
-                                    fontSize="md" 
-                                    color={subTextColor}
-                                    letterSpacing="wide"
+                                <Text
+                                    fontSize="sm"
+                                    color="gray.500"
+                                    letterSpacing="0.05em"
+                                    fontWeight="500"
                                 >
                                     {subtitleEn}
                                 </Text>
@@ -156,9 +168,9 @@ export default function MVVCard({ title, titleEn, subtitle, subtitleEn, descript
 
                     {description && (
                         <Text
-                            color={subTextColor}
+                            color="gray.700"
                             fontSize={{ base: "md", md: "lg" }}
-                            lineHeight="tall"
+                            lineHeight="1.9"
                             whiteSpace="pre-wrap"
                             sx={{
                                 wordBreak: 'keep-all',
