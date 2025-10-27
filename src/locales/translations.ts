@@ -215,7 +215,7 @@ export const translations = {
     // Philosophy - Creation Section
     'philosophy.creation.badge': '創造',
     'philosophy.creation.title': '創造とは？',
-    'philosophy.creation.p1': '私は、かなり理想的な人だと思う。',
+    'philosophy.creation.p1': '私は、理想主義者だと思う。',
     'philosophy.creation.p2': '私はずっとこう信じてきた——無から何かを生み出す力、人間の創意工夫が世界を変えるという信念を。だが、私たちは矛盾の時代に生きている。',
     'philosophy.creation.p3': '人類の社会は創造の上に成り立っているのに、この時代は大量消費で定義されている。果てしなく何かが生み出されるが、その多くは消費され、忘却される。',
     'philosophy.creation.p4': 'テクノロジーとは、私が理解するところでは、人類に最高の自由をもたらすか、最深の隷属をもたらすか、そのどちらかである。',
