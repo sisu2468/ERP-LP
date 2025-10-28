@@ -148,6 +148,7 @@ export default function CreationSection() {
                                 <Text>{t('philosophy.creation.p4')}</Text>
                                 <Text>{t('philosophy.creation.p5')}</Text>
                                 <Text>{t('philosophy.creation.p6')}</Text>
+                                <Text>{t('philosophy.creation.p7')}</Text>
 
                                 <Box
                                     w="100%"
@@ -173,13 +174,12 @@ export default function CreationSection() {
                                     </VStack>
                                 </Box>
 
-                                <Text>{t('philosophy.creation.p7')}</Text>
+                               
 
                                 <Text fontWeight="600" fontSize={{ base: "lg", md: "xl" }} color="gray.900">
                                     {t('philosophy.creation.p8')}
                                 </Text>
 
-                                {/* Final statement - subtle emphasis */}
                                 <Text
                                     fontWeight="700"
                                     fontSize={{ base: "xl", md: "2xl" }}
@@ -216,12 +216,15 @@ export default function CreationSection() {
                             display={{ base: "block", lg: "none" }}
                             maxW="400px"
                             mx="auto"
+                            overflow="hidden"
                         >
                             <Image
                                 src="/images/philo/bodyimage.jpg"
                                 alt="Philosophy"
                                 w="100%"
                                 h="auto"
+                                objectFit="cover"
+                                objectPosition="60% center"
                             />
                         </Box>
 

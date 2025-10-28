@@ -66,7 +66,7 @@ export default function PhilosophyHero() {
                 right={0}
                 bottom={0}
                 bgImage="/images/philo/heroimage.png"
-                bgPosition="center"
+                bgPosition={{ base: "80% center", md: "center" }}
                 bgSize="cover"
                 _after={{
                     content: '""',

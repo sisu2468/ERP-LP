@@ -124,7 +124,6 @@ export default function TimeSection() {
                         <Text>{t('philosophy.time.p1')}</Text>
                         <Text>{t('philosophy.time.p2')}</Text>
                         <Text>{t('philosophy.time.p3')}</Text>
-                        <Text>{t('philosophy.time.p4')}</Text>
 
                         {/* Key quote with subtle border */}
                         <Box

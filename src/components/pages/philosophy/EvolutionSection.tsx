@@ -12,7 +12,7 @@ if (typeof window !== 'undefined') {
 }
 
 export default function EvolutionSection() {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const sectionRef = useRef(null);
     const contentRef = useRef(null);
 
@@ -126,6 +126,9 @@ export default function EvolutionSection() {
                         <Text>{t('philosophy.evolution.p3')}</Text>
                         <Text>{t('philosophy.evolution.p4')}</Text>
                         <Text>{t('philosophy.evolution.p5')}</Text>
+                        {language !== 'ja' && (
+                            <Text>{t('philosophy.evolution.p6')}</Text>
+                        )}
 
                         {/* Key promise - with subtle border */}
                         <Box
@@ -150,10 +153,6 @@ export default function EvolutionSection() {
                             pt={6}
                         >
                             {t('philosophy.evolution.final')}
-                        </Text>
-
-                        <Text fontWeight="500" fontSize={{ base: "lg", md: "xl" }} color="gray.700" pt={2}>
-                            {t('philosophy.evolution.closing')}
                         </Text>
                     </VStack>
                 </VStack>
