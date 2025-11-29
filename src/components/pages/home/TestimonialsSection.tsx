@@ -10,9 +10,9 @@ import {
     Avatar,
     HStack,
     Icon,
-    keyframes,
     Badge,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { FaStar } from 'react-icons/fa';
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';

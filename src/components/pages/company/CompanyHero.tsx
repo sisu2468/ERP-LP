@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Container, Heading, Text, VStack, keyframes } from "@chakra-ui/react";
+import { Box, Container, Heading, Text, VStack } from "@chakra-ui/react";
+import { keyframes } from '@emotion/react';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

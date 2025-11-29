@@ -9,8 +9,8 @@ import {
     HStack,
     Badge,
     SimpleGrid,
-    keyframes,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import Image from 'next/image';
 import ScrollReveal from '@/components/common/ScrollReveal';
 import { useLanguage } from '@/contexts/LanguageContext';

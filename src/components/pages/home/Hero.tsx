@@ -9,9 +9,9 @@ import {
     VStack,
     HStack,
     SimpleGrid,
-    keyframes,
     useDisclosure,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { FaRocket, FaYenSign } from 'react-icons/fa';
 import { FiLayers } from 'react-icons/fi';
 import { useEffect, useRef, useCallback, useState } from 'react';

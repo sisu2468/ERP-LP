@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Box, Icon, keyframes } from '@chakra-ui/react';
+import { Box, Icon } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 
 interface Tag {
   text: string;

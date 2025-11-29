@@ -1,7 +1,8 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Box, Button, Container, Flex, Grid, Heading, Icon, Text, VStack, keyframes, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Grid, Heading, Icon, Text, VStack, useDisclosure } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { CheckCircleIcon } from '@chakra-ui/icons';

@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, keyframes } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEffect, useRef, useState } from 'react';
 

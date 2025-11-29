@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Container, Heading, Text, VStack, Button, keyframes, HStack, Icon } from '@chakra-ui/react';
+import { Box, Container, Heading, Text, VStack, Button, HStack, Icon } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { FaHome, FaArrowRight, FaExclamationTriangle } from 'react-icons/fa';
 import SLink from '@/components/SLink';
 import Image from 'next/image';

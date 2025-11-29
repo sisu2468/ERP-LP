@@ -9,9 +9,9 @@ import {
   MenuList,
   HStack,
   Text,
-  keyframes,
   useColorMode,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { FaGlobe, FaCheck } from 'react-icons/fa';
 import { useLanguage, Language } from '@/contexts/LanguageContext';
 import { useState } from 'react';

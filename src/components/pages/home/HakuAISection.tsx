@@ -10,8 +10,8 @@ import {
     SimpleGrid,
     Icon,
     Badge,
-    keyframes,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { HiSparkles } from 'react-icons/hi';
 import { FaFileCsv, FaFilePdf, FaImage, FaArrowRight } from 'react-icons/fa';
 import Image from 'next/image';
