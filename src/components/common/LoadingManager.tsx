@@ -1,43 +1,65 @@
 'use client';
 
 import { Box } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import LoadingAnimation from './LoadingAnimation';
 
 interface LoadingManagerProps {
   children: React.ReactNode;
   duration?: number;
+  transitionDuration?: number;
 }
 
 export default function LoadingManager({
   children,
-  duration = 2000
+  duration = 2000,
+  transitionDuration = 1200
 }: LoadingManagerProps) {
   const pathname = usePathname();
   const [showLoader, setShowLoader] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [currentDuration, setCurrentDuration] = useState(duration);
+  const previousPathRef = useRef<string | null>(null);
+  const isFirstLoad = useRef(true);
 
   const isHomePage = pathname === '/' || pathname === '/home';
 
   useEffect(() => {
-    // Only show loader on home page, every time
-    if (isHomePage) {
+    // First load - show full loader on home page
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      if (isHomePage) {
+        setCurrentDuration(duration);
+        setShowLoader(true);
+        setIsReady(false);
+      } else {
+        // First load on non-home page - show shorter transition
+        setCurrentDuration(transitionDuration);
+        setShowLoader(true);
+        setIsReady(false);
+      }
+      previousPathRef.current = pathname;
+      return;
+    }
+
+    // Subsequent navigations - detect pathname change
+    if (previousPathRef.current !== pathname) {
+      previousPathRef.current = pathname;
+      // Show shorter transition animation for page changes
+      setCurrentDuration(transitionDuration);
       setShowLoader(true);
       setIsReady(false);
-    } else {
-      setShowLoader(false);
-      setIsReady(true);
     }
-  }, [isHomePage]);
+  }, [pathname, isHomePage, duration, transitionDuration]);
 
   const handleLoadingComplete = () => {
     setShowLoader(false);
     setIsReady(true);
   };
 
-  // Show loading placeholder only on home page before loader starts
-  if (isHomePage && !isReady && !showLoader) {
+  // Show loading placeholder before loader starts
+  if (!isReady && !showLoader) {
     return (
       <Box
         position="fixed"
@@ -56,7 +78,7 @@ export default function LoadingManager({
       {showLoader && (
         <LoadingAnimation
           onLoadingComplete={handleLoadingComplete}
-          duration={duration}
+          duration={currentDuration}
         />
       )}
       <Box

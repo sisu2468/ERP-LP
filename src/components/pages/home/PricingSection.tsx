@@ -582,11 +582,12 @@ export default function PricingSection() {
                         </Box>
                     </ScrollReveal>
 
-                    {/* Bottom note */}
+                    {/* Bottom note - also hidden on mobile since it relates to comparison table */}
                     <Text
                         fontSize="sm"
                         color="#6e6e73"
                         textAlign="center"
+                        display={{ base: 'none', lg: 'block' }}
                     >
                         {t('core.pricing.trial')}
                     </Text>
