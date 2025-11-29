@@ -12,22 +12,17 @@ import {
     Icon,
     keyframes,
 } from '@chakra-ui/react';
-import { 
-    FaCheckCircle, 
-    FaArrowRight, 
+import {
+    FaCheckCircle,
     FaChartLine,
     FaBullhorn,
     FaHandshake,
     FaPalette,
     FaYenSign
 } from 'react-icons/fa';
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import TranslatedText from '@/components/common/TranslatedText';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
@@ -45,67 +40,8 @@ const shimmer = keyframes`
 `;
 
 export default function ProblemSection() {
-    const { t } = useLanguage(); // 理志：言語翻訳用フックを追加
-    const headingRef = useRef(null);
-    const problemsRef = useRef<HTMLDivElement>(null);
-    const solutionRef = useRef(null);
+    const { t } = useLanguage();
     const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    useEffect(() => {
-        gsap.fromTo(headingRef.current,
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: headingRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        //　理志：アニメーションを追加、スタート位置を調整
-        if (cardRefs.current.length > 0) {
-            gsap.fromTo(cardRefs.current,
-                { opacity: 0, y: 60, scale: 0.95 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: problemsRef.current,
-                        start: "top 75%",
-                        toggleActions: "play none none reverse"
-                    }
-                }
-            );
-        }
-
-        gsap.fromTo(solutionRef.current,
-            { opacity: 0, scale: 0.95 },
-            {
-                opacity: 1,
-                scale: 1,
-                duration: 1,
-                delay: 0.4,
-                scrollTrigger: {
-                    trigger: solutionRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        };
-    }, []);
 
     const problems = [
         { 
@@ -156,33 +92,11 @@ export default function ProblemSection() {
     ];
 
     return (
-        <Box 
+        <Box
             py={{ base: 20, md: 28 }}
             bg="#fafafa"
-            position="relative"
-            overflow="hidden"
         >
-            {/* SVGバックグラウンド */}
-            <Box
-                position="absolute"
-                top="10%"
-                right="-5%"
-                w="400px"
-                h="400px"
-                opacity={0.15}
-            >
-                <svg width="100%" height="100%" viewBox="0 0 400 400">
-                    <defs>
-                        <linearGradient id="problemGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#e08e46" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#f4a460" stopOpacity="0.1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="200" cy="200" r="150" fill="url(#problemGrad)" />
-                </svg>
-            </Box>
-
-            <Container maxW="7xl" position="relative" zIndex={1}>
+            <Container maxW="7xl">
                 <VStack spacing={20}>
                     <VStack spacing={6} textAlign="center" maxW="3xl" mx="auto">
                         <Badge
@@ -199,7 +113,6 @@ export default function ProblemSection() {
                             {t('problem.badge')}
                         </Badge>
                         <Heading
-                            ref={headingRef}
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl", lg: "52px" }}
                             fontWeight="700"
@@ -216,7 +129,6 @@ export default function ProblemSection() {
                     </VStack>
 
                     <SimpleGrid
-                        ref={problemsRef}
                         columns={{ base: 1, md: 2 }}
                         spacing={6}
                         w="full"
@@ -228,7 +140,6 @@ export default function ProblemSection() {
                             return (
                                 <Box
                                     key={index}
-                                    ref={(el) => { cardRefs.current[index] = el; }}
                                     position="relative"
                                     p={8}
                                     bg="white"
@@ -321,7 +232,6 @@ export default function ProblemSection() {
                     </SimpleGrid>
 
                     <Box
-                        ref={solutionRef}
                         position="relative"
                         w="full"
                         maxW="5xl"

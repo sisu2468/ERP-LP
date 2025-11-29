@@ -1,93 +1,70 @@
 'use client';
 
-import { Box, useColorMode } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import LoadingAnimation from './LoadingAnimation';
 
 interface LoadingManagerProps {
   children: React.ReactNode;
-  imageUrls?: string[];
-  minLoadingTime?: number;
+  duration?: number;
 }
 
-export default function LoadingManager({ 
-  children, 
-  imageUrls = [], 
-  minLoadingTime = 2000 
+export default function LoadingManager({
+  children,
+  duration = 2000
 }: LoadingManagerProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
-  const [startTime] = useState(Date.now());
-  const { colorMode } = useColorMode();
+  const pathname = usePathname();
+  const [showLoader, setShowLoader] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  const isHomePage = pathname === '/' || pathname === '/home';
 
   useEffect(() => {
-    if (imageUrls.length === 0) {
-      // If no images to preload, just wait for minimum time
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, minLoadingTime);
-      return () => clearTimeout(timer);
+    // Only show loader on home page, every time
+    if (isHomePage) {
+      setShowLoader(true);
+      setIsReady(false);
+    } else {
+      setShowLoader(false);
+      setIsReady(true);
     }
-
-    let loadedCount = 0;
-    const totalImages = imageUrls.length;
-
-    const preloadImage = (url: string): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          loadedCount++;
-          setImagesLoaded(loadedCount);
-          resolve();
-        };
-        img.onerror = () => {
-          loadedCount++;
-          setImagesLoaded(loadedCount);
-          resolve(); // Resolve even on error to continue loading
-        };
-        img.src = url;
-      });
-    };
-
-    const preloadAllImages = async () => {
-      try {
-        await Promise.all(imageUrls.map(preloadImage));
-      } catch (error) {
-        console.warn('Some images failed to load:', error);
-      }
-
-      // Ensure minimum loading time
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
-
-      setTimeout(() => {
-        setIsLoading(false);
-      }, remainingTime);
-    };
-
-    preloadAllImages();
-  }, [imageUrls, minLoadingTime, startTime]);
+  }, [isHomePage]);
 
   const handleLoadingComplete = () => {
-    setIsLoading(false);
+    setShowLoader(false);
+    setIsReady(true);
   };
 
+  // Show loading placeholder only on home page before loader starts
+  if (isHomePage && !isReady && !showLoader) {
+    return (
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        width="100vw"
+        height="100vh"
+        bg="#fafafa"
+        zIndex={9999}
+      />
+    );
+  }
+
   return (
-    <Box position="relative">
-      {isLoading && (
-        <LoadingAnimation 
+    <>
+      {showLoader && (
+        <LoadingAnimation
           onLoadingComplete={handleLoadingComplete}
-          duration={minLoadingTime}
+          duration={duration}
         />
       )}
-      
       <Box
-        opacity={isLoading ? 0 : 1}
-        transition="opacity 0.5s ease-in-out"
-        pointerEvents={isLoading ? 'none' : 'auto'}
+        opacity={isReady ? 1 : 0}
+        transition="opacity 0.3s ease-in-out"
       >
         {children}
       </Box>
-    </Box>
+    </>
   );
-} 
+}

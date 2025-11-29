@@ -18,71 +18,20 @@ import {
     FaUsers,
     FaArrowRight,
 } from 'react-icons/fa';
-import Button_Blue from '../../buttons/Button_Blue';
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCallback } from 'react';
 import InquiryModal from '../../common/InquiryModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import TranslatedText from '@/components/common/TranslatedText';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function CTASection() {
-    const { t } = useLanguage(); // 理志：言語翻訳用フックを追加
-    const headingRef = useRef(null);
-    const cardsGridRef = useRef(null);
-    const ctaBoxRef = useRef(null);
+    const { t } = useLanguage();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    useEffect(() => {
-        gsap.fromTo(headingRef.current,
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                scrollTrigger: {
-                    trigger: headingRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        gsap.fromTo(cardsGridRef.current,
-            { opacity: 0 },
-            {
-                opacity: 1,
-                duration: 0.8,
-                scrollTrigger: {
-                    trigger: cardsGridRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        const ctaBox = ctaBoxRef.current;
-        if (ctaBox) {
-            gsap.fromTo(ctaBox,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.6,
-                    scrollTrigger: {
-                        trigger: ctaBox,
-                        start: "top 85%",
-                        toggleActions: "play none none reverse"
-                    }
-                }
-            );
+    const scrollToSection = useCallback((id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
         }
-
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        };
     }, []);
 
     const benefits = [
@@ -112,11 +61,10 @@ export default function CTASection() {
         >
             <Container maxW="7xl">
                 <VStack spacing={16}>
-                    <VStack 
-                        ref={headingRef}
-                        spacing={4} 
-                        textAlign="center" 
-                        maxW="3xl" 
+                    <VStack
+                        spacing={4}
+                        textAlign="center"
+                        maxW="3xl"
                         mx="auto"
                     >
                         <Heading 
@@ -136,7 +84,6 @@ export default function CTASection() {
                     </VStack>
 
                     <SimpleGrid
-                        ref={cardsGridRef}
                         columns={{ base: 1, lg: 3 }}
                         spacing={6}
                         width="full"
@@ -188,7 +135,6 @@ export default function CTASection() {
                     </SimpleGrid>
 
                     <Box
-                        ref={ctaBoxRef}
                         bg="#fafafa"
                         w="full"
                         p={12}
@@ -211,21 +157,22 @@ export default function CTASection() {
                                 pt={4}
                                 w="full"
                             >
+                                {/* Primary CTA - Orange with glow */}
                                 <Button
                                     size="lg"
-                                    bg="#e08e46"
+                                    bg="linear-gradient(135deg, #e08e46 0%, #f4a460 100%)"
                                     color="white"
                                     px={{ base: 6, md: 10 }}
                                     h="56px"
                                     fontSize={{ base: "sm", md: "md" }}
-                                    fontWeight="600"
+                                    fontWeight="700"
                                     borderRadius="full"
                                     onClick={onOpen}
                                     rightIcon={<FaArrowRight />}
+                                    boxShadow="0 4px 14px rgba(224, 142, 70, 0.4)"
                                     _hover={{
-                                        bg: "#d17d35",
                                         transform: "translateY(-2px)",
-                                        boxShadow: "0 4px 12px rgba(224, 142, 70, 0.3)",
+                                        boxShadow: "0 8px 24px rgba(224, 142, 70, 0.5)",
                                     }}
                                     _active={{
                                         transform: "translateY(0)",
@@ -237,9 +184,33 @@ export default function CTASection() {
                                     {t('cta.final.button1')}
                                 </Button>
                                 <InquiryModal isOpen={isOpen} onClose={onClose} />
-                                <Button_Blue href="/pricing">
+                                {/* Secondary CTA - Glassy with orange accent */}
+                                <Button
+                                    size="lg"
+                                    h="56px"
+                                    px={{ base: 6, md: 10 }}
+                                    bg="rgba(255, 255, 255, 0.8)"
+                                    backdropFilter="blur(10px)"
+                                    color="#111111"
+                                    fontWeight="700"
+                                    borderRadius="full"
+                                    border="1px solid"
+                                    borderColor="rgba(224, 142, 70, 0.3)"
+                                    fontSize={{ base: "sm", md: "md" }}
+                                    onClick={() => scrollToSection('pricing')}
+                                    _hover={{
+                                        bg: 'rgba(255, 255, 255, 0.95)',
+                                        borderColor: '#e08e46',
+                                        transform: 'translateY(-2px)',
+                                        boxShadow: '0 8px 24px rgba(224, 142, 70, 0.2)',
+                                    }}
+                                    _active={{
+                                        transform: 'translateY(0)',
+                                    }}
+                                    transition="all 0.2s"
+                                >
                                     {t('cta.final.button2')}
-                                </Button_Blue>
+                                </Button>
                             </Flex>
                         </VStack>
                     </Box>

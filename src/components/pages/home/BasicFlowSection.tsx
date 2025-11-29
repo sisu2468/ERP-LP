@@ -9,53 +9,12 @@ import {
     VStack,
     Badge,
 } from '@chakra-ui/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import TranslatedText from '@/components/common/TranslatedText';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function BasicFlowSection() {
-    const { t } = useLanguage(); // 理志：言語翻訳用フックを追加
-    const headingRef = useRef(null);
-    const stepsRef = useRef(null);
-
-    useEffect(() => {
-        gsap.fromTo(headingRef.current,
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: headingRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        gsap.fromTo(stepsRef.current,
-            { opacity: 0 },
-            {
-                opacity: 1,
-                duration: 1,
-                delay: 0.2,
-                scrollTrigger: {
-                    trigger: stepsRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        };
-    }, []);
+    const { t } = useLanguage();
 
     const steps = [
         {
@@ -76,10 +35,9 @@ export default function BasicFlowSection() {
     ];
 
     return (
-        <Box 
-            py={{ base: 16, md: 24 }}
-            bg="#fafafa"
-            position="relative"
+        <Box
+            py={{ base: 20, md: 28 }}
+            bg="white"
         >
             <Container maxW="7xl" position="relative" zIndex={1}>
                 <VStack spacing={16}>
@@ -98,7 +56,6 @@ export default function BasicFlowSection() {
                             {t('basicflow.badge')}
                         </Badge>
                         <Heading
-                            ref={headingRef}
                             as="h2"
                             fontSize={{ base: "3xl", md: "4xl", lg: "52px" }}
                             fontWeight="600"
@@ -111,7 +68,6 @@ export default function BasicFlowSection() {
                     </VStack>
 
                     <SimpleGrid
-                        ref={stepsRef}
                         columns={{ base: 1, md: 3 }}
                         spacing={6}
                         w="full"

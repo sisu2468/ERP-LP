@@ -1,8 +1,8 @@
 import ScrollButtons from "@/components/common/ScrollButtons";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import LoadingManager from "@/components/common/LoadingManager";
 import LanguageWrapper from "@/components/common/LanguageWrapper";
+import LoadingManager from "@/components/common/LoadingManager";
 import { Box } from "@chakra-ui/react";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
@@ -35,22 +35,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Define images to preload for better loading experience
-  const imagesToPreload = [
-    '/hero/woman_half.png',
-    // Add more image paths as needed
-  ];
-
   return (
     <html lang="ja">
       <body>
         <Providers>
           <LanguageWrapper>
-            <LoadingManager 
-              imageUrls={imagesToPreload}
-              minLoadingTime={3000}
-            >
-              <Box className="flex flex-col justify-between">
+            <LoadingManager duration={2000}>
+              <Box className="flex flex-col min-h-screen">
                 <Header />
                 <main className="flex-grow">
                   {children}

@@ -14,63 +14,18 @@ import {
     Badge,
 } from '@chakra-ui/react';
 import { FaStar } from 'react-icons/fa';
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import TranslatedText from '@/components/common/TranslatedText';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-8px); }
 `;
 
-const shimmer = keyframes`
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-`;
-
 export default function TestimonialsSection() {
     const { t } = useLanguage();
-    const headingRef = useRef(null);
-    const cardsRef = useRef(null);
     const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-
-    useEffect(() => {
-        gsap.fromTo(headingRef.current,
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: headingRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        gsap.fromTo(cardsRef.current,
-            { opacity: 0 },
-            {
-                opacity: 1,
-                duration: 1,
-                delay: 0.3,
-                scrollTrigger: {
-                    trigger: cardsRef.current,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
-
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        };
-    }, []);
 
     // 理志：証言データ - 翻訳キーを使用
     const testimonials = [
@@ -110,35 +65,13 @@ export default function TestimonialsSection() {
     ];
 
     return (
-        <Box 
+        <Box
             py={{ base: 20, md: 28 }}
-            bg="white"
-            position="relative"
-            overflow="hidden"
+            bg="#fafafa"
         >
-            {/* Decorative Background Elements */}
-            <Box
-                position="absolute"
-                top="5%"
-                left="-10%"
-                w="500px"
-                h="500px"
-                opacity={0.08}
-            >
-                <svg width="100%" height="100%" viewBox="0 0 500 500">
-                    <defs>
-                        <linearGradient id="testimGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#e08e46" stopOpacity="0.4" />
-                            <stop offset="100%" stopColor="#f4a460" stopOpacity="0.1" />
-                        </linearGradient>
-                    </defs>
-                    <polygon points="250,50 450,400 50,400" fill="url(#testimGrad1)" />
-                </svg>
-            </Box>
-
-            <Container maxW="8xl" position="relative" zIndex={1}>
+            <Container maxW="7xl">
                 <VStack spacing={16}>
-                    <VStack spacing={6} textAlign="center" maxW="3xl" mx="auto" ref={headingRef}>
+                    <VStack spacing={6} textAlign="center" maxW="3xl" mx="auto">
                         <Badge
                             px={4}
                             py={2}
@@ -174,7 +107,6 @@ export default function TestimonialsSection() {
                     </VStack>
 
                     <SimpleGrid
-                        ref={cardsRef}
                         columns={{ base: 1, lg: 3 }}
                         spacing={{ base: 6, md: 8 }}
                         w="full"

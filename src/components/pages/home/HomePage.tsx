@@ -1,49 +1,29 @@
 "use client"
 
 import { Box } from "@chakra-ui/react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
-import CTASection from "./CTASection";
-import FAQ from "./faq/FAQ";
 import Hero from "./Hero";
-import ProblemSection from "./ProblemSection";
-import BasicFlowSection from "./BasicFlowSection";
-import TestimonialsSection from "./TestimonialsSection";
-
-gsap.registerPlugin(ScrollTrigger);
+import FeaturesSection from "./FeaturesSection";
+import ModulesSection from "./ModulesSection";
+import PricingSection from "./PricingSection";
+import FAQSection from "./FAQSection";
 
 export default function HomePage() {
-    const sectionsRef = useRef([]);
-
-    useEffect(() => {
-        sectionsRef.current.forEach((section) => {
-            if (!section) return;
-
-            gsap.fromTo(
-                section,
-                { opacity: 0, y: 50 },
-                {
-                    opacity: 1, y: 0, duration: 1.2, ease: "circ.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 72.5%",
-                        toggleActions: "play none none none",
-                        once: true
-                    }
-                }
-            );
-        });
-    }, []);
-    
     return (
         <Box>
+            {/* 1. ヒーローセクション */}
             <Hero />
-            <TestimonialsSection />
-            <ProblemSection />
-            <BasicFlowSection />
-            <CTASection />
-            {/* <FAQ /> */}
+
+            {/* 2. 機能セクション（5つの問題解決） */}
+            <FeaturesSection />
+
+            {/* 3. モジュール機能一覧 */}
+            <ModulesSection />
+
+            {/* 4. 料金プラン */}
+            <PricingSection />
+
+            {/* 5. FAQ */}
+            <FAQSection />
         </Box>
     )
 }
