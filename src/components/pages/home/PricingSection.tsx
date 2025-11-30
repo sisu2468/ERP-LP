@@ -21,12 +21,26 @@ import {
     ListItem,
     ListIcon,
     Tooltip,
+    Button,
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes, FaInfoCircle } from 'react-icons/fa';
 import ScrollReveal from '@/components/common/ScrollReveal';
-import React from 'react';
+import HakuAIText from '@/components/common/HakuAIText';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLanguageAnimation, textReveal } from '@/components/common/LanguageAnimationWrapper';
+import gsap from 'gsap';
+
+// Currency configuration
+type CurrencyType = 'JPY' | 'USD' | 'KRW';
+const currencies: { id: CurrencyType; symbol: string; label: string; rate: number }[] = [
+    { id: 'JPY', symbol: '¥', label: '円', rate: 1 },
+    { id: 'USD', symbol: '$', label: 'USD', rate: 0.0064 }, // ~156 JPY = 1 USD (Nov 2025)
+    { id: 'KRW', symbol: '₩', label: '원', rate: 9.4 }, // ~1 JPY = 9.4 KRW (Nov 2025)
+];
+
+// Slot machine symbols for animation
+const slotSymbols = ['¥', '$', '₩', '€', '£', '฿'];
 
 // Token explanations with hours
 const tokenExplanations: { [key: string]: string } = {
@@ -41,6 +55,28 @@ const featureTokenPatterns: { pattern: RegExp; explanation: string }[] = [
     { pattern: /500,000トークン\/日/, explanation: tokenExplanations['500,000/日'] },
     { pattern: /1\.5M トークン\/ユーザー\/日/, explanation: tokenExplanations['1,500,000/ユーザー/日'] },
 ];
+
+// Helper to render feature text with HakuAIText component for 白AI
+const FeatureText = ({ text }: { text: string }) => {
+    // Check if text contains 白AI (Japanese) or Haku AI (English) or 하쿠 AI (Korean)
+    const hakuAIPatterns = [
+        { pattern: '白AI', language: 'ja' },
+        { pattern: 'Haku AI', language: 'en' },
+        { pattern: '하쿠 AI', language: 'ko' },
+    ];
+
+    for (const { pattern } of hakuAIPatterns) {
+        if (text.includes(pattern)) {
+            const parts = text.split(pattern);
+            return (
+                <>
+                    {parts[0]}<HakuAIText />{parts[1]}
+                </>
+            );
+        }
+    }
+    return <>{text}</>;
+};
 
 // Feature list item with optional tooltip for token values
 const FeatureListItem = ({ feature, isPopular }: { feature: string; isPopular: boolean }) => {
@@ -71,7 +107,7 @@ const FeatureListItem = ({ feature, isPopular }: { feature: string; isPopular: b
                         boxSize={3}
                     />
                     <Text fontSize="sm" color="#111111">
-                        {feature}
+                        <FeatureText text={feature} />
                     </Text>
                     <Icon as={FaInfoCircle} boxSize={3} color="#e08e46" />
                 </HStack>
@@ -87,7 +123,7 @@ const FeatureListItem = ({ feature, isPopular }: { feature: string; isPopular: b
                 boxSize={3}
             />
             <Text fontSize="sm" color="#111111">
-                {feature}
+                <FeatureText text={feature} />
             </Text>
         </HStack>
     );
@@ -212,6 +248,118 @@ const FeatureValue = ({ value, planColor }: { value: boolean | string, planColor
 export default function PricingSection() {
     const { t } = useLanguage();
     const { animationKey } = useLanguageAnimation();
+    const [currency, setCurrency] = useState<CurrencyType>('JPY');
+    const [displaySymbol, setDisplaySymbol] = useState('¥');
+    const [displayPrices, setDisplayPrices] = useState<string[]>(planConfig.map(p => p.price));
+    const [isAnimating, setIsAnimating] = useState(false);
+    const symbolRefs = useRef<(HTMLSpanElement | null)[]>([]);
+    const priceRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+    // Get current currency config
+    const currentCurrency = currencies.find(c => c.id === currency) || currencies[0];
+
+    // Convert price to selected currency
+    const convertPrice = (jpyPrice: string): string => {
+        if (jpyPrice === 'contact') return jpyPrice;
+        const numPrice = parseInt(jpyPrice.replace(/,/g, ''));
+        const converted = Math.round(numPrice * currentCurrency.rate);
+        return converted.toLocaleString();
+    };
+
+    // Slot machine animation for currency switch
+    const handleCurrencyChange = (newCurrency: CurrencyType) => {
+        if (newCurrency === currency || isAnimating) return;
+
+        setIsAnimating(true);
+        const targetCurrency = currencies.find(c => c.id === newCurrency)!;
+        const currentCurrencyData = currencies.find(c => c.id === currency)!;
+        const duration = 800;
+        const intervalSpeed = 50;
+        let cycleCount = 0;
+        const maxCycles = Math.floor(duration / intervalSpeed);
+
+        // Calculate start and end prices for each plan
+        const priceTransitions = planConfig.map(config => {
+            if (config.price === 'contact') return { start: 0, end: 0, isContact: true };
+            const basePrice = parseInt(config.price.replace(/,/g, ''));
+            const startPrice = Math.round(basePrice * currentCurrencyData.rate);
+            const endPrice = Math.round(basePrice * targetCurrency.rate);
+            return { start: startPrice, end: endPrice, isContact: false };
+        });
+
+        // Determine if prices are going up or down (for animation direction)
+        const isGoingUp = targetCurrency.rate > currentCurrencyData.rate;
+
+        const interval = setInterval(() => {
+            cycleCount++;
+            const progress = cycleCount / maxCycles;
+            // Easing function for smooth deceleration
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+            if (cycleCount >= maxCycles) {
+                clearInterval(interval);
+                setDisplaySymbol(targetCurrency.symbol);
+                setDisplayPrices(priceTransitions.map(t =>
+                    t.isContact ? 'contact' : t.end.toLocaleString()
+                ));
+                setCurrency(newCurrency);
+                setIsAnimating(false);
+
+                // Final pop animation on all price symbols and numbers
+                symbolRefs.current.forEach(ref => {
+                    if (ref) {
+                        gsap.fromTo(ref,
+                            { scale: 1.3, opacity: 0.8 },
+                            { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' }
+                        );
+                    }
+                });
+                priceRefs.current.forEach(ref => {
+                    if (ref) {
+                        gsap.fromTo(ref,
+                            { scale: 1.1, opacity: 0.8 },
+                            { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' }
+                        );
+                    }
+                });
+            } else {
+                // Symbol cycling with some randomness
+                if (cycleCount % 2 === 0) {
+                    const randomSymbol = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
+                    setDisplaySymbol(randomSymbol);
+                }
+
+                // Interpolate prices from start to end with some wobble
+                const interpolatedPrices = priceTransitions.map(t => {
+                    if (t.isContact) return 'contact';
+                    const currentValue = t.start + (t.end - t.start) * easedProgress;
+                    // Add small random wobble that decreases as we get closer to the end
+                    const wobble = (1 - easedProgress) * (t.end - t.start) * 0.1 * (Math.random() - 0.5);
+                    return Math.round(currentValue + wobble).toLocaleString();
+                });
+                setDisplayPrices(interpolatedPrices);
+
+                // Directional animation - up or down based on price change
+                const yOffset = isGoingUp ? -4 : 4;
+                symbolRefs.current.forEach(ref => {
+                    if (ref) {
+                        gsap.fromTo(ref,
+                            { y: yOffset, opacity: 0.6 },
+                            { y: 0, opacity: 1, duration: 0.04, ease: 'none' }
+                        );
+                    }
+                });
+                priceRefs.current.forEach(ref => {
+                    if (ref) {
+                        gsap.fromTo(ref,
+                            { y: yOffset * 0.75, opacity: 0.7 },
+                            { y: 0, opacity: 1, duration: 0.04, ease: 'none' }
+                        );
+                    }
+                });
+            }
+        }, intervalSpeed);
+    };
 
     // Build plans with translations
     const plans = planConfig.map(config => ({
@@ -287,6 +435,39 @@ export default function PricingSection() {
                             </Text>
                         </VStack>
                     </ScrollReveal>
+
+                    {/* Currency Switcher */}
+                    <HStack spacing={3} justify="center">
+                        {currencies.map((curr) => (
+                            <Button
+                                key={curr.id}
+                                onClick={() => handleCurrencyChange(curr.id)}
+                                size="sm"
+                                bg={currency === curr.id ? '#e08e46' : 'white'}
+                                color={currency === curr.id ? 'white' : '#6e6e73'}
+                                border="2px solid"
+                                borderColor={currency === curr.id ? '#e08e46' : '#e5e7eb'}
+                                borderRadius="full"
+                                fontWeight="600"
+                                px={5}
+                                py={2}
+                                _hover={{
+                                    bg: currency === curr.id ? '#d97c35' : 'rgba(224, 142, 70, 0.1)',
+                                    borderColor: '#e08e46',
+                                }}
+                                _active={{
+                                    bg: currency === curr.id ? '#c96a24' : 'rgba(224, 142, 70, 0.2)',
+                                }}
+                                transition="all 0.2s"
+                                isDisabled={isAnimating}
+                            >
+                                <HStack spacing={1}>
+                                    <Text fontSize="md">{curr.symbol}</Text>
+                                    <Text fontSize="xs">{curr.label}</Text>
+                                </HStack>
+                            </Button>
+                        ))}
+                    </HStack>
 
                     {/* Pricing Cards with feature lists */}
                     <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={8} w="full">
@@ -391,15 +572,27 @@ export default function PricingSection() {
                                         {/* Price */}
                                         <HStack align="baseline" spacing={1}>
                                             {plan.period && (
-                                                <Text fontSize="lg" color="#6e6e73">¥</Text>
+                                                <Text
+                                                    as="span"
+                                                    ref={(el: HTMLSpanElement | null) => { symbolRefs.current[index] = el; }}
+                                                    fontSize="lg"
+                                                    color="#6e6e73"
+                                                    display="inline-block"
+                                                    minW="16px"
+                                                >
+                                                    {displaySymbol}
+                                                </Text>
                                             )}
                                             <Text
+                                                as="span"
+                                                ref={(el: HTMLSpanElement | null) => { priceRefs.current[index] = el; }}
                                                 fontSize={{ base: "3xl", md: "4xl" }}
                                                 fontWeight="800"
                                                 color="#111111"
                                                 lineHeight="1"
+                                                display="inline-block"
                                             >
-                                                {plan.price}
+                                                {plan.id === 'enterprise' ? plan.price : displayPrices[index]}
                                             </Text>
                                             {plan.period && (
                                                 <Text fontSize="md" color="#6e6e73">

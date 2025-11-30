@@ -104,7 +104,9 @@ export default function HakuAISection() {
                                     letterSpacing="-0.03em"
                                     lineHeight="1.1"
                                 >
-                                    はく
+                                    <ruby style={{ rubyPosition: 'over' }}>
+                                        白<rp>(</rp><rt style={{ fontSize: '0.4em', fontWeight: 600 }}>はく</rt><rp>)</rp>
+                                    </ruby>
                                     <Text as="span" color="#e08e46">AI</Text>
                                 </Heading>
 
@@ -126,7 +128,9 @@ export default function HakuAISection() {
                                 maxW="480px"
                             >
                                 ファイルをアップロードするだけ。
-                                はくAIが内容を理解し、必要なデータを抽出。
+                                <ruby style={{ rubyPosition: 'over' }}>
+                                    白<rp>(</rp><rt style={{ fontSize: '0.6em' }}>はく</rt><rp>)</rp>
+                                </ruby>AIが内容を理解し、必要なデータを抽出。
                                 システムへの入力まで、すべて自動で行います。
                             </Text>
 
@@ -236,7 +240,7 @@ export default function HakuAISection() {
                                     >
                                         <Image
                                             src="/haku-ai-icon.png"
-                                            alt="はくAI"
+                                            alt="白AI"
                                             width={240}
                                             height={240}
                                             style={{

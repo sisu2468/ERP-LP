@@ -122,14 +122,6 @@ export default function BusinessOverview() {
             status: null,
             statusColor: null,
             features: [t('business.lab.feature.1'), t('business.lab.feature.2'), t('business.lab.feature.3')]
-        },
-        {
-            name: t('business.connect.name'),
-            tagline: t('business.connect.tagline'),
-            description: t('business.connect.desc'),
-            status: t('business.connect.status'),
-            statusColor: "#0891b2",
-            features: [t('business.connect.feature.1'), t('business.connect.feature.2'), t('business.connect.feature.3')]
         }
     ];
 
@@ -404,9 +396,11 @@ export default function BusinessOverview() {
                         </VStack>
 
                         <SimpleGrid
-                            columns={{ base: 1, md: 3 }}
+                            columns={{ base: 1, md: 2 }}
                             spacing={8}
                             w="full"
+                            maxW="4xl"
+                            mx="auto"
                         >
                             {businesses.map((business, index) => (
                                 <Box

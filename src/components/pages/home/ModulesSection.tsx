@@ -23,6 +23,7 @@ import {
 } from 'react-icons/fi';
 import { FaRegHandshake } from 'react-icons/fa';
 import ScrollReveal from '@/components/common/ScrollReveal';
+import HakuAIText from '@/components/common/HakuAIText';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLanguageAnimation, textReveal } from '@/components/common/LanguageAnimationWrapper';
 
@@ -162,7 +163,11 @@ export default function ModulesSection() {
                                             fontSize="md"
                                             color="#111111"
                                         >
-                                            {module.title}
+                                            {module.id === 'hakuai' ? (
+                                                <HakuAIText />
+                                            ) : (
+                                                module.title
+                                            )}
                                         </Text>
                                         <Text
                                             fontSize="sm"

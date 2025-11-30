@@ -14,8 +14,34 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import ScrollReveal from '@/components/common/ScrollReveal';
+import HakuAIText from '@/components/common/HakuAIText';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLanguageAnimation, textReveal } from '@/components/common/LanguageAnimationWrapper';
+import React from 'react';
+
+// Helper to render FAQ text with HakuAIText component for 白AI
+const FAQText = ({ text }: { text: string }) => {
+    // Check if text contains 白AI (Japanese) or Haku AI (English) or 하쿠 AI (Korean)
+    const hakuAIPatterns = ['白AI', 'Haku AI', '하쿠 AI'];
+
+    for (const pattern of hakuAIPatterns) {
+        if (text.includes(pattern)) {
+            const parts = text.split(pattern);
+            // Handle multiple occurrences
+            return (
+                <>
+                    {parts.map((part, index) => (
+                        <React.Fragment key={index}>
+                            {part}
+                            {index < parts.length - 1 && <HakuAIText />}
+                        </React.Fragment>
+                    ))}
+                </>
+            );
+        }
+    }
+    return <>{text}</>;
+};
 
 export default function FAQSection() {
     const { t } = useLanguage();
@@ -134,7 +160,7 @@ export default function FAQSection() {
                                                         color="#6e6e73"
                                                         lineHeight="1.8"
                                                     >
-                                                        {faq.a}
+                                                        <FAQText text={faq.a} />
                                                     </Text>
                                                 </AccordionPanel>
                                             </>

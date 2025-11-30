@@ -68,7 +68,7 @@ export default function FeaturesSection() {
     ];
 
     return (
-        <Box py={{ base: 20, md: 28 }} bg="white">
+        <Box pt={{ base: 10, md: 14 }} pb={{ base: 20, md: 28 }} bg="white">
             <Container maxW="7xl">
                 <VStack spacing={20}>
                     {/* Header */}
@@ -76,7 +76,7 @@ export default function FeaturesSection() {
                         <VStack
                             spacing={6}
                             textAlign="center"
-                            maxW="3xl"
+                            maxW="4xl"
                             mx="auto"
                             key={animationKey}
                         >

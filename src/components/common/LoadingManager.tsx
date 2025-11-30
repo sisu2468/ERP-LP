@@ -56,6 +56,8 @@ export default function LoadingManager({
   const handleLoadingComplete = () => {
     setShowLoader(false);
     setIsReady(true);
+    // Dispatch custom event to trigger header animations
+    window.dispatchEvent(new CustomEvent('loadingComplete'));
   };
 
   // Show loading placeholder before loader starts

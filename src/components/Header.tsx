@@ -20,22 +20,82 @@ import {
 import gsap from 'gsap';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import SLink from './SLink';
 import Header_MenuButton from './buttons/Header_MenuButton';
 import InquiryModal from './common/InquiryModal';
 import LanguageSwitcher from './common/LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
+import lottie, { AnimationItem } from 'lottie-web';
 
 export default function Header() {
   const navRef = useRef<HTMLElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const logoContainerRef = useRef<HTMLDivElement>(null);
+  const lottieAnimationRef = useRef<AnimationItem | null>(null);
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
   const { t } = useLanguage();
+
+  // Check if animation already played this session
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [showStaticLogo, setShowStaticLogo] = useState(true);
+
+  // Listen for loading complete event from LoadingManager
+  useEffect(() => {
+    const hasAnimated = sessionStorage.getItem('headerAnimationPlayed');
+
+    const handleLoadingComplete = () => {
+      if (!hasAnimated) {
+        setShouldAnimate(true);
+        setShowStaticLogo(false); // Show Lottie animation instead
+        sessionStorage.setItem('headerAnimationPlayed', 'true');
+      }
+    };
+
+    // Listen for the custom event
+    window.addEventListener('loadingComplete', handleLoadingComplete);
+
+    return () => {
+      window.removeEventListener('loadingComplete', handleLoadingComplete);
+    };
+  }, []);
+
+  // Logo Lottie animation (only if first visit this session)
+  useEffect(() => {
+    if (!logoContainerRef.current || !shouldAnimate || showStaticLogo) return;
+
+    // Clear any existing animation
+    if (lottieAnimationRef.current) {
+      lottieAnimationRef.current.destroy();
+    }
+
+    // Load Lottie animation
+    lottieAnimationRef.current = lottie.loadAnimation({
+      container: logoContainerRef.current,
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      path: '/logoAnimation-titles.json',
+    });
+
+    // Speed up the animation (1.5x faster)
+    lottieAnimationRef.current.setSpeed(1.5);
+
+    // When animation completes, show static logo
+    lottieAnimationRef.current.addEventListener('complete', () => {
+      setShowStaticLogo(true);
+    });
+
+    return () => {
+      if (lottieAnimationRef.current) {
+        lottieAnimationRef.current.destroy();
+      }
+    };
+  }, [shouldAnimate, showStaticLogo]);
 
   const handleMenuClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -108,12 +168,29 @@ export default function Header() {
         >
           <Box>
             <SLink href="/">
-              <Image
-                src={colorMode === 'light' ? "/logos/sainta.png" : "/logos/sainta-white.png"}
-                alt="サインタロゴ"
-                width={120}
-                height={35}
-              />
+              {showStaticLogo ? (
+                <Image
+                  src={colorMode === 'light' ? "/logos/sainta.png" : "/logos/sainta-white.png"}
+                  alt="サインタロゴ"
+                  width={120}
+                  height={35}
+                />
+              ) : (
+                <Box
+                  ref={logoContainerRef}
+                  width="120px"
+                  height="40px"
+                  sx={{
+                    '& svg': {
+                      width: '100%',
+                      height: '100%',
+                    },
+                    '& path': {
+                      fill: colorMode === 'light' ? '#000' : '#fff',
+                    },
+                  }}
+                />
+              )}
             </SLink>
           </Box>
 
@@ -150,9 +227,7 @@ export default function Header() {
                     }}
                     onClick={onOpen}
                   >
-                    <Flex gap={1} alignItems='center'>
-                      {t(item.title)}
-                    </Flex>
+                    {t(item.title)}
                   </Button>
                 ) : (
                   <Link href={item.path}>
@@ -203,7 +278,7 @@ export default function Header() {
             ))}
           </HStack>
 
-          <Flex gap={4} alignItems="center">
+          <Flex gap={4} alignItems="center" ml={{ xl: 'auto' }}>
             <LanguageSwitcher />
             <IconButton
               ref={hamburgerRef}

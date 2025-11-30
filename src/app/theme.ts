@@ -3,7 +3,7 @@ import { ColorMode, extendTheme } from '@chakra-ui/react';
 const theme = extendTheme({
   config: {
     initialColorMode: 'light', // Set the initial color mode to light
-    useSystemColorMode: true,  // Allow the system's color mode preference to be used
+    useSystemColorMode: false, // Don't use system color mode to prevent DevTools from triggering dark mode
   },
   styles: {
     global: (props: { colorMode: ColorMode }) => ({

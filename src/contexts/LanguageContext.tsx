@@ -35,7 +35,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const t = (key: string): string => {
     const langTranslations = translations[language] as Record<string, string>;
-    return langTranslations[key] || key;
+    // Use hasOwnProperty to properly handle empty strings
+    return key in langTranslations ? langTranslations[key] : key;
   };
 
   return (

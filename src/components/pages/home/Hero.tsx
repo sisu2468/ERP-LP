@@ -150,8 +150,6 @@ export default function Hero() {
                                     opacity={0}
                                 >
                                     {t('core.hero.body.1')}
-                                    <Text as="span" color="#e08e46" fontWeight="600">{t('core.hero.body.1.highlight')}</Text>
-                                    {t('core.hero.body.1.rest')}
                                 </Text>
                                 <Text
                                     fontSize={{ base: "md", md: "lg" }}
