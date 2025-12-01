@@ -10,3 +10,5 @@ export default function Home() {
     </Box>
   )
 }
+
+// Note: Metadata is in layout.tsx since this is a client component

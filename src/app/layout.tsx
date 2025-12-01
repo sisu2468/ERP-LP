@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'サインタ・コア | 経理を「見る側」から「操る側」へ | 株式会社サインタ',
+  title: '【株式会社サインタ】スマートERP',
   description: '売上・在庫・顧客情報を一つの画面で動きとして見える化。スプレッドシートの時代は終わり。サインタ・コアで、データを動かす経営へ。無料トライアル実施中。',
   metadataBase: new URL('https://sainta.co.jp'),
   keywords: ['ERP', '業務効率化', '在庫管理', '顧客管理', '請求書管理', 'サインタ', 'SAINTA', 'スマートERP', 'クラウドERP', 'Rishi Santhanam', 'Rishi Santhanam CEO', 'Rishi Santhanam Sainta', 'サンタナム 理志', 'サンタナム リシ', 'サインタ CEO', 'SAINTA Corporation', '株式会社サインタ 代表'],
@@ -28,18 +28,18 @@ export const metadata: Metadata = {
     locale: 'ja_JP',
     url: 'https://sainta.co.jp',
     siteName: '株式会社サインタ',
-    title: 'サインタ・コア | 経理を「見る側」から「操る側」へ',
+    title: '【株式会社サインタ】スマートERP',
     description: '売上・在庫・顧客情報を一つの画面で見える化。データを動かす経営へ。',
     images: [{
       url: '/og-image.png',
       width: 1200,
       height: 630,
-      alt: 'サインタ・コア - 経理を見る側から操る側へ',
+      alt: '株式会社サインタ - スマートERP',
     }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'サインタ・コア | 経理を「見る側」から「操る側」へ',
+    title: '【株式会社サインタ】スマートERP',
     description: '売上・在庫・顧客情報を一つの画面で見える化。データを動かす経営へ。',
     images: ['/og-image.png'],
   },
