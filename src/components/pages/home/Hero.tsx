@@ -140,29 +140,29 @@ export default function Hero() {
                                 </Text>
                             </Heading>
 
-                            <VStack align="flex-start" spacing={5} maxW="560px">
+                            <VStack align="flex-start" spacing={4} maxW="560px">
                                 <Text
-                                    fontSize={{ base: "md", md: "lg" }}
+                                    fontSize={{ base: "sm", md: "md" }}
                                     color="#444"
-                                    lineHeight="2"
-                                    fontWeight="500"
+                                    lineHeight="1.9"
+                                    fontWeight="600"
                                     animation={`${textReveal} 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards`}
                                     opacity={0}
                                 >
                                     {t('core.hero.body.1')}
                                 </Text>
                                 <Text
-                                    fontSize={{ base: "md", md: "lg" }}
+                                    fontSize={{ base: "sm", md: "md" }}
                                     color="#444"
-                                    lineHeight="2"
-                                    fontWeight="500"
+                                    lineHeight="1.9"
+                                    fontWeight="600"
                                     animation={`${textReveal} 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards`}
                                     opacity={0}
                                 >
                                     {t('core.hero.body.2')}
                                 </Text>
                                 <Text
-                                    fontSize={{ base: "lg", md: "xl" }}
+                                    fontSize={{ base: "md", md: "lg" }}
                                     color="#111111"
                                     lineHeight="1.8"
                                     fontWeight="700"

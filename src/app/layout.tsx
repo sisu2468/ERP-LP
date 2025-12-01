@@ -14,19 +14,41 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "【株式会社サインタ】スマートERP",
-  description: "株式会社サインタが提供するスマートERP「サインタ・コア」は、企業の業務効率を大幅に向上させる次世代のシステムです。",
+  title: 'サインタ・コア | 経理を「見る側」から「操る側」へ | 株式会社サインタ',
+  description: '売上・在庫・顧客情報を一つの画面で動きとして見える化。スプレッドシートの時代は終わり。サインタ・コアで、データを動かす経営へ。無料トライアル実施中。',
   metadataBase: new URL('https://sainta.co.jp'),
+  keywords: ['ERP', '業務効率化', '在庫管理', '顧客管理', '請求書管理', 'サインタ', 'SAINTA', 'スマートERP', 'クラウドERP', 'Rishi Santhanam', 'Rishi Santhanam CEO', 'Rishi Santhanam Sainta', 'サンタナム 理志', 'サンタナム リシ', 'サインタ CEO', 'SAINTA Corporation', '株式会社サインタ 代表'],
+  authors: [{ name: '株式会社サインタ' }],
   icons: {
-    icon: "/favicons/favicon.ico",
+    icon: '/favicons/favicon.ico',
+    apple: '/favicons/apple-touch-icon.png',
   },
   openGraph: {
+    type: 'website',
+    locale: 'ja_JP',
+    url: 'https://sainta.co.jp',
+    siteName: '株式会社サインタ',
+    title: 'サインタ・コア | 経理を「見る側」から「操る側」へ',
+    description: '売上・在庫・顧客情報を一つの画面で見える化。データを動かす経営へ。',
     images: [{
-      url: '/favicons/favicon-96x96.png',
-      width: 96,
-      height: 96,
-      alt: 'サインタ・コア Preview Image',
+      url: '/og-image.png',
+      width: 1200,
+      height: 630,
+      alt: 'サインタ・コア - 経理を見る側から操る側へ',
     }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'サインタ・コア | 経理を「見る側」から「操る側」へ',
+    description: '売上・在庫・顧客情報を一つの画面で見える化。データを動かす経営へ。',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: 'https://sainta.co.jp',
   },
 };
 
