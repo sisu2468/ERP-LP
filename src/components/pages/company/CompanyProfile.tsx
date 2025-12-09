@@ -143,9 +143,10 @@ export const CompanyProfile = () => {
                                 { label: t('company.name.label'), content: <Text fontSize="lg" color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.name.value')}</Text> },
                                 { label: t('company.location.label'), content: <Text color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.location.value')}</Text> },
                                 {
-                                    label: t('company.ceo.label'), content: (
-                                        <VStack align="start" spacing={1}>
+                                    label: t('company.executives.label'), content: (
+                                        <VStack align="start" spacing={2}>
                                             <Text color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.ceo.value')}</Text>
+                                            <Text color="#111111" fontWeight="500" sx={{ wordBreak: 'keep-all', overflowWrap: 'anywhere', lineBreak: 'strict' }}>{t('company.cfo.value')}</Text>
                                         </VStack>
                                     )
                                 },

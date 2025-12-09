@@ -2,11 +2,6 @@ import { NavItem } from "./interface";
 
 export const navItems: NavItem[] = [
     {
-        title: 'nav.lab',
-        path: '/lab',
-        description: 'nav.lab.desc',
-    },
-    {
         title: 'nav.company',
         path: '/company',
         description: 'nav.company.desc',
@@ -15,6 +10,16 @@ export const navItems: NavItem[] = [
         title: 'nav.philosophy',
         path: '/philosophy',
         description: 'nav.philosophy.desc',
+    },
+    {
+        title: 'nav.lab',
+        path: '/lab',
+        description: 'nav.lab.desc',
+    },
+    {
+        title: 'nav.english',
+        path: '/english',
+        description: 'nav.english.desc',
     },
     // {
     //     title: 'nav.career',
