@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ通知</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif;
+      background-color: #f7f6f3;
+      padding: 40px 20px;
+      line-height: 1.6;
+      color: #37352f;
+    }
+
+    .email-container {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 3px;
+      box-shadow: 0 0 0 1px rgba(55, 53, 47, 0.09), 0 1px 3px rgba(55, 53, 47, 0.1);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .email-header {
+      padding: 32px 40px 24px;
+      border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+    }
+
+    .logo-section {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .logo-img {
+      height: 36px;
+      width: auto;
+    }
+
+    .header-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(55, 53, 47, 0.09);
+      margin: 20px 0;
+    }
+
+    .email-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #37352f;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .email-subtitle {
+      font-size: 14px;
+      color: #787774;
+    }
+
+    /* Category Badge */
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .category-badge.request {
+      background: rgba(224, 142, 70, 0.15);
+      color: #b36a2a;
+    }
+
+    .category-badge.partnership {
+      background: rgba(8, 145, 178, 0.15);
+      color: #0e7490;
+    }
+
+    .category-badge.beta {
+      background: rgba(5, 150, 105, 0.15);
+      color: #047857;
+    }
+
+    .category-badge-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Content */
+    .email-content {
+      padding: 32px 40px;
+    }
+
+    /* Property Row - Notion Style */
+    .property-section {
+      margin-bottom: 32px;
+    }
+
+    .property-row {
+      display: flex;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(55, 53, 47, 0.06);
+    }
+
+    .property-row:last-child {
+      border-bottom: none;
+    }
+
+    .property-label {
+      width: 140px;
+      flex-shrink: 0;
+      font-size: 14px;
+      color: #787774;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .property-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.7;
+    }
+
+    .property-value {
+      flex: 1;
+      font-size: 14px;
+      color: #37352f;
+      word-break: break-word;
+    }
+
+    .property-value.email-link {
+      color: #2382e2;
+      text-decoration: none;
+    }
+
+    .property-value.email-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Message Block */
+    .message-section {
+      margin-top: 24px;
+    }
+
+    .message-label {
+      font-size: 14px;
+      color: #787774;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .message-content {
+      background: #f7f6f3;
+      border-radius: 3px;
+      padding: 20px;
+      font-size: 14px;
+      color: #37352f;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      border-left: 3px solid #e08e46;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: rgba(55, 53, 47, 0.09);
+      margin: 24px 0;
+    }
+
+    /* Metadata */
+    .metadata {
+      padding: 0 40px 32px;
+    }
+
+    .metadata-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #9b9a97;
+      margin-bottom: 4px;
+    }
+
+    .metadata-icon {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+    }
+
+    /* Footer */
+    .email-footer {
+      padding: 20px 40px;
+      background: #f7f6f3;
+      border-top: 1px solid rgba(55, 53, 47, 0.09);
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: #9b9a97;
+      text-align: center;
+    }
+
+    .footer-link {
+      color: #787774;
+      text-decoration: none;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Action Button */
+    .action-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(55, 53, 47, 0.09);
+    }
+
+    .action-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #e08e46;
+      color: white;
+      text-decoration: none;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .action-button:hover {
+      background: #d17d35;
+    }
+
+    .action-button-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .email-header,
+      .email-content,
+      .metadata {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .email-footer {
+        padding: 16px 24px;
+      }
+
+      .email-title {
+        font-size: 22px;
+      }
+
+      .property-row {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .property-label {
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Header -->
+    <div class="email-header">
+      <div class="logo-section">
+        <img src="https://sainta-public-files.s3.ap-northeast-1.amazonaws.com/images/sainta-default.png" alt="SAINTA" class="logo-img" />
+      </div>
+
+      <div class="header-divider"></div>
+
+      <div class="category-badge request">
+        <svg class="category-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        開発依頼
+      </div>
+
+      <h1 class="email-title">お問い合わせ</h1>
+      <p class="email-subtitle">ウェブサイトからお問い合わせがありました</p>
+    </div>
+
+    <!-- Content -->
+    <div class="email-content">
+      <div class="property-section">
+        <div class="property-row">
+          <div class="property-label">
+            <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            お名前
+          </div>
+          <div class="property-value">{{name}}</div>
+        </div>
+
+        <div class="property-row">
+          <div class="property-label">
+            <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            メール
+          </div>
+          <a href="mailto:{{email}}" class="property-value email-link">{{email}}</a>
+        </div>
+
+        <div class="property-row">
+          <div class="property-label">
+            <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4"></path>
+            </svg>
+            会社名
+          </div>
+          <div class="property-value">{{company}}</div>
+        </div>
+
+        <div class="property-row">
+          <div class="property-label">
+            <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            電話番号
+          </div>
+          <div class="property-value">{{phone}}</div>
+        </div>
+
+        <div class="property-row">
+          <div class="property-label">
+            <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+              <line x1="4" y1="22" x2="4" y2="15"></line>
+            </svg>
+            カテゴリー
+          </div>
+          <div class="property-value">{{category}}</div>
+        </div>
+
+        <div class="property-row">
+          <div class="property-label">
+            <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            詳細
+          </div>
+          <div class="property-value">{{subCategory}}</div>
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="message-section">
+        <div class="message-label">
+          <svg class="property-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          お問い合わせ内容
+        </div>
+        <div class="message-content">{{content}}</div>
+      </div>
+
+      <!-- Action -->
+      <div class="action-section">
+        <a href="mailto:{{email}}?subject=Re: お問い合わせありがとうございます" class="action-button">
+          <svg class="action-button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          返信する
+        </a>
+      </div>
+    </div>
+
+    <!-- Metadata -->
+    <div class="metadata">
+      <div class="metadata-row">
+        <svg class="metadata-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        受信日時: {{timestamp}}
+      </div>
+      <div class="metadata-row">
+        <svg class="metadata-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        送信元: sainta.co.jp
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+      <p class="footer-text">
+        このメールは <a href="https://sainta.co.jp" class="footer-link">sainta.co.jp</a> のお問い合わせフォームから自動送信されました。
+      </p>
+    </div>
+  </div>
+</body>
+</html>

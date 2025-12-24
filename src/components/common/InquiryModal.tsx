@@ -194,7 +194,7 @@ export default function InquiryModal({ isOpen, onClose }: InquiryModalProps) {
     };
 
     try {
-      const response = await fetch('https://erp-lp-backend.vercel.app/api/inquiry', {
+      const response = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(emailData),
