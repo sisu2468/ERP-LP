@@ -130,10 +130,10 @@ export async function POST(request: NextRequest) {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT) || 587,
-      secure: process.env.SMTP_SECURE === 'true',
+      secure: false,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
 
     // Send email
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || 'noreply@sainta.co.jp',
+      from: process.env.SMTP_SENDER || 'support@sainta.co.jp',
       to: data.to,
       cc: data.cc,
       subject: data.subject,
